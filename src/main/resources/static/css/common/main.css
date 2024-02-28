@@ -1,0 +1,169 @@
+/* 인기글 스타일 */
+
+
+.main-hot {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 40px; /* 항목들 간의 간격 조절 */
+    justify-content: center; /* 수평 가운데 정렬을 위한 스타일 */
+    align-items: center; /* 수직 가운데 정렬을 위한 스타일 */
+    margin-bottom: 50px;
+}
+
+.main-1 {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* 아이템을 왼쪽으로 정렬 */
+    justify-content: flex-start; /* 컨테이너를 왼쪽에 붙임 */
+    /*background-color: antiquewhite;*/
+}
+.main-2{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* 아이템을 왼쪽으로 정렬 */
+    justify-content: flex-start; /* 컨테이너를 왼쪽에 붙임 */
+    /*background-color: blueviolet;*/
+}
+
+.hotpost {
+    margin-bottom: 15px;
+    margin-left: 35px;
+    width: fit-content;
+    height: fit-content;
+    padding: 10px 15px;
+    background-color: #ffffff;
+    color: black;
+    text-align: left; /* 내용 왼쪽 정렬 */
+    font-size: 1.5rem;
+    font-weight: bold; /* 글씨 굵게 */
+    position: relative;
+    margin-top: 10px;
+    display: inline-block; /* 블록 요소를 인라인처럼 배치 */
+}
+.notime {
+    margin-bottom: 15px;
+    margin-left: 35px;
+    width: fit-content;
+    height: fit-content;
+    padding: 10px 15px;
+    background-color: #ffffff;
+    color: black;
+    text-align: left; /* 내용 왼쪽 정렬 */
+    font-size: 1.5rem;
+    font-weight: bold; /* 글씨 굵게 */
+    position: relative;
+    margin-top: 10px;
+    display: inline-block; /* 블록 요소를 인라인처럼 배치 */
+}
+
+.hotpost::before {
+    content: '\26A1'; /* 번개 모양 유니코드 */
+    color: #FFC107; /* 아이콘 색상 */
+    font-size: 2rem; /* 아이콘 크기 */
+    position: absolute;
+    left: -35px; /* 아이콘 위치 조정 */
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.notime::before {
+    content: '\1F525'; /* 모래시계 넘어가는 중 유니코드 */
+    font-size: 2rem; /* 아이콘 크기 조절 */
+    position: absolute;
+    left: -35px; /* 아이콘 위치 조정 */
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* 다른 인기글 박스들에도 동일한 스타일 적용 */
+.hotpost-1{
+    width: 320px;
+    height: 400px;
+    border-radius: 10px;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+.hotpost-img12{
+    height: 296px;
+    width: 305px;
+    border-radius: 10px; /* 이미지 모서리를 둥글게 */
+}
+
+.hotpost-name1{
+    margin-bottom: 10px;
+    display: grid;
+    font-size: 15px;
+    margin-left: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 94%; /* 필요에 따라 조정 */
+}
+
+.notime-name1{
+    margin-bottom: 10px;
+    display: grid;
+    font-size: 15px;
+    margin-left: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 94%; /* 필요에 따라 조정 */
+    margin-top: 25px;
+}
+.postname{
+    margin-right: 5px;
+    font-weight: bold;
+    font-size: 17px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.template--pageTitleContainer2 {
+    background-color: #f9f9f9; /* 배경색 변경 */
+    border-radius: 30px; /* 둥근 모서리 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 그림자 추가 */
+    padding: 20px; /* 내부 여백 */
+    margin: 20px auto; /* 상하 여백과 중앙 정렬 */
+    max-width: 800px; /* 최대 너비 제한 */
+}
+
+.template--overlayedTitle2 {
+    display: flex; /* 폼 요소들을 일렬로 정렬 */
+    align-items: center; /* 수직 중앙 정렬 */
+    gap: 10px; /* 요소 사이의 간격 */
+    justify-content: center;
+}
+
+.template--overlayedTitle2 label {
+    font-weight: bold; /* 라벨 글꼴 가중치 */
+    margin-right: 11px;
+}
+
+/*조회 검색 버튼*/
+#search-button {
+    background-color: #FF1493; /* 버튼 배경색 */
+    color: white; /* 버튼 텍스트 색상 */
+    padding: 10px 20px; /* 버튼 패딩 */
+    border: none; /* 테두리 제거 */
+    border-radius: 5px; /* 둥근 모서리 */
+    cursor: pointer; /* 커서 변경 */
+    transition: background-color 0.3s; /* 호버 효과 */
+}
+
+#search-button:hover {
+    background-color: #FF0E83; /* 호버 시 색상 변경 */
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.3); /* 호버 시 그림자 약간 강화 (안쪽) */
+}
+
+.hotpost-1 {
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+.hotpost-1:hover {
+    transform: scale(1.05);
+}

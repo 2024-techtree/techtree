@@ -1,0 +1,158 @@
+/* 글꼴 및 공통 ----------------------------------------------- */
+
+/* Noto Sans / Noto Serif 글꼴 지정 */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&family=Noto+Serif+KR:wght@200;300;400;500;600;700;900&display=swap');
+/* font-family: 'Noto Sans KR', sans-serif; */
+/* font-family: 'Noto Serif KR', serif; */
+
+/* header ----------------------------------------------- */
+
+/* header 컨테이너 */
+.common--header__container {
+    display: grid;
+    /*grid-template-columns: 0fr 0fr 0fr;*/
+    padding-left: 146px;
+}
+/* input 태그 outline 없애기 */
+input:focus {
+    outline: none;
+}
+
+/* nav ----------------------------------------------- */
+/* nav 컨테이너 */
+.common--navContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80px;
+    border-top: 1px solid #D9D9D9;
+    border-bottom: 1px solid #D9D9D9;
+}
+
+/* nav 애니메이션 효과 */
+#common--boardList {
+    display: flex; /* 수평 정렬을 위해 추가한 부분 */
+    justify-content: space-between; /* 가운데 정렬을 위해 추가한 부분 */
+    align-items: center; /* 가운데 정렬을 위해 추가한 부분 */
+    width: 50%; /* 가로 전체에 걸쳐 정렬되도록 추가한 부분 */
+}
+
+#common--boardList li {
+    margin-right: 10px; /* 각 게시판 항목 사이의 간격을 조절 */
+}
+
+#common--boardList li a {
+    color: black;
+    transition: color 0.3s ease;
+    display: flex; /* 가운데 정렬을 위해 추가한 부분 */
+    align-items: center; /* 가운데 정렬을 위해 추가한 부분 */
+    font-weight: bold; /* 텍스트 굵게 설정 */
+    font-size: 20px;
+}
+
+#common--boardList li:last-child {
+    margin-right: 0; /* 마지막 항목에는 오른쪽 여백을 주지 않도록 설정 */
+}
+
+#common--boardList a img {
+    height: 80px;
+    /*margin-left:-150px;*/
+}
+
+/* 버튼에 대한 스타일 */
+.btn {
+    background: transparent;
+    border: none;
+    padding: 0;
+}
+
+.dropdown-menu {
+    border: none; /* 드롭다운 메뉴의 기본 외곽 라인을 없애는 스타일 */
+    box-shadow: none; /* 드롭다운 메뉴의 기본 그림자 효과를 없애는 스타일 */
+}
+
+/* 햄버거 아이콘과 사용자 아이콘에 대한 스타일 */
+.hamburger-icon {
+    height: 18px; /* 아이콘 크기는 이미지에 따라 조절 */
+    width: auto;
+    margin-right: 10px; /* 아이콘 사이 간격 */
+}
+
+.user-icon {
+    height: 40px; /* 원하는 높이로 조절 */
+    width: 40px; /* 가로 세로 비율을 유지 */
+    margin-right: -2px; /* 아이콘 사이 간격 유지 */
+    border-radius: 50%; /* 원형 테두리 적용 */
+    overflow: hidden; /* 원형 모양을 유지하기 위해 오버플로우 제어 */
+}
+
+/* 드롭다운 메뉴에 대한 추가적인 스타일 (필요에 따라) */
+.common--tripBoard {
+    /* 여기에 필요한 스타일을 추가합니다 */
+}
+
+/* 아이콘을 감싸는 컨테이너에 대한 스타일 */
+.icon-container {
+    display: flex; /* 아이콘을 수평으로 정렬하기 위해 flex를 사용 */
+    align-items: center; /* 아이콘을 중앙에 배치 */
+    justify-content: center; /* 아이콘들이 컨테이너 내에서 가운데 정렬되도록 설정 */
+    padding: 5px; /* 컨테이너 내부 여백 */
+    border-radius: 30px; /* 라운드 테두리 반경 */
+    background-color: #ffffff; /* 배경색, 필요에 따라 변경 가능 */
+    border: 1px solid #dcdcdc; /* 테두리 색상, 필요에 따라 변경 가능 */
+    width: 120px;
+    height: 60px;
+}
+
+/* 활성화된 버튼의 테두리 제거 */
+.btn-check:checked + .btn,
+.btn.active,
+.btn.show,
+.btn:first-child:active,
+:not(.btn-check) + .btn:active {
+    border-color: transparent !important;
+}
+
+.nav2 {
+    display: inline-block;
+    position: relative; /* 부모로부터의 상대 위치 설정 */
+}
+
+.nav-dropdown {
+    display: none;
+    position: absolute;
+    /*width: 100%; !* 부모인 .nav2에 대해 상대적으로 100%로 설정 *!*/
+    left: 0;
+    top: 100%; /* 메뉴 바로 아래로 위치하도록 설정 */
+    padding: 20px; /* 원하는 여백으로 조정 가능 */
+    min-width: 160px;
+    background-color: #fff; /* 드롭다운 박스 배경색 설정 */
+    border: 1px solid #ccc; /* 드롭다운 박스 테두리 스타일 설정 */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: black;
+}
+
+.nav-link:hover {
+    text-decoration: underline; /* 마우스 호버 시 밑줄 추가 */
+}
+
+.nav-dropdown a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.nav-dropdown a:hover {
+    background-color: #ddd;
+}
+
+.nav-btn {
+    text-decoration: none;
+}
+
