@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>저축 목표 입력</title>
+</head>
+<body>
+<h2>저축 목표 입력</h2>
+
+<form action="/test" method="post">
+  <label for="targetName">저축 목표 이름:</label>
+  <input type="text" id="targetName" name="targetName" required>
+  <br>
+
+  <label for="targetType">저축 목표 유형:</label>
+  <select id="targetType" name="targetType" required>
+    <option value="정기 예금">정기 예금</option>
+    <option value="정기 적금">정기 적금</option>
+    <option value="자유 적금">자유 적금</option>
+    <!-- 다른 유형 추가 가능 -->
+  </select>
+  <br>
+
+  <label for="targetPrice">저축 목표 금액:</label>
+  <input type="number" id="targetPrice" name="targetPrice" required>
+  <br>
+
+  <label for="startDate">저축 목표 시작일:</label>
+  <input type="date" id="startDate" name="startDate" required>
+  <br>
+
+  <label for="endDate">저축 목표 종료일:</label>
+  <input type="date" id="endDate" name="endDate" required>
+  <br>
+
+  <label for="currentPrice">저축 현재 금액:</label>
+  <input type="number" id="currentPrice" name="currentPrice" required>
+  <br>
+
+  <button type="submit">입력</button>
+</form>
+</body>
+</html>
