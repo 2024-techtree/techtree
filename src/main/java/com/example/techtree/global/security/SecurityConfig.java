@@ -22,7 +22,7 @@ public class SecurityConfig {
         http
                 .authorizeRequests(authorizeRequests ->
                         authorizeRequests
-                                .requestMatchers("/member/mypage/**")
+                                .requestMatchers("/user/mypage/**")
                                 .authenticated()
                                 .anyRequest()
                                 .permitAll()
