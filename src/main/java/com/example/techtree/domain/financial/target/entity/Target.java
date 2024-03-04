@@ -1,15 +1,15 @@
 package com.example.techtree.domain.financial.target.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Getter
-@Setter
 @Entity
-public class TargetEntity {
+@Builder
+public class Target {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
