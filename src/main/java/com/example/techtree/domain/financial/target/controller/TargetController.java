@@ -16,11 +16,10 @@ public class TargetController {
     @PostMapping("/test")
     public String test(@ModelAttribute TargetDto testDto) {
         targetService.test1(testDto);
-        return "redirect:/domain/target";
+        return "redirect:/test";
     }
     @GetMapping("/test")
     public String test2(){
-    
 
         return "domain/target";
     }

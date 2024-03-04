@@ -11,22 +11,21 @@ import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
-public class TargetServiceImpl implements TargetService{
-
+@Transactional
+public class TargetServiceImpl implements TargetService
+{
 
     private final TargetRepository targetRepository;
+
     @Override
-
     public Target test1(TargetDto testDto) {
-
         Target target = Target.builder()
                 .targetType(testDto.getTargetType())
                 .targetName(testDto.getTargetName())
                 .targetPrice(testDto.getTargetPrice())
                 .startDate(testDto.getStartDate())
                 .endDate(testDto.getEndDate())
-                .updateDate(LocalDateTime.now())
+                .updateDate(LocalDateTime.now()) // 현재 시간으로 업데이트 날짜 설정
                 .currentPrice(testDto.getCurrentPrice())
                 .build();
         targetRepository.save(target);

@@ -3,6 +3,7 @@ package com.example.techtree.domain.financial.target.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -33,11 +34,11 @@ public class Target {
 
     //시작 날짜
     @Column
-    private LocalDateTime startDate;
+    private LocalDate startDate;
 
     //끝나는 날짜
     @Column
-    private LocalDateTime endDate;
+    private LocalDate endDate;
 
     //수정한 날짜
     @Column
