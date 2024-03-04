@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -18,13 +18,12 @@ public class TargetDto {
     @NotBlank
     private String targetType;
     @NotBlank
-    private LocalDate startDate;
+    private LocalDateTime startDate;
     @NotBlank
-    private LocalDate endDate;
+    private LocalDateTime endDate;
     @NotBlank
     private Long targetPrice;
-
-
+    private Long currentPrice;
 
 
 }

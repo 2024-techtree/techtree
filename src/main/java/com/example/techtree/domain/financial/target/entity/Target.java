@@ -23,6 +23,9 @@ public class Target {
     //저축 목표 금액
     @Column
     private Long targetPrice;
+    //저축 현재 금액
+    @Column
+    private Long currentPrice;
 
     //저축 목표 유형
     @Column
