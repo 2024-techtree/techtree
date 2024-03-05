@@ -156,3 +156,7 @@ input:focus {
     text-decoration: none;
 }
 
+body {
+    min-width: 960px; /* 원하는 최소 너비 값으로 설정 */
+}
+
