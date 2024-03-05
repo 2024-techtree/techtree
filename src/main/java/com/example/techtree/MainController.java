@@ -9,7 +9,7 @@ public class MainController
     @GetMapping("/")
     public String template()
     {
-        return "layout/header";
+        return "template";
     }
 
 }

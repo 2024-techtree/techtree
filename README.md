@@ -43,7 +43,7 @@
 
 ## 패키지 구조
 <details>
-<summary> FeelKo</summary>
+<summary> TechTree</summary>
 <pre><code>📦TechTree
  ┣ 📂domain
 </code></pre>
