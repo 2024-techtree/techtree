@@ -20,7 +20,8 @@ public class GoalServiceImpl implements GoalService
     private final GoalRepository goalRepository;
 
     @Override
-    public Goal savingGoalCreate(GoalDto goalDto) {
+    public Goal savingGoalCreate(GoalDto goalDto)
+    {
         Goal goal = Goal.builder()
                 .goalType(goalDto.getGoalType())
                 .goalName(goalDto.getGoalName())
@@ -36,13 +37,21 @@ public class GoalServiceImpl implements GoalService
     }
 
     @Override
-    public Goal findGoalById(Long id) {
+    public Goal findGoalById(Long id)
+    {
         // findById 메소드는 Optional<Goal>을 반환하므로, orElseThrow 등을 사용해 Goal 객체를 가져옵니다.
         return goalRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Goal not found with id: " + id));
     }
 
     @Override
-    public List<String> getAllGoalNames() {
+    public List<String> getAllGoalNames()
+    {
         return goalRepository.findAllGoalNames();
+    }
+
+    @Override
+    public void deleteGoalById(Long saving_goal_id)
+    {
+        goalRepository.deleteById(saving_goal_id);
     }
 }

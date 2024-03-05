@@ -12,4 +12,6 @@ public interface GoalService
     Goal findGoalById(Long id);
 
     List<String> getAllGoalNames();
+
+    void deleteGoalById(Long saving_goal_id);
 }
