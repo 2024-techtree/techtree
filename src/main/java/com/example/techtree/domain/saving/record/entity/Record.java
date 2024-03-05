@@ -1,4 +1,4 @@
-package com.example.techtree.domain.financial.record.entity;
+package com.example.techtree.domain.saving.record.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -17,17 +17,17 @@ public class Record {
 
     // 목표 이름
     @Column
-    private String targetName;
+    private String goalName;
 
     // 저축할 금액
     @Column
-    private Long saving_Price;
+    private Long savingPrice;
 
     //목표 유형
     @Column
-    private String targetType;
+    private String goalType;
 
     //저축날짜
     @Column
-    private LocalDate saving_Date;
+    private LocalDate savingDate;
 }

@@ -1,4 +1,4 @@
-package com.example.techtree.domain.financial.record.dto;
+package com.example.techtree.domain.saving.goal.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -14,14 +14,21 @@ import java.time.LocalDate;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class RecordDto {
+public class GoalDto
+{
     @NotBlank
-    private String targetName;
+    private String goalName;
     @NotBlank
-    private String targetType;
+    private String goalType;
     @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd") // 날짜 형식 지정
-    private LocalDate saving_Date;
+    private LocalDate startDate;
     @NotNull
-    private Long saving_Price;
+    @DateTimeFormat(pattern = "yyyy-MM-dd") // 날짜 형식 지정
+    private LocalDate endDate;
+    @NotNull
+    private Long goalPrice;
+    private Long currentPrice;
+
+
 }

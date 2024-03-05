@@ -29,7 +29,7 @@
         <!-- nav 시작 -->
         <nav class="common--navContainer">
             <ul class="nav" id="common--boardList">
-                <a href="/static"><img src="/images/TechTree.png" alt="로고"></a>
+                <a href="/"><img src="/images/TechTree.png" alt="로고"></a>
                 <li class="nav2">
                     <a href="#" class="nav-btn" onclick="toggleDropdown('techDropdown')">테크트리</a>
                     <div class="nav-dropdown" id="techDropdown">
@@ -44,7 +44,7 @@
                     <a href="#" class="nav-btn" onclick="toggleDropdown('serviceDropdown')">서비스</a>
                     <div class="nav-dropdown" id="serviceDropdown">
                         <!-- 하위 메뉴 항목들 -->
-                        <a class="dropdown-item" href="#">서비스 1</a>
+                        <a class="dropdown-item" href="/saving/create">저축 목표 작성</a>
                         <a class="dropdown-item" href="#">서비스 2</a>
                         <!-- 더 추가 가능 -->
                     </div>
@@ -118,20 +118,7 @@
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
         crossorigin="anonymous" defer></script>
 
-<script>
-    var openDropdownId = null;
-
-    function toggleDropdown(id) {
-        var dropdown = document.getElementById(id);
-
-        if (openDropdownId !== null && openDropdownId !== id) {
-            // 다른 드롭다운이 열려있는 경우 닫기
-            document.getElementById(openDropdownId).style.display = 'none';
-        }
-
-        dropdown.style.display = (dropdown.style.display === 'block') ? 'none' : 'block';
-        openDropdownId = (dropdown.style.display === 'block') ? id : null;
-    }
-</script>
+<!-- js -->
+<script src="/js/header.js" defer></script>
 </body>
 </html>

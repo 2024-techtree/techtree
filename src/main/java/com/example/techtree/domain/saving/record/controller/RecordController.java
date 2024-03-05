@@ -1,8 +1,8 @@
-package com.example.techtree.domain.financial.record.controller;
+package com.example.techtree.domain.saving.record.controller;
 
-import com.example.techtree.domain.financial.record.dto.RecordDto;
-import com.example.techtree.domain.financial.record.service.RecordService;
-import com.example.techtree.domain.financial.target.service.TargetService;
+import com.example.techtree.domain.saving.goal.service.GoalService;
+import com.example.techtree.domain.saving.record.dto.RecordDto;
+import com.example.techtree.domain.saving.record.service.RecordService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,12 +17,12 @@ import java.util.List;
 public class RecordController {
 
     private final RecordService recordService;
-    private final TargetService targetService;
+    private final GoalService goalService;
     @GetMapping("/test2")
     public String test2(Model model) {
-        List<String> targetNames = targetService.getAllTargetNames();
+        List<String> goalNames = goalService.getAllGoalNames();
 
-        model.addAttribute("targetNames", targetNames);
+        model.addAttribute("goalNames", goalNames);
         model.addAttribute("recordDto", new RecordDto());
         return "domain/record";
     }

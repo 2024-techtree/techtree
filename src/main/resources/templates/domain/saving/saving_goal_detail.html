@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- css -->
+    <link rel="stylesheet" href="/css/common/header.css">
+
+    <!-- 부트 스트랩 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+
+    <title>저축 상세 정보</title>
+
+</head>
+<body>
+
+<!-- ----------------------------------------------- -->
+
+<!-- Template-header 시작 -->
+<header th:replace="layout/header :: TechTreeHeader"></header>
+<!-- Template-header 끝 -->
+
+<!-- ----------------------------------------------- -->
+
+<h2>저축 상세 정보</h2>
+
+<div>
+    <h3>저축 목표</h3>
+    <p>이름: <span th:text="${savingGoal.goalName}"></span></p>
+    <p>유형: <span th:text="${savingGoal.goalType}"></span></p>
+    <p>목표 금액: <span th:text="${savingGoal.goalPrice}"></span></p>
+    <p>현재 금액: <span th:text="${savingGoal.currentPrice}"></span></p>
+    <p>시작일: <span th:text="${savingGoal.startDate}"></span></p>
+    <p>종료일: <span th:text="${savingGoal.endDate}"></span></p>
+</div>
+
+<div>
+    <h3>저축 목표 업데이트</h3>
+    <form action="/saving/update" method="post">
+        <input type="hidden" name="id" th:value="${savingGoal.saving_goal_id}"/>
+        <label for="goalPrice">새로운 목표 금액:</label>
+        <input type="number" id="goalPrice" name="goalPrice" required>
+        <br>
+        <label for="endDate">새로운 종료일:</label>
+        <input type="date" id="endDate" name="endDate" required>
+        <br>
+        <button type="submit">업데이트</button>
+    </form>
+</div>
+
+<!-- js -->
+<script src="/js/header.js" defer></script>
+</body>
+</html>
