@@ -8,13 +8,13 @@
 <body>
 <h2>저축 목표 입력</h2>
 
-<form action="/test" method="post">
-  <label for="targetName">저축 목표 이름:</label>
-  <input type="text" id="targetName" name="targetName" required>
+<form action="/saving/create" method="post">
+  <label for="goalName">저축 목표 이름:</label>
+  <input type="text" id="goalName" name="goalName" required>
   <br>
 
-  <label for="targetType">저축 목표 유형:</label>
-  <select id="targetType" name="targetType" required>
+  <label for="goalType">저축 목표 유형:</label>
+  <select id="goalType" name="goalType" required>
     <option value="정기 예금">정기 예금</option>
     <option value="정기 적금">정기 적금</option>
     <option value="자유 적금">자유 적금</option>
@@ -22,8 +22,8 @@
   </select>
   <br>
 
-  <label for="targetPrice">저축 목표 금액:</label>
-  <input type="number" id="targetPrice" name="targetPrice" required>
+  <label for="goalPrice">저축 목표 금액:</label>
+  <input type="number" id="goalPrice" name="goalPrice" required>
   <br>
 
   <label for="startDate">저축 목표 시작일:</label>

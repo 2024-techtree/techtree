@@ -1,4 +1,4 @@
-package com.example.techtree.domain.financial.target.entity;
+package com.example.techtree.domain.saving.goal.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -11,26 +11,27 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
-public class Target {
+public class Goal
+{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long target_id;
+    private Long saving_goal_id;
 
     //저축 목표 이름
     @Column(columnDefinition = "TEXT")
-    private String targetName;
+    private String goalName;
 
     //저축 목표 금액
     @Column
-    private Long targetPrice;
+    private Long goalPrice;
     //저축 현재 금액
     @Column
     private Long currentPrice;
 
     //저축 목표 유형
     @Column
-    private String targetType;
+    private String goalType;
 
     //시작 날짜
     @Column
