@@ -1,18 +1,29 @@
 document.querySelector('.delete-button').addEventListener('click', function () {
-    var goalId = this.getAttribute('data-id'); // 버튼의 data-id 속성에서 goalId를 가져옵니다.
-    if (!goalId) {
-        alert('저축 목표 ID가 존재하지 않습니다.');
-        return;
-    }
+    var goalId = this.getAttribute('data-id');
+
+    // 모달을 표시합니다.
+    var modal = document.getElementById('deleteConfirmModal');
+    modal.style.display = 'block';
+
+    // "삭제" 버튼 클릭 이벤트
+    document.getElementById('confirmDelete').onclick = function() {
+        deleteGoal(goalId);
+        modal.style.display = 'none'; // 모달을 숨깁니다.
+    };
+
+    // "취소" 버튼 클릭 이벤트
+    document.getElementById('cancelDelete').onclick = function() {
+        modal.style.display = 'none'; // 모달을 숨깁니다.
+    };
+});
+
+function deleteGoal(goalId) {
     var xhr = new XMLHttpRequest();
     xhr.open("DELETE", "/saving/goal/delete/goal/" + goalId, true);
     xhr.onload = function () {
-        console.log('Status:', xhr.status); // 서버로부터 받은 상태 코드 로깅
-        console.log('Response:', xhr.responseText); // 서버로부터 받은 응답 본문 로깅
-
         if (xhr.status >= 200 && xhr.status < 300) {
             alert("저축 목표가 성공적으로 삭제되었습니다.");
-            window.location.href = '/'; // 성공 후 리다이렉션할 실제 페이지 경로
+            window.location.href = '/'; // 삭제되고 이동할 곳, 나중에 목록으로 조정할 것
         } else {
             alert("삭제에 실패했습니다.");
         }
@@ -21,4 +32,4 @@ document.querySelector('.delete-button').addEventListener('click', function () {
         alert("요청을 처리할 수 없습니다.");
     };
     xhr.send();
-});
+}
