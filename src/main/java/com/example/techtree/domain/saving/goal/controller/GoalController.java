@@ -52,7 +52,7 @@ public class GoalController {
 		return "domain/saving/saving_goal_list";
 	}
 
-	@DeleteMapping("/delete/goal/{saving_goal_id}")
+	@DeleteMapping("/delete/{saving_goal_id}")
 	public ResponseEntity<?> deleteGoal(@PathVariable Long saving_goal_id) {
 		try {
 			goalService.deleteGoalById(saving_goal_id);

@@ -32,8 +32,8 @@
             <h3>저축 목표 정보</h3>
             <p>이름: <span th:text="${savingGoal.goalName}"></span></p>
             <p>유형: <span th:text="${savingGoal.goalType}"></span></p>
-            <p>목표 금액: <span th:text="${savingGoal.goalPrice}"></span></p>
-            <p>현재 금액: <span th:text="${savingGoal.currentPrice}"></span></p>
+            <p>목표 금액: <span th:text="${#numbers.formatInteger(savingGoal.goalPrice, 1, 'COMMA')} + '원'"></span></p>
+            <p>현재 금액: <span th:text="${#numbers.formatInteger(savingGoal.currentPrice, 1, 'COMMA')} + '원'"></span></p>
             <p>시작일: <span th:text="${savingGoal.startDate}"></span></p>
             <p>종료일: <span th:text="${savingGoal.endDate}"></span></p>
         </div>

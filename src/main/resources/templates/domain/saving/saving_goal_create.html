@@ -28,7 +28,7 @@
 <div class="form-container">
     <form action="/saving/goal/create" method="post">
         <label for="goalName">저축 목표 이름:</label>
-        <input type="text" id="goalName" name="goalName" required>
+        <input type="text" id="goalName" name="goalName" required maxlength="30">
         <br>
 
         <label for="goalType">저축 목표 유형:</label>
@@ -41,7 +41,7 @@
         <br>
 
         <label for="goalPrice">저축 목표 금액:</label>
-        <input type="number" id="goalPrice" name="goalPrice" required>
+        <input type="text" id="goalPrice" name="goalPrice" required maxlength="13">
         <br>
 
         <label for="startDate">저축 목표 시작일:</label>
@@ -53,7 +53,7 @@
         <br>
 
         <label for="currentPrice">저축 현재 금액:</label>
-        <input type="number" id="currentPrice" name="currentPrice" required>
+        <input type="text" id="currentPrice" name="currentPrice" required maxlength="13">
         <br>
 
         <button class="input-button" type="submit">입력</button>
