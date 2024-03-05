@@ -45,4 +45,11 @@ public class GoalServiceImpl implements GoalService
     public List<String> getAllGoalNames() {
         return goalRepository.findAllGoalNames();
     }
+
+    @Override
+    public Goal findByGoalName(String goalName) {
+        return goalRepository.findByGoalName(goalName);
+    }
+
+
 }

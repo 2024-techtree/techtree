@@ -34,4 +34,5 @@ public class GoalController
         model.addAttribute("savingGoal", goal);
         return "domain/saving/saving_goal_detail";
     }
+
 }

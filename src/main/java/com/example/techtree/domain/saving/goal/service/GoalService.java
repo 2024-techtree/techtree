@@ -12,4 +12,8 @@ public interface GoalService
     Goal findGoalById(Long id);
 
     List<String> getAllGoalNames();
+
+    Goal findByGoalName(String goalName);
+
+
 }

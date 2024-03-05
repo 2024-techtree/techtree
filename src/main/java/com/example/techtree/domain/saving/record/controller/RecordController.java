@@ -32,4 +32,7 @@ public class RecordController {
         recordService.test2(recordDto);
         return "redirect:/test2";
     }
+
+
+
 }
