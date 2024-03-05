@@ -1,25 +1,37 @@
 package com.example.techtree.domain.chat.entity;
 
-import com.example.techtree.domain.chat.service.ChatService;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.web.socket.WebSocketSession;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.time.LocalDateTime;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
+import static jakarta.persistence.GenerationType.IDENTITY;
+
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
+@EntityListeners(AuditingEntityListener.class)
 public class ChatRoom {
+    @Getter
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Column
-    private String roomId;
-    @Column
+    @GeneratedValue(strategy = IDENTITY)
+    private Long id;    // 소문자는 null x, 대문자는 가능
+
+    @Getter
     private String name;
+
+    @CreatedDate
+    private LocalDateTime createDate;
+
+    @LastModifiedDate
+    private LocalDateTime modifyDate;
+
+    public ChatRoom(String name) {
+        this.name = name;
+    }
+
 }
