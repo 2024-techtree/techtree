@@ -1,0 +1,123 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap');
+
+body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 40px 20px;
+    color: #333;
+}
+
+h2 {
+    text-align: center;
+    color: #007bff;
+    margin-bottom: 40px;
+}
+
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 70vh;
+}
+
+form {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    height: 100%;
+    width: 100%;
+    max-width: 800px;
+    box-sizing: border-box;
+}
+
+label {
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+input, select, button {
+    width: 100%;
+    padding: 10px 15px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+
+input[type="date"], input[type="number"] {
+    color: #666;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    body {
+        padding: 20px;
+    }
+
+    .form-container {
+        min-height: auto;
+    }
+
+    form {
+        width: calc(100% - 40px);
+    }
+}
+
+.action-buttons {
+    margin-top: 20px;
+    text-align: center;
+    display: flex;
+    justify-content: center; /* 요소들을 양쪽 끝에 배치 */
+}
+
+.action-buttons button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 12px; /* 작은 크기로 조정 */
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.save-button {
+    /*margin-left: 25px; !* 버튼 사이의 간격 조정 *!*/
+    margin-right: 400px;
+}
+.action-buttons .btn {
+    padding: 8px 12px; /* 작은 크기로 조정 */
+    font-size: 14px; /* 폰트 크기 조정 */
+    border-radius: 4px;
+}
+
+.action-buttons button:hover {
+    background-color: #0056b3;
+}
+
+.action-buttons button:active {
+    transform: translateY(2px);
+}
+
+.save-button,
+.edit-button,
+.delete-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    margin-left: 5px; /* 버튼 사이의 간격 조정 */
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
