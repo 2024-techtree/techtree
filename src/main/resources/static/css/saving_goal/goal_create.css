@@ -13,7 +13,7 @@ h2 {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 50vh; /* 또는 원하는 높이 값 */
+    min-height: 70vh; /* 또는 원하는 높이 값 */
     margin: 0 auto;
 }
 
