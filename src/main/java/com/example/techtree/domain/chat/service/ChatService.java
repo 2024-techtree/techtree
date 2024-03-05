@@ -1,11 +1,14 @@
 package com.example.techtree.domain.chat.service;
 
+import com.example.techtree.domain.chat.dao.ChatRepository;
 import com.example.techtree.domain.chat.entity.ChatRoom;
+import com.example.techtree.domain.chat.entity.ChatRoomDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
@@ -15,29 +18,33 @@ import java.util.*;
 @Slf4j
 @RequiredArgsConstructor
 @Service
+@Transactional
 public class ChatService {
     private final ObjectMapper objectMapper;
-    private Map<String, ChatRoom> chatRooms;
+    private Map<String, ChatRoomDto> chatRooms;
+    private final ChatRepository chatRepository;
 
     @PostConstruct
     private void init() {
         chatRooms = new LinkedHashMap<>();
     }
 
-    public List<ChatRoom> findAllRoom() {
+    public List<ChatRoomDto> findAllRoom() {
         return new ArrayList<>(chatRooms.values());
     }
 
-    public ChatRoom findRoomById(String roomId) {
+    public ChatRoomDto findRoomById(String roomId) {
         return chatRooms.get(roomId);
     }
 
-    public ChatRoom createRoom(String name) {
+    public ChatRoomDto createRoom(String name) {
         String randomId = UUID.randomUUID().toString();
-        ChatRoom chatRoom = ChatRoom.builder()
+        ChatRoomDto chatRoom = ChatRoomDto.builder()
                 .roomId(randomId)
                 .name(name)
                 .build();
+        ChatRoom saveRoom = chatRoom.toEntity(randomId, name);
+        this.chatRepository.save(saveRoom);
         chatRooms.put(randomId, chatRoom);
         return chatRoom;
     }

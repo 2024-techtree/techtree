@@ -2,6 +2,7 @@ package com.example.techtree.domain.chat;
 
 import com.example.techtree.domain.chat.entity.ChatMessage;
 import com.example.techtree.domain.chat.entity.ChatRoom;
+import com.example.techtree.domain.chat.entity.ChatRoomDto;
 import com.example.techtree.domain.chat.service.ChatService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +34,7 @@ public class WebSockChatHandler extends TextWebSocketHandler {
         ChatMessage chatMessage = objectMapper.readValue(payload, ChatMessage.class);
         /*TextMessage textMessage = new TextMessage("welcome chat server");
         session.sendMessage(textMessage);*/
-        ChatRoom room = chatService.findRoomById(chatMessage.getRoomId());
+        ChatRoomDto room = chatService.findRoomById(chatMessage.getRoomId());
         Set<WebSocketSession> sessions = room.getSessions();
         if (chatMessage.getType().equals(ChatMessage.MessageType.ENTER)) {
             sessions.add(session);

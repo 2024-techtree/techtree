@@ -1,4 +1,7 @@
 package com.example.techtree.domain.chat.dao;
 
-public interface ChatRepository {
+import com.example.techtree.domain.chat.entity.ChatRoom;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ChatRepository extends JpaRepository<ChatRoom, Long> {
 }
