@@ -45,4 +45,7 @@ public class Goal
     @Column
     private LocalDateTime updateDate;
 
+    public void updateCurrentPrice(Long savingPrice) {
+        this.currentPrice += savingPrice;
+    }
 }

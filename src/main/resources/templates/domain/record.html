@@ -9,19 +9,13 @@
 <h2>저축 기록 작성</h2>
 
 <form action="/test2" method="post" th:object="${recordDto}">
-    <label for="goalName">저축 목표 이름:</label>
-    <select id="goalName" name="goalName" required>
+    <label for="goalNameDropdown">저축 목표 이름:</label>
+    <select id="goalNameDropdown" name="goalNameDropdown" required>
         <option th:each="name : ${goalNames}" th:value="${name}" th:text="${name}" th:utext="${name}"></option>
     </select>
     <br>
 
-    <label for="goalType">저축 목표 유형:</label>
-    <select id="goalType" name="goalType" required>
-        <option value="정기 예금">정기 예금</option>
-        <option value="정기 적금">정기 적금</option>
-        <option value="자유 적금">자유 적금</option>
-        <!-- 다른 유형 추가 가능 -->
-    </select>
+    <div id="goalTypeDisplay">저축 목표 유형 : </div>
     <br>
 
     <label for="savingPrice">저축 금액:</label>
@@ -34,5 +28,23 @@
 
     <button type="submit">입력</button>
 </form>
+<script>
+    document.getElementById('goalNameDropdown').addEventListener('change', function() {
+        var selectedGoalName = this.value; // 선택된 목표 이름
+        fetch(`/goal/type?goalName=${encodeURIComponent(selectedGoalName)}`)
+            .then(response => {
+                if(response.ok) {
+                    return response.text(); // JSON이 아닌 텍스트 응답으로 변경
+                } else {
+                    throw new Error('목표 타입을 불러오는데 실패했습니다.');
+                }
+            })
+            .then(data => {
+                document.getElementById('goalTypeDisplay').innerText = '저축 목표 유형 : ' + data; // 목표 타입 표시
+            })
+            .catch(error => console.error('Error:', error));
+    });
+</script>
+
 </body>
 </html>
