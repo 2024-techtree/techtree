@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -32,4 +33,10 @@ public class TargetServiceImpl implements TargetService
 
         return target;
     }
+
+    @Override
+    public List<String> getAllTargetNames() {
+        return targetRepository.findAllTargetNames();
+    }
+
 }

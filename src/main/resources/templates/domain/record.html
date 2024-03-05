@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>저축 기록 작성</title>
+</head>
+<body>
+<h2>저축 기록 작성</h2>
+
+<form action="/test2" method="post" th:object="${recordDto}">
+    <label for="targetName">저축 목표 이름:</label>
+    <select id="targetName" name="targetName" required>
+        <option th:each="name : ${targetNames}" th:value="${name}" th:text="${name}" th:utext="${name}"></option>
+    </select>
+    <br>
+
+    <label for="targetType">저축 목표 유형:</label>
+    <select id="targetType" name="targetType" required>
+        <option value="정기 예금">정기 예금</option>
+        <option value="정기 적금">정기 적금</option>
+        <option value="자유 적금">자유 적금</option>
+        <!-- 다른 유형 추가 가능 -->
+    </select>
+    <br>
+
+    <label for="saving_Price">저축 금액:</label>
+    <input type="number" id="saving_Price" name="saving_Price" required>
+    <br>
+
+    <label for="saving_Date">저축 일:</label>
+    <input type="date" id="saving_Date" name="saving_Date" required>
+    <br>
+
+
+
+    <button type="submit">입력</button>
+</form>
+</body>
+</html>

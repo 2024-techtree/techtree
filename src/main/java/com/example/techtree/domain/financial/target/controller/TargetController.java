@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 @RequiredArgsConstructor
 public class TargetController {
 
- private final TargetService targetService;
+    private final TargetService targetService;
     @PostMapping("/test")
     public String test(@ModelAttribute TargetDto testDto) {
         targetService.test1(testDto);
