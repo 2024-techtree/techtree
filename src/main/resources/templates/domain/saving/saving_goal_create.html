@@ -20,7 +20,7 @@
 <!-- ----------------------------------------------- -->
 
 <!-- Template-header 시작 -->
-<header th:replace="layout/header :: TechTreeHeader"></header>
+<header th:replace="~{layout/header :: TechTreeHeader}"></header>
 <!-- Template-header 끝 -->
 
 <!-- ----------------------------------------------- -->
@@ -61,7 +61,7 @@
 </div>
 
 <!-- Template-footer 시작 -->
-<footer th:replace="layout/footer :: TechTreeFooter"></footer>
+<footer th:replace="~{layout/footer :: TechTreeFooter}"></footer>
 <!-- Template-footer 끝 -->
 
 <!-- bootstrap -->
@@ -69,6 +69,6 @@
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
         crossorigin="anonymous" defer></script>
 <!-- js -->
-<script src="/js/header.js" defer></script>
+<script src="/js/layout/header.js" defer></script>
 </body>
 </html>
