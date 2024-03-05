@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>저축 목표 목록</title>
+
+    <!-- css -->
+    <link rel="stylesheet" href="/css/common/footer.css">
+    <link rel="stylesheet" href="/css/common/header.css">
+    <link rel="stylesheet" href="/css/saving_goal/goal_list.css">
+    <link rel="stylesheet" href="/css/template/template.css">
+
+
+    <!-- 부트 스트랩 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+
+    <title>예시</title>
+
+</head>
+<body>
+
+<!-- ----------------------------------------------- -->
+
+<!-- Template-header 시작 -->
+<header th:replace="~{layout/header :: TechTreeHeader}"></header>
+<!-- Template-header 끝 -->
+
+<!-- ----------------------------------------------- -->
+
+<div class="list-container">
+    <h2 class="mb-4">저축 목표 목록</h2>
+    <table class="table table-striped">
+        <thead>
+        <tr class="text-center">
+            <th scope="col">#</th>
+            <th scope="col">목표 이름</th>
+            <th scope="col">목표 금액</th>
+            <th scope="col">시작 날짜</th>
+            <th scope="col">종료 날짜</th>
+            <th scope="col">현재 금액</th>
+            <th scope="col">보기</th>
+            <th scope="col">삭제</th>
+            <th scope="col">수정</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="goal, iterStat : ${goals}" class="text-center">
+            <th scope="row" th:text="${iterStat.count}"></th>
+            <td th:text="${goal.goalName}"></td>
+            <td th:text="${goal.goalPrice}"></td>
+            <td th:text="${goal.startDate}"></td>
+            <td th:text="${goal.endDate}"></td>
+            <td th:text="${goal.currentPrice}"></td>
+            <td><a th:href="@{'/saving/goal/detail/' + ${goal.saving_goal_id}}"
+                   class="btn btn-primary">보기</a></td>
+            <td><a th:href="@{'/saving/goal/detail/' + ${goal.saving_goal_id}}"
+                   class="btn btn-primary">삭제</a></td>
+            <td><a th:href="@{'/saving/goal/detail/' + ${goal.saving_goal_id}}"
+                   class="btn btn-primary">수정</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<!-- Template-Footer 시작 -->
+<footer th:replace="~{layout/footer :: TechTreeFooter}"></footer>
+<!-- Template-Footer 끝 -->
+
+<!-- bootstrap -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+        crossorigin="anonymous" defer></script>
+<!-- js -->
+<script src="/js/layout/header.js" defer></script>
+</body>
+</html>

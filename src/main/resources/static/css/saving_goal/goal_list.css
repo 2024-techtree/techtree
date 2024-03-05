@@ -1,0 +1,10 @@
+.list-container {
+    width: auto; /* 너비를 800px로 고정 */
+    max-width: 1500px;
+    height: 800px; /* 높이는 내용에 따라 자동 조정 */
+    margin: 0 auto; /* 좌우 마진을 자동으로 설정하여 중앙 정렬 */
+}
+
+.text-center {
+    text-align: center;
+}
