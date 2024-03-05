@@ -19,7 +19,7 @@ public class GoalController
     @GetMapping("/create")
     public String savingGoalCreate(){
 
-        return "domain/saving/saving_goal";
+        return "domain/saving/saving_goal_create";
     }
     @PostMapping("/create")
     public String savingGoalCreate(@ModelAttribute GoalDto goalDto) {
