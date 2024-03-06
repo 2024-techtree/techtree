@@ -80,37 +80,42 @@
         </tbody>
     </table>
 
-    <div class="main-2">
-        <ul class="pagination-container">
-            <!-- 처음 페이지로 이동 -->
-            <li th:class="${currentPage == 1} ? 'disabled' : ''">
-                <a class="btn1 laquo"
-                   th:href="@{/saving/goal/list(page=${currentPage - 1})}">처음</a>
-            </li>
-
-            <!-- 이전 페이지로 이동 -->
-            <li th:class="${currentPage == 1} ? 'disabled' : ''">
-                <a class="btn1" th:href="@{/saving/goal/list(page=${currentPage - 1})}">&#60;</a>
-            </li>
-
-            <!-- 페이지 번호를 동적으로 생성 -->
-            <li th:each="pageNum : ${#numbers.sequence(startBlockPage, endBlockPage)}"
-                th:class="${pageNum == currentPage ? 'active' : ''}">
-                <a class="btn1" th:href="@{/saving/goal/list(page=${pageNum})}" th:text="${pageNum}"></a>
-            </li>
-
-            <!-- 다음 페이지로 이동 -->
-            <li th:class="${currentPage < totalPages ? '' : 'disabled'}">
-                <a class="btn1" th:href="@{/saving/goal/list(page=${currentPage + 1})}">&#62;</a>
-            </li>
-
-            <!-- 마지막 페이지로 이동 -->
-            <li th:class="${currentPage < totalPages ? '' : 'disabled'}">
-                <a class="btn1" th:href="@{/saving/goal/list(page=${totalPages})}">마지막</a>
-            </li>
-        </ul>
+    <div th:if="${#lists.isEmpty(goals)}" class="text-center custom-margin">
+        <h2 class="text-goal">저축 목표가 없습니다.</h2>
+        <a th:href="@{/saving/goal/create}" class="btn btn-primary">목표 만들기</a>
     </div>
 
+</div>
+
+<div class="main-2">
+    <ul class="pagination-container">
+        <!-- 처음 페이지로 이동 -->
+        <li th:class="${currentPage == 1} ? 'disabled' : ''">
+            <a class="btn1 laquo"
+               th:href="@{/saving/goal/list(page=${currentPage - 1})}">&nbsp;처음&nbsp;</a>
+        </li>
+
+        <!-- 이전 페이지로 이동 -->
+        <li th:class="${currentPage == 1} ? 'disabled' : ''">
+            <a class="btn1" th:href="@{/saving/goal/list(page=${currentPage - 1})}">&#60;</a>
+        </li>
+
+        <!-- 페이지 번호를 동적으로 생성 -->
+        <li th:each="pageNum : ${#numbers.sequence(startBlockPage, endBlockPage)}"
+            th:class="${pageNum == currentPage ? 'active' : ''}">
+            <a class="btn1" th:href="@{/saving/goal/list(page=${pageNum})}" th:text="${pageNum}"></a>
+        </li>
+
+        <!-- 다음 페이지로 이동 -->
+        <li th:class="${currentPage < totalPages ? '' : 'disabled'}">
+            <a class="btn1" th:href="@{/saving/goal/list(page=${currentPage + 1})}">&#62;</a>
+        </li>
+
+        <!-- 마지막 페이지로 이동 -->
+        <li th:class="${currentPage < totalPages ? '' : 'disabled'}">
+            <a class="btn1" th:href="@{/saving/goal/list(page=${totalPages})}">마지막</a>
+        </li>
+    </ul>
 </div>
 <!-- Template-Footer 시작 -->
 <footer th:replace="~{layout/footer :: TechTreeFooter}"></footer>

@@ -1,7 +1,7 @@
 .list-container {
     width: auto; /* 너비를 800px로 고정 */
     max-width: 1500px;
-    height: auto; /* 높이는 내용에 따라 자동 조정 */
+    height: 805px;
     margin: 0 auto; /* 좌우 마진을 자동으로 설정하여 중앙 정렬 */
     margin-top: 50px;
     margin-bottom: 50px;
@@ -158,6 +158,17 @@
 
 .main-2 {
     display: flex;
-    justify-content: space-evenly;
-    /*margin-top: px;*/
+    justify-content: center; /* 항목들을 가운데 정렬 */
+    list-style: none; /* 기본 리스트 스타일 제거 */
+    align-items: end;
+    margin-top: -50px;
+    padding: 20px;
+}
+
+.custom-margin {
+    margin-top: 260px; /* 원하는 마진 크기를 px, em, rem 등으로 설정 */
+}
+
+.text-goal {
+    margin-bottom: 50px; /* 원하는 마진 크기를 px, em, rem 등으로 설정 */
 }
