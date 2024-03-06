@@ -13,6 +13,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
     <title>저축 상세 정보</title>
 
 </head>
@@ -28,18 +30,25 @@
 
 <div class="form-container">
     <form>
-        <div>
-            <h3>저축 목표 정보</h3>
-            <p>이름: <span th:text="${savingGoal.goalName}"></span></p>
-            <p>유형: <span th:text="${savingGoal.goalType}"></span></p>
-            <p>목표 금액: <span th:text="${#numbers.formatInteger(savingGoal.goalPrice, 1, 'COMMA')} + '원'"></span></p>
-            <p>현재 금액: <span th:text="${#numbers.formatInteger(savingGoal.currentPrice, 1, 'COMMA')} + '원'"></span></p>
-            <p>시작일: <span th:text="${savingGoal.startDate}"></span></p>
-            <p>종료일: <span th:text="${savingGoal.endDate}"></span></p>
+        <button class="list-button" type="button" onclick="location.href='/saving/goal/list'">
+            <i class="fas fa-list"> 목록</i>
+        </button>
+        <div class="info-container">
+            <div class="info-header">저축 목표 정보</div>
+            <div class="info-item"><span>이름:</span><span th:text="${savingGoal.goalName}"></span></div>
+            <div class="info-item"><span>유형:</span><span th:text="${savingGoal.goalType}"></span></div>
+            <div class="info-item"><span>목표 금액:</span><span
+                    th:text="${#numbers.formatInteger(savingGoal.goalPrice, 1, 'COMMA')} + '원'"></span></div>
+            <div class="info-item"><span>현재 금액:</span><span
+                    th:text="${#numbers.formatInteger(savingGoal.currentPrice, 1, 'COMMA')} + '원'"></span></div>
+            <div class="info-item"><span>시작일:</span><span th:text="${savingGoal.startDate}"></span></div>
+            <div class="info-item"><span>종료일:</span><span th:text="${savingGoal.endDate}"></span></div>
         </div>
         <div class="action-buttons">
             <button class="save-button" type="button" onclick="location.href='/saving/record/create'">저축하기</button>
-            <button class="edit-button" type="button" th:onclick="'location.href=\'/saving/goal/modify/' + ${savingGoal.saving_goal_id} + '\''">수정하기</button>
+            <button class="edit-button" type="button"
+                    th:onclick="'location.href=\'/saving/goal/modify/' + ${savingGoal.saving_goal_id} + '\''">수정하기
+            </button>
             <button class="delete-button" id="deleteButton" th:attr="data-id=${savingGoal.saving_goal_id}"
                     type="button">삭제하기
             </button>
