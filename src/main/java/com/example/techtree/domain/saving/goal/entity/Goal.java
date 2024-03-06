@@ -1,18 +1,11 @@
 package com.example.techtree.domain.saving.goal.entity;
 
+import com.example.techtree.domain.saving.goal.dto.GoalDto;
+import jakarta.persistence.*;
+import lombok.*;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
@@ -54,5 +47,18 @@ public class Goal {
 
 	public void updateCurrentPrice(Long savingPrice) {
 		this.currentPrice += savingPrice;
+	}
+
+	public static Goal modifyGoal(Goal existingGoal, GoalDto goalDto) {
+		return Goal.builder()
+				.saving_goal_id(existingGoal.getSaving_goal_id())
+				.goalName(goalDto.getGoalName())
+				.goalType(goalDto.getGoalType())
+				.startDate(goalDto.getStartDate())
+				.endDate(goalDto.getEndDate())
+				.goalPrice(goalDto.getGoalPrice())
+				.currentPrice(goalDto.getCurrentPrice())
+				.updateDate(LocalDateTime.now())
+				.build();
 	}
 }

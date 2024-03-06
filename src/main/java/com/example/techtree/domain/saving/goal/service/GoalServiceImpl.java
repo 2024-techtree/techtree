@@ -1,17 +1,15 @@
 package com.example.techtree.domain.saving.goal.service;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.example.techtree.domain.saving.goal.dao.GoalRepository;
 import com.example.techtree.domain.saving.goal.dto.GoalDto;
 import com.example.techtree.domain.saving.goal.entity.Goal;
-
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -68,4 +66,14 @@ public class GoalServiceImpl implements GoalService {
 		return goal != null ? goal.getGoalType() : "";
 	}
 
+	@Override
+	public Goal modifyGoal(Long saving_goal_id, GoalDto goalDto) {
+		Goal existingGoal = goalRepository.findById(saving_goal_id)
+				.orElseThrow(() -> new EntityNotFoundException("Goal not found with id: " + saving_goal_id));
+
+		// Goal 엔티티 수정을 빌더 패턴으로 진행합니다.
+		Goal modifiedGoal = Goal.modifyGoal(existingGoal, goalDto);
+
+		return goalRepository.save(modifiedGoal);
+	}
 }
