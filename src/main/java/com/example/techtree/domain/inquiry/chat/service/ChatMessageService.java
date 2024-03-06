@@ -1,7 +1,7 @@
-package com.example.techtree.domain.chat.service;
+package com.example.techtree.domain.inquiry.chat.service;
 
-import com.example.techtree.domain.chat.dao.ChatMessageRepository;
-import com.example.techtree.domain.chat.entity.ChatMessage;
+import com.example.techtree.domain.inquiry.chat.dao.ChatMessageRepository;
+import com.example.techtree.domain.inquiry.chat.entity.ChatMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

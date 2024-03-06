@@ -1,8 +1,8 @@
-package com.example.techtree.domain.chat.service;
+package com.example.techtree.domain.inquiry.chat.service;
 
-import com.example.techtree.domain.chat.dao.ChatRoomRepository;
-import com.example.techtree.domain.chat.entity.ChatMessage;
-import com.example.techtree.domain.chat.entity.ChatRoom;
+import com.example.techtree.domain.inquiry.chat.dao.ChatRoomRepository;
+import com.example.techtree.domain.inquiry.chat.entity.ChatMessage;
+import com.example.techtree.domain.inquiry.chat.entity.ChatRoom;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

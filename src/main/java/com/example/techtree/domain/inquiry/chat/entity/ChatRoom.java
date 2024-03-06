@@ -1,4 +1,4 @@
-package com.example.techtree.domain.chat.entity;
+package com.example.techtree.domain.inquiry.chat.entity;
 
 import com.example.techtree.global.entity.chat.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;

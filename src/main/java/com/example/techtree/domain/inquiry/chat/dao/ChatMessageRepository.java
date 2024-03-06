@@ -1,6 +1,6 @@
-package com.example.techtree.domain.chat.dao;
+package com.example.techtree.domain.inquiry.chat.dao;
 
-import com.example.techtree.domain.chat.entity.ChatMessage;
+import com.example.techtree.domain.inquiry.chat.entity.ChatMessage;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

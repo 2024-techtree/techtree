@@ -1,9 +1,9 @@
-package com.example.techtree.domain.chat.controller;
+package com.example.techtree.domain.inquiry.chat.controller;
 
-import com.example.techtree.domain.chat.entity.ChatMessage;
-import com.example.techtree.domain.chat.entity.ChatRoom;
-import com.example.techtree.domain.chat.service.ChatMessageService;
-import com.example.techtree.domain.chat.service.ChatRoomService;
+import com.example.techtree.domain.inquiry.chat.entity.ChatMessage;
+import com.example.techtree.domain.inquiry.chat.entity.ChatRoom;
+import com.example.techtree.domain.inquiry.chat.service.ChatMessageService;
+import com.example.techtree.domain.inquiry.chat.service.ChatRoomService;
 import com.example.techtree.global.rsData.RsData;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
