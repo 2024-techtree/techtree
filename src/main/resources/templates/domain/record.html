@@ -17,14 +17,26 @@
                 $("#goalType").val(data.goalType);
             });
         }
+
+        function validateForm() {
+            var goalName = document.getElementById("goalName").value;
+
+            if (goalName === "-") {
+                alert("저축 목표 이름을 선택해주세요.");
+                return false; // 폼 전송 중단
+            }
+
+            return true; // 폼 전송 계속 진행
+        }
     </script>
 </head>
 <body>
 <h2>저축 기록 작성</h2>
 
-<form action="/saving/record/create" method="post" th:object="${recordDto}" id="recordForm">
+<form action="/saving/record/create" method="post" th:object="${recordDto}" id="recordForm" onsubmit="return validateForm()">
     <label for="goalName">저축 목표 이름:</label>
     <select id="goalName" name="goalName" required onchange="fetchAndSetGoalType()">
+        <option>-</option>
         <option th:each="name : ${goalNames}" th:value="${name}" th:text="${name}" th:utext="${name}"></option>
     </select>
     <br>
@@ -38,7 +50,7 @@
     <br>
 
     <label for="goalType">저축 목표 유형:</label>
-    <input type="text" id="goalType" name="goalType" readonly>
+    <input type="text" id="goalType" name="goalType" required readonly>
     <br>
 
     <button type="submit">입력</button>
