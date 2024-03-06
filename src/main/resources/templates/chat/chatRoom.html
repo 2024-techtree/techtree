@@ -40,7 +40,6 @@
     const chatMessagesEl = document.querySelector('.chat__messages');
     function submitWriteForm(form) {
         form.writerName.value = form.writerName.value.trim();
-        var csrfToken = [[${_csrf.token}]];
 
         if ( form.writerName.value.length == 0 ) {
             alert('작성자 명을 입력해주세요.');
@@ -65,7 +64,7 @@
                 headers: {
                     'accept': 'application/json',
                     'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': csrfToken,
+                    'X-CSRF-TOKEN': token,
                 },
                 body: JSON.stringify({
                     writerName: form.writerName.value,
