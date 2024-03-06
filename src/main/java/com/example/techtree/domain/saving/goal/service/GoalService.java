@@ -2,6 +2,9 @@ package com.example.techtree.domain.saving.goal.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.example.techtree.domain.saving.goal.dto.GoalDto;
 import com.example.techtree.domain.saving.goal.entity.Goal;
 
@@ -19,4 +22,6 @@ public interface GoalService {
 	List<Goal> getAllPosts();
 
 	String getGoalType(String goalName);
+
+	Page<Goal> findGoals(Pageable pageable);
 }

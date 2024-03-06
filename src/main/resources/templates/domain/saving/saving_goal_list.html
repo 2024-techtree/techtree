@@ -50,7 +50,7 @@
         </thead>
         <tbody>
         <tr th:each="goal, iterStat : ${goals}" class="text-center">
-            <th scope="row" th:text="${iterStat.count}"></th>
+            <th scope="row" th:text="${iterStat.count + (currentPage - 1) * 10}"></th>
             <td class="goalName" th:text="${goal.goalName}"></td>
             <td th:text="${#numbers.formatInteger(goal.goalPrice, 1, 'COMMA')} + '원'"></td>
             <td th:text="${goal.startDate}"></td>
@@ -79,6 +79,38 @@
         </tr>
         </tbody>
     </table>
+
+    <div class="main-2">
+        <ul class="pagination-container">
+            <!-- 처음 페이지로 이동 -->
+            <li th:class="${currentPage == 1} ? 'disabled' : ''">
+                <a class="btn1 laquo"
+                   th:href="@{/saving/goal/list(page=${currentPage - 1})}">처음</a>
+            </li>
+
+            <!-- 이전 페이지로 이동 -->
+            <li th:class="${currentPage == 1} ? 'disabled' : ''">
+                <a class="btn1" th:href="@{/saving/goal/list(page=${currentPage - 1})}">&#60;</a>
+            </li>
+
+            <!-- 페이지 번호를 동적으로 생성 -->
+            <li th:each="pageNum : ${#numbers.sequence(startBlockPage, endBlockPage)}"
+                th:class="${pageNum == currentPage ? 'active' : ''}">
+                <a class="btn1" th:href="@{/saving/goal/list(page=${pageNum})}" th:text="${pageNum}"></a>
+            </li>
+
+            <!-- 다음 페이지로 이동 -->
+            <li th:class="${currentPage < totalPages ? '' : 'disabled'}">
+                <a class="btn1" th:href="@{/saving/goal/list(page=${currentPage + 1})}">&#62;</a>
+            </li>
+
+            <!-- 마지막 페이지로 이동 -->
+            <li th:class="${currentPage < totalPages ? '' : 'disabled'}">
+                <a class="btn1" th:href="@{/saving/goal/list(page=${totalPages})}">마지막</a>
+            </li>
+        </ul>
+    </div>
+
 </div>
 <!-- Template-Footer 시작 -->
 <footer th:replace="~{layout/footer :: TechTreeFooter}"></footer>

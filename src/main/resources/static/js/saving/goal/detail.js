@@ -23,7 +23,7 @@ function deleteGoal(goalId) {
     xhr.onload = function () {
         if (xhr.status >= 200 && xhr.status < 300) {
             alert("저축 목표가 성공적으로 삭제되었습니다.");
-            window.location.href = '/saving/goal/list'; // 삭제되고 이동할 곳, 나중에 목록으로 조정할 것
+            window.location.href = '/saving/goal/list?page=1'; // 삭제되고 이동할 곳, 나중에 목록으로 조정할 것
         } else {
             alert("삭제에 실패했습니다.");
         }
