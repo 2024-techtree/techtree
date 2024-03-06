@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- 부트 스트랩 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+
+    <!-- 추가 스타일 -->
+    <link rel="stylesheet" href="/css/common/footer.css">
+    <link rel="stylesheet" href="/css/common/header.css">
+    <link rel="stylesheet" href="/css/chat_room/chat.css">
+    <title>예시</title>
+</head>
+<body>
+
+<!-- Template-header 시작 -->
+<header th:replace="~{layout/header :: TechTreeHeader}" class="fixed-top"></header>
+<!-- Template-header 끝 -->
+
+<div class="container mt-4 bg-light"> <!-- 배경색을 #f8f9fa로 변경 -->
+    <h1 th:text="|${roomId}번 채팅방|"></h1>
+    <nav>
+        <a href="make">채팅방 생성</a>
+        <a href="list">채팅방 목록</a>
+    </nav>
+    <form onsubmit="submitWriteForm(this); return false;" method="POST">
+        <input autocomplete="off" type="text" name="content" placeholder="내용">
+        <input type="submit" value="작성">
+    </form>
+
+    <div>
+        <ul class="chat__messages">
+            <li th:each="chatMessage : ${room.chatMessages}"
+                th:classappend="${chatMessage.name eq '내 이름' ? 'sent' : ''}">
+                <span th:text="${chatMessage.name}"></span>
+                :
+                (
+                <span th:text="${chatMessage.id}"></span>
+                )
+                <span th:text="${chatMessage.content}"></span>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<!-- Template-Footer 시작 -->
+<footer th:replace="~{layout/footer :: TechTreeFooter}"></footer>
+<!-- Template-Footer 끝 -->
+
+<!-- bootstrap -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+        crossorigin="anonymous" defer></script>
+
+<!-- js -->
+<script src="/js/layout/header.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<script th:inline="javascript">
+    const token = /*[[${_csrf.token}]]*/ '';
+    console.log(token)
+</script>
+
+<script th:inline="javascript">
+    const roomId = /*[[${roomId}]]*/ 0;
+    let lastChatMessageId = /*[[${room.chatMessages.size > 0 ? room.chatMessages.first.id : 0}]]*/ 0;
+</script>
+
+<script>
+
+    const chatMessagesEl = document.querySelector('.chat__messages');
+
+    function submitWriteForm(form) {
+        /*form.writerName.value = form.writerName.value.trim();
+
+        if (form.writerName.value.length == 0) {
+            alert('작성자 명을 입력해주세요.');
+            form.writerName.focus();
+            return;
+        }*/
+
+        form.content.value = form.content.value.trim();
+
+        if (form.content.value.length == 0) {
+            alert('내용을 입력해주세요.');
+            form.content.focus();
+            return;
+        }
+
+        const action = `/chat/room/${roomId}/write`;
+
+        fetch(
+            action,
+            {
+                method: 'POST',
+                headers: {
+                    'accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': token,
+                },
+                body: JSON.stringify({
+                    // writerName: form.writerName.value,
+                    content: form.content.value,
+                }),
+            }).catch(error => alert(error));
+        form.content.value = '';
+        form.content.focus();
+    }
+
+    function drawMoreChatMessage(message) {
+        lastChatMessageId = message.id;
+        chatMessagesEl
+            .insertAdjacentHTML(
+                "afterBegin",
+                `<li>${message.writerName} : ( ${message.id} ) ${message.content}</li>`
+            );
+    }
+
+    const socket = new SockJS('/ws');
+    const stompClient = Stomp.over(socket);
+
+    stompClient.connect({}, function (frame) {
+        console.log('Connected: ' + frame);
+
+        stompClient.subscribe(`/topic/chat/room/${roomId}/messageCreated`, function (data) {
+            const jsonData = JSON.parse(data.body);
+            drawMoreChatMessage(jsonData.data.message);
+        });
+    });
+</script>
+</body>
+</html>
