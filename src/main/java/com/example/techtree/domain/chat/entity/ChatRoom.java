@@ -1,37 +1,44 @@
 package com.example.techtree.domain.chat.entity;
 
-import jakarta.persistence.*;
+import com.example.techtree.global.entity.chat.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OrderBy;
 import lombok.*;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import lombok.experimental.SuperBuilder;
 
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
-import static jakarta.persistence.GenerationType.IDENTITY;
+import static lombok.AccessLevel.PROTECTED;
 
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
-@Builder
-@EntityListeners(AuditingEntityListener.class)
-public class ChatRoom {
-    @Getter
-    @Id
-    @GeneratedValue(strategy = IDENTITY)
-    private Long id;    // 소문자는 null x, 대문자는 가능
-
-    @Getter
+@Setter
+@Getter
+@AllArgsConstructor(access = PROTECTED)
+@NoArgsConstructor(access = PROTECTED)
+@SuperBuilder
+@ToString(callSuper = true)
+public class ChatRoom extends BaseEntity {
     private String name;
+    @OneToMany(mappedBy = "chatRoom", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    @ToString.Exclude
+    @OrderBy("id DESC")
+    @JsonIgnore
+    private List<ChatMessage> chatMessages = new ArrayList<>();
 
-    @CreatedDate
-    private LocalDateTime createDate;
+    public ChatMessage writeMessage(String writerName, String content) {
+        ChatMessage chatMessage = ChatMessage.builder()
+                .chatRoom(this)
+                .name(writerName)
+                .content(content)
+                .build();
 
-    @LastModifiedDate
-    private LocalDateTime modifyDate;
+        chatMessages.add(chatMessage);
 
-    public ChatRoom(String name) {
-        this.name = name;
+        return chatMessage;
     }
-
 }

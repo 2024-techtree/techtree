@@ -1,17 +1,24 @@
 package com.example.techtree.domain.chat.entity;
 
-import lombok.Getter;
-import lombok.Setter;
+import com.example.techtree.global.entity.chat.BaseEntity;
+import jakarta.persistence.*;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
-@Getter
+
+@Entity
 @Setter
-public class ChatMessage {
-    public enum MessageType {
-        ENTER, TALK, QUIT
-    }
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@SuperBuilder
+@ToString(callSuper = true)
+public class ChatMessage extends BaseEntity {
+    @Getter
+    private String name;
 
-    private MessageType type;
-    private String roomId;
-    private String sender;
-    private String message;
+    private String content;
+
+    @ManyToOne
+    private ChatRoom chatRoom;
 }

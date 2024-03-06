@@ -1,62 +1,115 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<input type="text" placeholder="보낼 메세지를 입력하세요." class="content">
-<button type="button" value="전송" class="sendBtn" onclick="sendMsg()">전송</button>
-<button type="button" value="방나가기" class="quit" onclick="quit()">방 나가기 </button>
-<div>
-    <span>메세지</span>
-    <div class="msgArea"></div>
-</div>
-</body>
+<h1 th:text="|${roomId}번 채팅방|"></h1>
+<nav>
+    <a href="make">채팅방 생성</a>
+    <a href="list">채팅방 목록</a>
+</nav>
 
 <script th:inline="javascript">
-    function enterRoom(socket){
-        var enterMsg={"type" : "ENTER","roomId":[[${room.roomId}]],"sender":"chee","msg":""}; //sender는  글쓸때 수정하자.
-        socket.send(JSON.stringify(enterMsg));
-    }
-    let socket = new WebSocket("ws://localhost:8080/ws/chat");
-
-    socket.onopen = function (e) {
-        console.log('open server!')
-        enterRoom(socket);
-    };
-    socket.onclose=function(e){
-        console.log('disconnet');
-    }
-
-    socket.onerror = function (e){
-        console.log(e);
-    }
-
-    //메세지 수신했을 때 이벤트.
-    socket.onmessage = function (e) {
-        console.log(e.data);
-        let msgArea = document.querySelector('.msgArea');
-        let newMsg = document.createElement('div');
-        newMsg.innerText=e.data;
-        msgArea.append(newMsg);
-    }
-
-
-    //메세지 보내기 버튼 눌렀을 떄..
-    function sendMsg() {
-        let content=document.querySelector('.content').value;
-        var talkMsg={"type" : "TALK","roomId":[[${room.roomId}]] ,"sender":"chee","msg":content};
-        socket.send(JSON.stringify(talkMsg));
-    }
-
-    function quit(){
-        var quitMsg={"type" : "QUIT","roomId":[[${room.roomId}]] ,"sender":"chee","msg":""};
-        socket.send(JSON.stringify(quitMsg));
-        socket.close();
-        location.href="/chat/chatList";
-    }
-
+    const token = /*[[${_csrf.token}]]*/ '';
+    console.log(token)
 </script>
 
-</html>
+<form onsubmit="submitWriteForm(this); return false;" method="POST">
+    <input autocomplete="off" type="text" name="writerName" placeholder="작성자 명">
+    <input autocomplete="off" type="text" name="content" placeholder="내용">
+    <input type="submit" value="작성">
+</form>
+
+<div>
+    <ul class="chat__messages">
+        <li th:each="chatMessage : ${room.chatMessages}">
+            <th:block th:text="${chatMessage.name}"></th:block>
+            :
+            (
+            <th:block th:text="${chatMessage.id}"></th:block>
+            )
+            <th:block th:text="${chatMessage.content}"></th:block>
+        </li>
+    </ul>
+</div>
+
+<a onclick="return false;" href="https://www.naver.com">https://www.naver.com</a>
+
+<script th:inline="javascript">
+    const roomId = /*[[${roomId}]]*/ 0;
+    let lastChatMessageId = /*[[${room.chatMessages.size > 0 ? room.chatMessages.first.id : 0}]]*/ 0;
+</script>
+
+<script>
+
+    const chatMessagesEl = document.querySelector('.chat__messages');
+    function submitWriteForm(form) {
+        form.writerName.value = form.writerName.value.trim();
+        var csrfToken = [[${_csrf.token}]];
+
+        if ( form.writerName.value.length == 0 ) {
+            alert('작성자 명을 입력해주세요.');
+            form.writerName.focus();
+            return;
+        }
+
+        form.content.value = form.content.value.trim();
+
+        if ( form.content.value.length == 0 ) {
+            alert('내용을 입력해주세요.');
+            form.content.focus();
+            return;
+        }
+
+        const action = `/chat/room/${roomId}/write`;
+
+        fetch(
+            action,
+            {
+                method: 'POST',
+                headers: {
+                    'accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken,
+                },
+                body: JSON.stringify({
+                    writerName: form.writerName.value,
+                    content: form.content.value,
+                }),
+            }
+        ).catch(error => alert(error));
+
+        form.content.value = '';
+        form.content.focus();
+    }
+    function loadMoreChatMessages() {
+        const action = `/chat/room/${roomId}/messagesAfter/${lastChatMessageId}`;
+
+        fetch(
+            action,
+            {
+                method: 'GET',
+                headers: {
+                    'accept': 'application/json'
+                }
+            }
+        )
+            .then(response => response.json())
+            .then(json => drawMoreChatMessages(json.data.messages))
+            .then(() => setTimeout(loadMoreChatMessages, 500))
+            .catch(error => alert(error));
+    }
+
+    function drawMoreChatMessages(messages) {
+        messages.forEach((message) => {
+            drawMoreChatMessage(message);
+        });
+    }
+
+    function drawMoreChatMessage(message) {
+        lastChatMessageId = message.id;
+
+        chatMessagesEl
+            .insertAdjacentHTML(
+                "afterBegin",
+                `<li>${message.writerName} : ( ${message.id} ) ${message.content}</li>`
+            );
+    }
+
+    loadMoreChatMessages();
+</script>
