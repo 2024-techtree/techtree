@@ -28,6 +28,25 @@
 <!-- ----------------------------------------------- -->
 
 <div class="template-container">
+    <h2>추천 후기</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>제목</th>
+            <th>작성일시</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="review : ${reviewList}">
+            <td th:text="${review.title}"></td>
+            <td th:text="${review.createDate}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="template-container">
+    <h2>전체 후기</h2>
     <table>
         <thead>
         <tr>
