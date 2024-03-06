@@ -1,17 +1,29 @@
 package com.example.techtree.domain.saving.goal.controller;
 
-import com.example.techtree.domain.saving.goal.dto.GoalDto;
-import com.example.techtree.domain.saving.goal.entity.Goal;
-import com.example.techtree.domain.saving.goal.service.GoalService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.example.techtree.domain.saving.goal.dto.GoalDto;
+import com.example.techtree.domain.saving.goal.entity.Goal;
+import com.example.techtree.domain.saving.goal.service.GoalService;
+
+import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
@@ -41,9 +53,29 @@ public class GoalController {
 	}
 
 	@GetMapping("/list")
-	public String savingGoalList(Model model) {
+	public String savingGoalList(@RequestParam(name = "page", defaultValue = "1") int page, Model model) {
 		List<Goal> goals = goalService.getAllPosts();
-		model.addAttribute("goals", goals);
+
+		// 페이지 번호가 1 이하일 경우 0으로 설정
+		int pageIndex = Math.max(page - 1, 0);
+
+		Pageable pageable = PageRequest.of(pageIndex, 10);
+		Page<Goal> savingGoalPage = goalService.findGoals(pageable);
+
+		final int PAGE_BLOCK = 5;
+
+		// 현재 페이지 그룹의 시작 페이지 계산 (1, 6, 11, ...)
+		int startBlockPage = ((pageIndex) / PAGE_BLOCK) * PAGE_BLOCK + 1;
+
+		// 현재 페이지 그룹의 끝 페이지 계산
+		int endBlockPage = savingGoalPage.getTotalPages() > 0 ?
+			Math.min(startBlockPage + PAGE_BLOCK - 1, savingGoalPage.getTotalPages()) : 1;
+
+		model.addAttribute("goals", savingGoalPage.getContent()); // 페이징된 아이템 리스트
+		model.addAttribute("startBlockPage", startBlockPage);
+		model.addAttribute("endBlockPage", endBlockPage);
+		model.addAttribute("currentPage", pageIndex + 1); // 현재 페이지 번호
+		model.addAttribute("totalPages", savingGoalPage.getTotalPages()); // 전체 페이지 수
 		return "domain/saving/saving_goal_list";
 	}
 
