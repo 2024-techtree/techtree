@@ -1,3 +1,6 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+
 <h1 th:text="|${roomId}번 채팅방|"></h1>
 <nav>
     <a href="make">채팅방 생성</a>
@@ -38,10 +41,11 @@
 <script>
 
     const chatMessagesEl = document.querySelector('.chat__messages');
+
     function submitWriteForm(form) {
         form.writerName.value = form.writerName.value.trim();
 
-        if ( form.writerName.value.length == 0 ) {
+        if (form.writerName.value.length == 0) {
             alert('작성자 명을 입력해주세요.');
             form.writerName.focus();
             return;
@@ -49,7 +53,7 @@
 
         form.content.value = form.content.value.trim();
 
-        if ( form.content.value.length == 0 ) {
+        if (form.content.value.length == 0) {
             alert('내용을 입력해주세요.');
             form.content.focus();
             return;
@@ -70,39 +74,13 @@
                     writerName: form.writerName.value,
                     content: form.content.value,
                 }),
-            }
-        ).catch(error => alert(error));
-
+            }).catch(error => alert(error));
         form.content.value = '';
         form.content.focus();
-    }
-    function loadMoreChatMessages() {
-        const action = `/chat/room/${roomId}/messagesAfter/${lastChatMessageId}`;
-
-        fetch(
-            action,
-            {
-                method: 'GET',
-                headers: {
-                    'accept': 'application/json'
-                }
-            }
-        )
-            .then(response => response.json())
-            .then(json => drawMoreChatMessages(json.data.messages))
-            .then(() => setTimeout(loadMoreChatMessages, 500))
-            .catch(error => alert(error));
-    }
-
-    function drawMoreChatMessages(messages) {
-        messages.forEach((message) => {
-            drawMoreChatMessage(message);
-        });
     }
 
     function drawMoreChatMessage(message) {
         lastChatMessageId = message.id;
-
         chatMessagesEl
             .insertAdjacentHTML(
                 "afterBegin",
@@ -110,5 +88,15 @@
             );
     }
 
-    loadMoreChatMessages();
+    const socket = new SockJS('/ws');
+    const stompClient = Stomp.over(socket);
+
+    stompClient.connect({}, function (frame) {
+        console.log('Connected: ' + frame);
+
+        stompClient.subscribe(`/topic/chat/room/${roomId}/messageCreated`, function (data) {
+            const jsonData = JSON.parse(data.body);
+            drawMoreChatMessage(jsonData.data.message);
+        });
+    });
 </script>

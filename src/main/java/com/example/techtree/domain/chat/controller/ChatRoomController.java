@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,7 @@ import java.util.List;
 public class ChatRoomController {
     private final ChatRoomService chatRoomService;
     private final ChatMessageService chatMessageService;
+    private final SimpMessagingTemplate messagingTemplate;
 
     @GetMapping("/{roomId}")
     public String showRoom(
@@ -29,12 +31,12 @@ public class ChatRoomController {
     ) {
         ChatRoom room = chatRoomService.findById(roomId).get();
         model.addAttribute("room", room);
-        return "chat/chatRoom";
+        return "domain/chat/chatRoom";
     }
 
     @GetMapping("/make")
     public String showMake() {
-        return "chat/chatmake";
+        return "domain/chat/chatmake";
     }
 
     @PostMapping("/make")
@@ -51,7 +53,7 @@ public class ChatRoomController {
         List<ChatRoom> chatRooms = chatRoomService.findAll();
         model.addAttribute("chatRooms", chatRooms);
 
-        return "chat/chatList";
+        return "domain/chat/chatList";
     }
 
     @Getter
@@ -64,34 +66,21 @@ public class ChatRoomController {
     @Getter
     @AllArgsConstructor
     public static class WriteResponseBody {
-        private Long chatMessageId;
+        private ChatMessage message;
     }
 
     @PostMapping("/{roomId}/write")
     @ResponseBody
-    public RsData<WriteResponseBody> write(
+    public RsData<?> write(
             @PathVariable final long roomId,
             @RequestBody final WriteRequestBody requestBody
     ) {
         ChatMessage chatMessage = chatRoomService.write(roomId, requestBody.getWriterName(), requestBody.getContent());
 
-        return RsData.of("S-1", "%d번 메시지를 작성하였습니다.".formatted(chatMessage.getId()), new WriteResponseBody(chatMessage.getId()));
-    }
+        RsData<WriteResponseBody> writeRs = RsData.of("S-1", "%d번 메시지를 작성하였습니다.".formatted(chatMessage.getId()), new WriteResponseBody(chatMessage));
 
-    @Getter
-    @AllArgsConstructor
-    public static class GetMessagesAfterResponseBody {
-        private List<ChatMessage> messages;
-    }
+        messagingTemplate.convertAndSend("/topic/chat/room/" + roomId + "/messageCreated", writeRs);
 
-    @GetMapping("/{roomId}/messagesAfter/{afterId}")
-    @ResponseBody
-    public RsData<GetMessagesAfterResponseBody> getMessagesAfter(
-            @PathVariable final long roomId,
-            @PathVariable final long afterId
-    ) {
-        List<ChatMessage> messages = chatMessageService.findByChatRoomIdAndIdAfter(roomId, afterId);
-
-        return RsData.of("S-1", "%d개의 메시지를 가져왔습니다.".formatted(messages.size()), new GetMessagesAfterResponseBody(messages));
+        return RsData.of("S-1", "성공");
     }
 }
