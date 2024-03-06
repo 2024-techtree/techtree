@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.techtree.domain.saving.goal.dto.GoalDto;
 import com.example.techtree.domain.saving.goal.entity.Goal;
 import com.example.techtree.domain.saving.goal.service.GoalService;
-
 import lombok.RequiredArgsConstructor;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -64,4 +66,15 @@ public class GoalController {
 			return ResponseEntity.badRequest().body("삭제를 완료할 수 없습니다.");
 		}
 	}
+
+    @GetMapping("/fetchGoalType")
+    @ResponseBody
+    public ResponseEntity<Map<String, String>> fetchGoalType(@RequestParam String goalName) {
+        String goalType = goalService.getGoalType(goalName);
+
+        Map<String, String> response = new HashMap<>();
+        response.put("goalType", goalType);
+
+        return ResponseEntity.ok(response);
+    }
 }
