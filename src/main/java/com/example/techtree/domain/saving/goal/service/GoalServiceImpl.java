@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.techtree.domain.saving.goal.dao.GoalRepository;
 import com.example.techtree.domain.saving.goal.dto.GoalDto;
 import com.example.techtree.domain.saving.goal.entity.Goal;
+import com.example.techtree.domain.saving.record.dao.RecordRepository;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 public class GoalServiceImpl implements GoalService {
 
 	private final GoalRepository goalRepository;
+	private final RecordRepository recordRepository;
 
 	@Override
 	public Goal savingGoalCreate(GoalDto goalDto) {
@@ -51,8 +53,16 @@ public class GoalServiceImpl implements GoalService {
 	}
 
 	@Override
+	@Transactional
 	public void deleteGoalById(Long saving_goal_id) {
-		goalRepository.deleteById(saving_goal_id);
+		Goal goal = goalRepository.findById(saving_goal_id)
+			.orElseThrow(() -> new EntityNotFoundException("Goal not found with id: " + saving_goal_id));
+
+		// Goal을 참조하는 Record 삭제
+		recordRepository.deleteByGoal(goal);
+
+		// Goal 삭제
+		goalRepository.delete(goal);
 	}
 
 	@Override
