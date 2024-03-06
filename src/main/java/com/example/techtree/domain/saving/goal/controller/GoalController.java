@@ -1,6 +1,8 @@
 package com.example.techtree.domain.saving.goal.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -11,14 +13,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.techtree.domain.saving.goal.dto.GoalDto;
 import com.example.techtree.domain.saving.goal.entity.Goal;
 import com.example.techtree.domain.saving.goal.service.GoalService;
-import lombok.RequiredArgsConstructor;
 
-import java.util.HashMap;
-import java.util.Map;
+import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
@@ -67,14 +69,14 @@ public class GoalController {
 		}
 	}
 
-    @GetMapping("/fetchGoalType")
-    @ResponseBody
-    public ResponseEntity<Map<String, String>> fetchGoalType(@RequestParam String goalName) {
-        String goalType = goalService.getGoalType(goalName);
+	@GetMapping("/fetchGoalType")
+	@ResponseBody
+	public ResponseEntity<Map<String, String>> fetchGoalType(@RequestParam String goalName) {
+		String goalType = goalService.getGoalType(goalName);
 
-        Map<String, String> response = new HashMap<>();
-        response.put("goalType", goalType);
+		Map<String, String> response = new HashMap<>();
+		response.put("goalType", goalType);
 
-        return ResponseEntity.ok(response);
-    }
+		return ResponseEntity.ok(response);
+	}
 }
