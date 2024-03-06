@@ -18,4 +18,5 @@ public interface GoalService
     Goal findByGoalName(String goalName);
 
 
+    String getGoalType(String goalName);
 }

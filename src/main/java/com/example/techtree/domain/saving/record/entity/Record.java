@@ -1,5 +1,6 @@
 package com.example.techtree.domain.saving.record.entity;
 
+import com.example.techtree.domain.saving.goal.entity.Goal;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,19 +16,16 @@ public class Record {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long savingWrite_id;
 
-    // 목표 이름
-    @Column
-    private String goalName;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "saving_goal_id")
+    private Goal goal;
 
     // 저축할 금액
     @Column
     private Long savingPrice;
 
-    //목표 유형
-    @Column
-    private String goalType;
 
-    //저축날짜
+    //저축 날짜
     @Column
     private LocalDate savingDate;
 }

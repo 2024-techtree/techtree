@@ -12,6 +12,5 @@ public interface GoalRepository extends JpaRepository<Goal, Long> {
     List<String> findAllGoalNames();
 
     Goal findByGoalName(String goalName);
-//    @Query("SELECT t.goalType FROM Goal t WHERE t.goalName = :goalName")
-//    String findGoalTypeByGoalName(@Param("goalName") String goalName);
+
 }
