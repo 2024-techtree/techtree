@@ -29,7 +29,7 @@ public class RecordController {
 
 		model.addAttribute("goalNames", goalNames);
 		model.addAttribute("recordDto", new RecordDto());
-		return "domain/record";
+		return "/domain/saving/record_create";
 	}
 
 	// RecordController
