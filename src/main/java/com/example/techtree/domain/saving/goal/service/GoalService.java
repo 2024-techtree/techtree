@@ -18,5 +18,5 @@ public interface GoalService {
 
 	List<Goal> getAllPosts();
 
-    String getGoalType(String goalName);
+	String getGoalType(String goalName);
 }

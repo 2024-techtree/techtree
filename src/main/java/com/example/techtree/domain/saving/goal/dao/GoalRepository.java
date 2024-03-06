@@ -12,6 +12,6 @@ public interface GoalRepository extends JpaRepository<Goal, Long> {
 	@Query("SELECT t.goalName FROM Goal t")
 	List<String> findAllGoalNames();
 
-    Goal findByGoalName(String goalName);
+	Goal findByGoalName(String goalName);
 
 }
