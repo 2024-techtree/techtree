@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- css -->
+    <link rel="stylesheet" href="/css/common/header.css">
+    <link rel="stylesheet" href="/css/common/footer.css">
+    <link rel="stylesheet" href="/css/saving_goal/goal_create.css">
+
+    <!-- 부트 스트랩 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+</head>
+
+<title>저축 목표 수정</title>
+<body>
+
+<!-- ----------------------------------------------- -->
+
+<!-- Template-header 시작 -->
+<header th:replace="~{layout/header :: TechTreeHeader}"></header>
+<!-- Template-header 끝 -->
+
+<!-- ----------------------------------------------- -->
+
+<div class="form-container">
+    <form th:action="@{/saving/goal/modify/{saving_goal_id}(saving_goal_id=${savingGoal.saving_goal_id})}" method="post">
+        <!-- Hidden input field to send the goal ID to the controller -->
+        <input type="hidden" id="saving_goal_id" name="saving_goal_id" th:value="${savingGoal.saving_goal_id}">
+        <label for="goalName">저축 목표 이름:</label>
+        <input type="text" id="goalName" name="goalName" th:value="${savingGoal.goalName}" required maxlength="30">
+        <br>
+
+        <label for="goalType">저축 목표 유형:</label>
+        <select id="goalType" name="goalType" required>
+            <option value="정기 예금" th:selected="${savingGoal.goalType eq '정기 예금'}">정기 예금</option>
+            <option value="정기 적금" th:selected="${savingGoal.goalType eq '정기 적금'}">정기 적금</option>
+            <option value="자유 적금" th:selected="${savingGoal.goalType eq '자유 적금'}">자유 적금</option>
+            <!-- 다른 유형 추가 가능 -->
+        </select>
+        <br>
+
+        <label for="goalPrice">저축 목표 금액:</label>
+        <input type="text" id="goalPrice" name="goalPrice" th:value="${savingGoal.goalPrice}" required maxlength="13">
+        <br>
+
+        <label for="startDate">저축 목표 시작일:</label>
+        <input type="date" id="startDate" name="startDate" th:value="${savingGoal.startDate}" required>
+        <br>
+
+        <label for="endDate">저축 목표 종료일:</label>
+        <input type="date" id="endDate" name="endDate" th:value="${savingGoal.endDate}" required>
+        <br>
+
+        <label for="currentPrice">저축 현재 금액:</label>
+        <input type="text" id="currentPrice" name="currentPrice" th:value="${savingGoal.currentPrice}" required maxlength="13">
+        <br>
+
+        <button class="input-button" type="submit">수정</button>
+    </form>
+</div>
+
+<!-- Template-footer 시작 -->
+<footer th:replace="~{layout/footer :: TechTreeFooter}"></footer>
+<!-- Template-footer 끝 -->
+
+<!-- bootstrap -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+        crossorigin="anonymous" defer></script>
+<!-- js -->
+<script src="/js/layout/header.js" defer></script>
+</body>
+</html>

@@ -24,4 +24,6 @@ public interface GoalService {
 	String getGoalType(String goalName);
 
 	Page<Goal> findGoals(Pageable pageable);
+
+	Goal modifyGoal(Long saving_goal_id, GoalDto goalDto);
 }
