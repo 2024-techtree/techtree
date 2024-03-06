@@ -27,12 +27,12 @@
 
 <div class="form-container">
     <form action="/saving/goal/create" method="post">
-        <label for="goalName">저축 목표 이름:</label>
-        <input type="text" id="goalName" name="goalName" required maxlength="30">
+        <label for="goalName" class="form-label">저축 목표 이름:</label>
+        <input type="text" id="goalName" name="goalName" required maxlength="30" class="form-control">
         <br>
 
-        <label for="goalType">저축 목표 유형:</label>
-        <select id="goalType" name="goalType" required>
+        <label for="goalType" class="form-label">저축 목표 유형:</label>
+        <select id="goalType" name="goalType" required class="form-control">
             <option value="정기 예금">정기 예금</option>
             <option value="정기 적금">정기 적금</option>
             <option value="자유 적금">자유 적금</option>
@@ -40,20 +40,20 @@
         </select>
         <br>
 
-        <label for="goalPrice">저축 목표 금액:</label>
-        <input type="text" id="goalPrice" name="goalPrice" required maxlength="13">
+        <label for="goalPrice" class="form-label">저축 목표 금액:</label>
+        <input type="text" id="goalPrice" name="goalPrice" required maxlength="13" class="form-control">
         <br>
 
-        <label for="startDate">저축 목표 시작일:</label>
-        <input type="date" id="startDate" name="startDate" required>
+        <label for="startDate" class="form-label">저축 목표 시작일:</label>
+        <input type="date" id="startDate" name="startDate" required class="form-control">
         <br>
 
-        <label for="endDate">저축 목표 종료일:</label>
-        <input type="date" id="endDate" name="endDate" required>
+        <label for="endDate" class="form-label">저축 목표 종료일:</label>
+        <input type="date" id="endDate" name="endDate" required class="form-control">
         <br>
 
-        <label for="currentPrice">저축 현재 금액:</label>
-        <input type="text" id="currentPrice" name="currentPrice" required maxlength="13">
+        <label for="currentPrice" class="form-label">저축 현재 금액:</label>
+        <input type="text" id="currentPrice" name="currentPrice" required maxlength="13" class="form-control">
         <br>
 
         <button class="input-button" type="submit">입력</button>
