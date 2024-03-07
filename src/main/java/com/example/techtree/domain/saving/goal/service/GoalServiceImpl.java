@@ -1,19 +1,17 @@
 package com.example.techtree.domain.saving.goal.service;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
+import com.example.techtree.domain.saving.goal.dao.GoalRepository;
+import com.example.techtree.domain.saving.goal.dto.GoalDto;
+import com.example.techtree.domain.saving.goal.entity.Goal;
+import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.techtree.domain.saving.goal.dao.GoalRepository;
-import com.example.techtree.domain.saving.goal.dto.GoalDto;
-import com.example.techtree.domain.saving.goal.entity.Goal;
-
-import jakarta.persistence.EntityNotFoundException;
-import lombok.RequiredArgsConstructor;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
