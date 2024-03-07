@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/css/common/footer.css">
     <link rel="stylesheet" href="/css/common/header.css">
     <link rel="stylesheet" href="/css/template/template.css">
+    <link rel="stylesheet" href="/css/review_list/review_write.css">
 
 
     <!-- 부트 스트랩 -->
@@ -27,7 +28,7 @@
 
 <!-- ----------------------------------------------- -->
 
-<h5 class="my-3 border-bottom pb-2">질문등록</h5>
+<h5 class="my-3 border-bottom pb-2">후기등록</h5>
 <div class="template-container">
     <form th:action="@{/review/create}" th:object="${reviewDto}" method="post">
         <p th:if="${#fields.hasErrors('title')}" th:errors="${reviewDto.title}" class="fieldError"

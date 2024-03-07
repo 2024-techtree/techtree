@@ -1,0 +1,26 @@
+.mb-3 {
+    margin-bottom: 1.5rem;
+}
+
+.form-label {
+    font-size: 1.2rem;
+}
+
+.form-control {
+    font-size: 1.2rem;
+}
+
+.btn-primary {
+    font-size: 1.2rem;
+}
+
+/* 수정한 스타일 */
+.mb-3 label,
+.mb-3 textarea {
+    display: block;
+    width: 1000px;
+}
+
+.mb-3 textarea {
+    resize: horizontal; /* 수직 리사이즈 유지 */
+}

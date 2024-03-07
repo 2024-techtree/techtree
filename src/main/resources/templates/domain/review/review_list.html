@@ -27,7 +27,7 @@
 <!-- ----------------------------------------------- -->
 
 <div class="container mt-4 mb-4">
-    <a th:href="@{/review/create}" class="btn btn-primary mb-3">질문 등록하기</a>
+    <a th:href="@{/review/create}" class="btn btn-primary mb-3">후기 등록하기</a>
 
     <h2>추천 후기</h2>
     <div class="row row-cols-3 g-4">
@@ -54,6 +54,28 @@
             </div>
         </div>
     </div>
+    <!-- 페이징처리 시작 -->
+    <div th:if="${!reviewList.isEmpty()}">
+        <ul class="pagination justify-content-center">
+            <li class="page-item" th:classappend="${!reviewList.hasPrevious} ? 'disabled'">
+                <a class="page-link"
+                   th:href="@{|?review=${reviewList.number-1}|}">
+                    <span>이전</span>
+                </a>
+            </li>
+            <li th:each="review: ${#numbers.sequence(0, reviewList.totalPages-1)}"
+                th:classappend="${review == reviewList.number} ? 'active'"
+                class="page-item">
+                <a th:text="${review}" class="page-link" th:href="@{|?review=${review}|}"></a>
+            </li>
+            <li class="page-item" th:classappend="${!reviewList.hasNext} ? 'disabled'">
+                <a class="page-link" th:href="@{|?review=${reviewList.number+1}|}">
+                    <span>다음</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!-- 페이징처리 끝 -->
 </div>
 
 <!-- Template-Footer 시작 -->
