@@ -13,5 +13,4 @@ public interface GoalRepository extends JpaRepository<Goal, Long> {
 	List<String> findAllGoalNames();
 
 	Goal findByGoalName(String goalName);
-
 }
