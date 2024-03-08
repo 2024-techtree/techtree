@@ -1,5 +1,6 @@
 package com.example.techtree.domain.member.controller;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,8 +11,9 @@ import com.example.techtree.domain.member.service.MemberService;
 
 import jakarta.validation.Valid;
 
+
 @Controller
- @RequestMapping("/member")
+@RequestMapping("/member")
  public class MemberController {
 
 	private final MemberService memberService;
@@ -33,13 +35,25 @@ import jakarta.validation.Valid;
 
 		if (!memberCreateForm.getPassword1().equals(memberCreateForm.getPassword2())) {
 			bindingResult.rejectValue("password2", "passwordInCorrect",
-				"패스워드가 일치하지 않습니다.");
+				"비밀번호가 일치하지 않습니다.");
 			return "signup_form";
+
 		}
 
-		memberService.createMember(memberCreateForm.getUsername(), memberCreateForm.getPassword1(), memberCreateForm.getEmail(), memberCreateForm.getBirthday(), memberCreateForm.getPhoneNumber(), memberCreateForm.getProfile(), memberCreateForm.getProfileImage());
-
-
+		try {
+			memberService.MemberCreate(memberCreateForm.getLogin_id(), memberCreateForm.getUsername(),
+				memberCreateForm.getPassword1(), memberCreateForm.getEmail(), memberCreateForm.getBirthday(),
+				memberCreateForm.getPhoneNumber(), memberCreateForm.getProfile(), memberCreateForm.getProfileImage());
+		}
+		catch(DataIntegrityViolationException e) {
+			e.printStackTrace();
+			bindingResult.reject("signupFailed", "이미 등록된 사용자입니다.");
+			return "signup_form";
+		}catch(Exception e) {
+			e.printStackTrace();
+			bindingResult.reject("signupFailed", e.getMessage());
+			return "signup_form";
+		}
 
 
 		return "redirect:/";

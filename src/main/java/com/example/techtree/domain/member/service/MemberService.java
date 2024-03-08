@@ -17,10 +17,11 @@ public class MemberService {
 	private final MemberRepository memberRepository;
 	private final PasswordEncoder passwordEncoder;
 
-	public Member createMember (String username, String password, String email, LocalDate birthday, String phoneNumber, String profile, String profileImage) {
+	public Member MemberCreate (String login_id,String username, String password, String email, LocalDate birthday, String phoneNumber, String profile, String profileImage) {
 		validateInput(username, password, email);
 		
 		Member member = new Member();
+		member.setLogin_id(login_id);
 		member.setUsername(username);
 		member.setPassword(passwordEncoder.encode(password));
 		member.setEmail(email);

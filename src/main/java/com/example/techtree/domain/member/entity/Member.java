@@ -19,7 +19,9 @@ public class Member {
 	private Long member_id;
 
 	@Column(unique = true)
-	private String username;
+	private  String login_id;
+
+	private String username; //가입한 사람의 이름. 동명이인 고려해 중복 해제
 
 	private String password;
 

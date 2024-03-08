@@ -87,7 +87,7 @@
                                 <a class="dropdown-item" href="/member/login">로그인</a>
                             </li>
                             <li th:if="${#authorization.expression('isAnonymous()')}">
-                                <a class="dropdown-item" href="/member/register">회원가입</a>
+                                <a class="dropdown-item" href="/member/signup">회원가입</a>
                             </li>
                             <li th:if="${#authorization.expression('isAuthenticated()')}">
                                 <a class="dropdown-item" href="/member/logout">로그아웃</a>
