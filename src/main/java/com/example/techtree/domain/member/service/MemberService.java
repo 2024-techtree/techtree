@@ -26,8 +26,8 @@ public class MemberService {
 		member.setPassword(passwordEncoder.encode(password));
 		member.setEmail(email);
 		member.setBirthday(birthday);
-		member.setPhoneNumber(phoneNumber);
-		member.setProfileImage(profileImage);
+		 member.setPhoneNumber(phoneNumber);
+		// member.setProfileImage(profileImage);
 
 		this.memberRepository.save(member);
 		return member;

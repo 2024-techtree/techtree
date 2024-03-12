@@ -18,7 +18,6 @@ public class Member {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long member_id;
 
-	@Column(unique = true)
 	private  String login_id;
 
 	private String username; //가입한 사람의 이름. 동명이인 고려해 중복 해제
@@ -33,6 +32,7 @@ public class Member {
 	@Column(unique = true)
 	private String phoneNumber;
 
+	private String profile; // 프로필 경로
 
 	private String profileImage; // 프로필 이미지 경로
 
