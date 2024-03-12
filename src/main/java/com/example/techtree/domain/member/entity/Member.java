@@ -36,4 +36,5 @@ public class Member {
 
 	private String profileImage; // 프로필 이미지 경로
 
+	private String role;
 }

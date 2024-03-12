@@ -1,4 +1,4 @@
-package com.example.techtree.domain.koreaInvesment.model;
+package com.example.techtree.domain.Investment.model;
 
 import lombok.Getter;
 import lombok.Setter;
