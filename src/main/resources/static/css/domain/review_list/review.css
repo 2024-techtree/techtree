@@ -1,0 +1,39 @@
+.square-card {
+    width: 80%;
+    padding-bottom: 80%;
+    position: relative;
+    overflow: hidden;
+}
+
+.card-title {
+    font-weight: bold; /* 제목을 bold로 */
+}
+
+.square-card .card-body {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 2px solid #495057; /* 경계선 추가 */
+    padding: 15px; /* 내용과 경계선 간격 조정 */
+}
+
+.date {
+    font-size: 0.8rem;
+    color: #6c757d;
+}
+
+.card-content {
+    display: block;
+    margin-bottom: 1rem;
+}
+
+.card-content::before,
+.card-content::after {
+    content: '"';
+    font-size: 1.5em; /* 내용 앞뒤로 큰 따옴표 추가 */
+}
