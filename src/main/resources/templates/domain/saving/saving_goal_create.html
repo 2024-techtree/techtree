@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +7,7 @@
     <!-- css -->
     <link rel="stylesheet" href="/css/common/header.css">
     <link rel="stylesheet" href="/css/common/footer.css">
-    <link rel="stylesheet" href="/css/saving_goal/goal_create.css">
+    <link rel="stylesheet" href="/css/domain/saving/goal_create.css">
 
     <!-- 부트 스트랩 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -26,13 +26,13 @@
 <!-- ----------------------------------------------- -->
 
 <div class="form-container">
-    <form action="/saving/goal/create" method="post">
-        <label for="goalName">저축 목표 이름:</label>
-        <input type="text" id="goalName" name="goalName" required>
+    <form action="/saving/goal/create" method="post" id="savingGoalForm">
+        <label for="goalName" class="form-label">저축 목표 이름 </label>
+        <input type="text" id="goalName" name="goalName" required maxlength="30" class="form-control">
         <br>
 
-        <label for="goalType">저축 목표 유형:</label>
-        <select id="goalType" name="goalType" required>
+        <label for="goalType" class="form-label">저축 목표 유형 </label>
+        <select id="goalType" name="goalType" required class="form-control">
             <option value="정기 예금">정기 예금</option>
             <option value="정기 적금">정기 적금</option>
             <option value="자유 적금">자유 적금</option>
@@ -40,20 +40,20 @@
         </select>
         <br>
 
-        <label for="goalPrice">저축 목표 금액:</label>
-        <input type="number" id="goalPrice" name="goalPrice" required>
+        <label for="goalPrice" class="form-label">저축 목표 금액 </label>
+        <input type="text" id="goalPrice" name="goalPrice" required maxlength="17" class="form-control">
         <br>
 
-        <label for="startDate">저축 목표 시작일:</label>
-        <input type="date" id="startDate" name="startDate" required>
+        <label for="startDate" class="form-label">저축 목표 시작일 </label>
+        <input type="date" id="startDate" name="startDate" required class="form-control">
         <br>
 
-        <label for="endDate">저축 목표 종료일:</label>
-        <input type="date" id="endDate" name="endDate" required>
+        <label for="endDate" class="form-label">저축 목표 종료일 </label>
+        <input type="date" id="endDate" name="endDate" required class="form-control">
         <br>
 
-        <label for="currentPrice">저축 현재 금액:</label>
-        <input type="number" id="currentPrice" name="currentPrice" required>
+        <label for="currentPrice" class="form-label">저축 현재 금액 </label>
+        <input type="text" id="currentPrice" name="currentPrice" required maxlength="17" class="form-control">
         <br>
 
         <button class="input-button" type="submit">입력</button>
@@ -70,5 +70,9 @@
         crossorigin="anonymous" defer></script>
 <!-- js -->
 <script src="/js/layout/header.js" defer></script>
+<script src="/js/saving/goal/create.js" defer></script>
+<script>
+
+</script>
 </body>
 </html>
