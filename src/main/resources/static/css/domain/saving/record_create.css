@@ -44,3 +44,28 @@ form .btn-primary:hover {
     background-color: #0056b3; /* 호버 시 버튼 색상을 변경합니다. */
 }
 
+ #calculatorStyle {
+     background-color: #f2f2f2;
+     border: 1px solid #ddd;
+     width: 400px;
+     padding: 15px;
+     border-radius: 5px;
+ }
+
+#calculatorStyle h2 {
+    color: #4CAF50;
+}
+
+#calculatorStyle .form-group {
+    margin-bottom: 15px;
+}
+
+#calculatorStyle .btn {
+    padding: 10px 15px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
