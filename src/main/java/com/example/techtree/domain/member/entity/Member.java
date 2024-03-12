@@ -33,7 +33,6 @@ public class Member {
 	@Column(unique = true)
 	private String phoneNumber;
 
-	private String profile; // 프로필 경로
 
 	private String profileImage; // 프로필 이미지 경로
 

@@ -19,7 +19,7 @@ public class MemberService {
 
 	public Member MemberCreate (String login_id,String username, String password, String email, LocalDate birthday, String phoneNumber, String profile, String profileImage) {
 		validateInput(username, password, email);
-		
+
 		Member member = new Member();
 		member.setLogin_id(login_id);
 		member.setUsername(username);
@@ -27,7 +27,6 @@ public class MemberService {
 		member.setEmail(email);
 		member.setBirthday(birthday);
 		member.setPhoneNumber(phoneNumber);
-		member.setProfile(profile);
 		member.setProfileImage(profileImage);
 
 		this.memberRepository.save(member);

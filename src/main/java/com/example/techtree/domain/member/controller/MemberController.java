@@ -10,17 +10,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.techtree.domain.member.service.MemberService;
 
 import jakarta.validation.Valid;
-
+import lombok.RequiredArgsConstructor;
 
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/member")
- public class MemberController {
+public class MemberController {
 
 	private final MemberService memberService;
-
-	public MemberController(MemberService memberService) {
-		this.memberService = memberService;
-	}
 
 	@GetMapping("/signup")
 	public String signup(MemberCreateForm memberCreateForm) {
@@ -60,6 +57,3 @@ import jakarta.validation.Valid;
 	}
 
 }
-
-
-
