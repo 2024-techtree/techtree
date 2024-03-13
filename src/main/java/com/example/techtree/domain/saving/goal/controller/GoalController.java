@@ -37,13 +37,18 @@ public class GoalController {
 	private final MemberRepository memberRepository;
 
 	@GetMapping("/create")
-	public String savingGoalCreate() {
-
+	public String savingGoalCreate(Principal principal) {
+		if (principal == null) {
+			return "redirect:/member/login";
+		}
 		return "domain/saving/saving_goal_create";
 	}
 
 	@PostMapping("/create")
 	public String savingGoalCreate(@ModelAttribute GoalDto goalDto, Principal principal) {
+		if (principal == null) {
+			return "redirect:/member/login";
+		}
 		String loginId = principal.getName();
 
 		Long memberId = memberRepository.findByLoginId(loginId)
@@ -65,6 +70,9 @@ public class GoalController {
 	@GetMapping("/list")
 	public String savingGoalList(@RequestParam(name = "page", defaultValue = "1") int page, Model model,
 		Principal principal) {
+		if (principal == null) {
+			return "redirect:/member/login";
+		}
 		List<Goal> goals = goalService.getAllPosts();
 
 		String loginId = principal.getName();
