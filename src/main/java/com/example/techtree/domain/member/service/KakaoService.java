@@ -111,7 +111,7 @@ public class KakaoService {
             String id = obj.get("id").toString();
             String nickname = properties.get("nickname").toString();
             Object profileImgObject = properties.get("profile_image");
-            String profileImg = (profileImgObject != null) ? profileImgObject.toString() : "https://kr.object.ncloudstorage.com/trend-hub-bucket/images/logo.png";  // 프로필 이미지 동의 안할 시 null 값 대신 기본 logo.png로 대체
+            String profileImg = (profileImgObject != null) ? profileImgObject.toString() : "resources/static/images/TechTree.png";  // 프로필 이미지 동의 안할 시 null 값 대신 기본 logo.png로 대체
             System.out.println("profileImg = " + profileImg);
 
             String email = kakaoAccount.get("email").toString();
@@ -187,6 +187,7 @@ public class KakaoService {
                 .loginId(userInfo.getEmail())
                 .profileImage(userInfo.getProfileImg())
                 .username(userInfo.getNickname())
+                .provider(SocialProvider.KAKAO)
                 .build();
 
         return memberRepository.save(member);

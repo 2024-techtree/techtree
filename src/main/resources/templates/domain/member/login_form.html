@@ -20,6 +20,13 @@
         <div class="form-group">
             <button type="submit">로그인</button>
         </div>
+        <a class="p-2"
+           href="https://kauth.kakao.com/oauth/authorize?client_id=bcda04f3dbb1052307427b9508ca0914&redirect_uri=http://localhost:8080/kakao/callback&response_type=code">
+            <div style="display:flex; align-items:center; justify-content: center; width: 350px; height:50px; border: 1px solid black; margin-bottom: 10px;">
+                <img style="width: 40px; height: 40px; margin-right: 5px;" th:src="@{/images/kakao.png}">
+                <div style="font-size: 22px;">카카오 로그인</div>
+            </div>
+        </a>
     </form>
     <div class="login-links">
         <a href="/member/signup">회원가입</a> <!-- 회원가입 페이지로의 링크 -->
