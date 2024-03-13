@@ -60,8 +60,9 @@
 
         <div class="text-start">
             <!-- 계산기 버튼 -->
-            <button type="button" onclick="toggleCalculator()">계산기</button>
+            <button class="calcbtn" type="button" onclick="toggleCalculator()">계산기</button>
         </div>
+
         <div class="text-center">
             <button type="submit" class="btn btn-primary">입력</button>
         </div>
@@ -77,15 +78,22 @@
                 <input type="number" id="principal" class="form-control" required>
             </div>
             <div>
-                <button onclick="addAmount(100000000)" class="btn">1억</button>
-                <button onclick="addAmount(10000000)" class="btn">1천만</button>
-                <button onclick="addAmount(1000000)" class="btn">1백만</button>
-                <button onclick="addAmount(100000)" class="btn">1십만</button>
-                <button onclick="resetAmount()" class="btn">초기화</button>
+                <button class="calbt" onclick="addAmount(100000000)" >1억</button>
+                <button class="calbt" onclick="addAmount(10000000)" >1천만</button>
+                <button class="calbt" onclick="addAmount(1000000)" >1백만</button>
+                <button class="calbt" onclick="addAmount(100000)" >1십만</button>
+                <button class="calbt" onclick="resetAmount()" >초기화</button>
             </div>
             <div class="form-group">
                 <label for="interest">이자율(%):</label>
                 <input type="number" id="interest" class="form-control" required>
+            </div>
+            <div>
+                <button class="calbt" onclick="setInterest(2)" >2%</button>
+                <button class="calbt" onclick="setInterest(3)" >3%</button>
+                <button class="calbt" onclick="setInterest(4)" >4%</button>
+                <button class="calbt" onclick="setInterest(5)" >5%</button>
+                <button class="calbt" onclick="resetInterest()" >초기화</button>
             </div>
 
             <div class="form-group">
@@ -115,42 +123,5 @@
 <input type="hidden" id="baseUrl" th:value="@{'/'}">
 <script src="/js/saving/record/create.js" defer></script>
 <script src="/js/layout/header.js" defer></script>
-<script>
-    function toggleCalculator() {
-        var calculatorArea = document.getElementById("calculatorArea");
-        if (calculatorArea.style.display === "none") {
-            calculatorArea.style.display = "block";
-        } else {
-            calculatorArea.style.display = "none";
-        }
-    }
-
-    var currentPrincipal = 0;
-
-    function addAmount(amount) {
-        // 버튼을 누를 때마다 해당 금액을 현재 원금에 더함
-        currentPrincipal += amount;
-        document.getElementById('principal').value = currentPrincipal;
-    }
-
-    function resetAmount() {
-        // 초기화 버튼을 누를 때 현재 원금을 초기화
-        currentPrincipal = 0;
-        document.getElementById('principal').value = currentPrincipal;
-    }
-    function calculate() {
-        var principal = parseFloat(document.getElementById('principal').value);
-        var interest = parseFloat(document.getElementById('interest').value) / 100;
-        var period = parseInt(document.getElementById('period').value);
-
-        var totalAmount = principal * Math.pow(1 + interest, period);
-        var interestEarned = totalAmount - principal;
-
-        document.getElementById('result').innerHTML = `
-            <p>총액: ${totalAmount.toFixed(2)} 원</p>
-            <p>이자수익: ${interestEarned.toFixed(2)} 원</p>
-        `;
-    }
-</script>
 </body>
 </html>

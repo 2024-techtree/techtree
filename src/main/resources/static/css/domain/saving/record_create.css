@@ -69,3 +69,24 @@ form .btn-primary:hover {
     cursor: pointer;
 }
 
+.calbt{
+    background-color: #888888;
+    color: white;
+    border: none;
+    width: 66px;
+    height: 30px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.calcbtn{
+    background-color: mediumpurple;
+    color: white;
+    border: none;
+    width: 66px;
+    height: 30px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
