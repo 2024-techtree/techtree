@@ -46,7 +46,7 @@ public class KakaoController {
         System.out.println("카카오 아이디 : " + userInfo.getId());
         System.out.println("카카오 유저네임 : " + userInfo.getNickname());
         System.out.println("카카오 이미지 네임 : " + userInfo.getProfileImg());
-        if(userInfo.getProfileImg() == null) userInfo.setProfileImg("https://kr.object.ncloudstorage.com/trend-hub-bucket/images/logo.png");
+        if(userInfo.getProfileImg() == null) userInfo.setProfileImg("src/main/resources/static/images/TechTree.png");
         model.addAttribute("code", code);
         model.addAttribute("access_token", access_token);
         model.addAttribute("userInfo", userInfo);
@@ -54,7 +54,7 @@ public class KakaoController {
 
         Member member = ks.login(userInfo);
 
-        SecurityUser securityUser = new SecurityUser(member.getMember_id(), member.getLoginId(), "", member.getAuthorities());
+        SecurityUser securityUser = new SecurityUser(member.getMemberId(), member.getLoginId(), "", member.getAuthorities());
 
         Authentication authentication =
                 new OAuth2AuthenticationToken(securityUser, securityUser.getAuthorities(), KAKAO.toString());

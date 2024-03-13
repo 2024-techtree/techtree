@@ -1,5 +1,7 @@
 package com.example.techtree.domain.saving.record.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,5 +34,10 @@ public class RecordServiceImpl implements RecordService {
 
 		goal.updateCurrentPrice(recordDto.getSavingPrice());
 		return record;
+	}
+
+	@Override
+	public Page<Record> getAllRecords(Pageable pageable) {
+		return recordRepository.findAll(pageable);
 	}
 }

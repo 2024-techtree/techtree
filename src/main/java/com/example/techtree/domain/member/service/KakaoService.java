@@ -16,7 +16,6 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.util.Optional;
-import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -176,12 +175,12 @@ public class KakaoService {
         }
 
         //랜덤 닉네임 생성
-        Random random = new Random();
+        /*Random random = new Random();
         int randomNumber = random.nextInt(9000) + 1000;
         while (memberRepository.existsByNickname("user_" + randomNumber)) {
             randomNumber = random.nextInt(9000) + 1000;
         }
-        String randomNickname = "user_" + randomNumber;
+        String randomNickname = "user_" + randomNumber;*/
 
         // 강제 회원가입
         Member member = Member.builder()
