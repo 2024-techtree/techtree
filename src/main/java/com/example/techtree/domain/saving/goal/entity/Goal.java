@@ -3,6 +3,7 @@ package com.example.techtree.domain.saving.goal.entity;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import com.example.techtree.domain.member.entity.Member;
 import com.example.techtree.domain.saving.goal.dto.GoalDto;
 
 import jakarta.persistence.Column;
@@ -10,6 +11,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,6 +25,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class Goal {
+
+	@ManyToOne
+	@JoinColumn(name = "memberId")
+	private Member member;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

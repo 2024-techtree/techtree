@@ -9,7 +9,7 @@ import com.example.techtree.domain.saving.goal.dto.GoalDto;
 import com.example.techtree.domain.saving.goal.entity.Goal;
 
 public interface GoalService {
-	Goal savingGoalCreate(GoalDto testDto);
+	Goal savingGoalCreate(GoalDto testDto, Long memberId);
 
 	Goal findGoalById(Long id);
 
@@ -26,4 +26,6 @@ public interface GoalService {
 	Page<Goal> findGoals(Pageable pageable);
 
 	Goal modifyGoal(Long saving_goal_id, GoalDto goalDto);
+
+	Page<Goal> findGoalsByMemberId(Long memberId, Pageable pageable);
 }
