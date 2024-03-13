@@ -2,7 +2,6 @@ package com.example.techtree.domain.saving.goal.controller;
 
 import java.security.Principal;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.data.domain.Page;
@@ -73,7 +72,6 @@ public class GoalController {
 		if (principal == null) {
 			return "redirect:/member/login";
 		}
-		List<Goal> goals = goalService.getAllPosts();
 
 		String loginId = principal.getName();
 
