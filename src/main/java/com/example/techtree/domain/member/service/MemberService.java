@@ -1,14 +1,14 @@
 package com.example.techtree.domain.member.service;
 
-import java.time.LocalDate;
-
+import com.example.techtree.domain.member.dao.MemberRepository;
+import com.example.techtree.domain.member.entity.Member;
+import com.example.techtree.domain.member.entity.SocialProvider;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.example.techtree.domain.member.dao.MemberRepository;
-import com.example.techtree.domain.member.entity.Member;
-
-import lombok.RequiredArgsConstructor;
+import java.time.LocalDate;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 //@Transactional(readOnly = true)
@@ -57,4 +57,7 @@ public class MemberService {
 		}
 	}
 
+	public Optional<Member> findByProviderAndProviderId(SocialProvider provider, String providerId) {
+		return memberRepository.findByProviderAndProviderId(provider, providerId);
+	}
 }

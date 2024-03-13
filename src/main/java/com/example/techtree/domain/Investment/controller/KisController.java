@@ -62,7 +62,10 @@ public class KisController {
                     }
                 });
 
+
+        System.out.println("indicesFlux = " + indicesFlux);
         List<IndexData> indicesList = indicesFlux.collectList().block();
+        System.out.println("indicesList = " + indicesList);
         model.addAttribute("indicesKor", indicesList);
 
         model.addAttribute("jobDate", getJobDateTime());

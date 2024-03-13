@@ -1,17 +1,21 @@
 package com.example.techtree.domain.member.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 @Getter
 @Setter
 @Entity
+@Builder
 public class Member {
 
 	@Id
@@ -37,4 +41,16 @@ public class Member {
 	private String profileImage; // 프로필 이미지 경로
 
 	private String role;
+
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		List<GrantedAuthority> authorities = new ArrayList<>();
+
+		if (this.role != null && this.role.equals("ADMIN")) {
+			authorities.add(new SimpleGrantedAuthority("ADMIN"));
+		}
+		else {
+			authorities.add(new SimpleGrantedAuthority("MEMBER"));
+		}
+		return authorities;
+	}
 }
