@@ -1,9 +1,7 @@
 package com.example.techtree.domain.member.entity;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
@@ -15,14 +13,16 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
 @Builder
+@AllArgsConstructor
 public class Member {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long member_id;
 
-	private  String login_id;
+	private String loginId;
 
 	private String username; //가입한 사람의 이름. 동명이인 고려해 중복 해제
 

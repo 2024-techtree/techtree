@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
 
-
 import static com.example.techtree.domain.member.entity.SocialProvider.KAKAO;
 import static org.springframework.security.web.context.HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY;
 
@@ -36,7 +35,7 @@ public class KakaoController {
     {
         String name = SecurityContextHolder.getContext().getAuthentication().getName();
         System.out.println("name = " + name);
-        return "users/login";
+        return "domain/member/login_form";
     }
 
     @GetMapping("/callback")
@@ -55,7 +54,7 @@ public class KakaoController {
 
         Member member = ks.login(userInfo);
 
-        SecurityUser securityUser = new SecurityUser(member.getMember_id(), member.getLogin_id(), "", member.getAuthorities());
+        SecurityUser securityUser = new SecurityUser(member.getMember_id(), member.getLoginId(), "", member.getAuthorities());
 
         Authentication authentication =
                 new OAuth2AuthenticationToken(securityUser, securityUser.getAuthorities(), KAKAO.toString());

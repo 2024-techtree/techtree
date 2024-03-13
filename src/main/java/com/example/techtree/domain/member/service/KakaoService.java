@@ -185,7 +185,7 @@ public class KakaoService {
 
         // 강제 회원가입
         Member member = Member.builder()
-                .login_id(userInfo.getEmail())
+                .loginId(userInfo.getEmail())
                 .profileImage(userInfo.getProfileImg())
                 .username(userInfo.getNickname())
                 .build();
