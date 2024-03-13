@@ -1,5 +1,7 @@
 package com.example.techtree.domain.member.entity;
 
+import java.time.LocalDate;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -7,7 +9,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
-import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -18,7 +19,7 @@ public class Member {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long member_id;
 
-	private  String login_id;
+	private String loginId;
 
 	private String username; //가입한 사람의 이름. 동명이인 고려해 중복 해제
 
@@ -35,5 +36,4 @@ public class Member {
 	private String profile; // 프로필 경로
 
 	private String profileImage; // 프로필 이미지 경로
-
 }
