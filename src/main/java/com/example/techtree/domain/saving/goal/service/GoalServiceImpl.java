@@ -8,6 +8,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.techtree.domain.member.dao.MemberRepository;
+import com.example.techtree.domain.member.entity.Member;
 import com.example.techtree.domain.saving.goal.dao.GoalRepository;
 import com.example.techtree.domain.saving.goal.dto.GoalDto;
 import com.example.techtree.domain.saving.goal.entity.Goal;
@@ -23,9 +25,13 @@ public class GoalServiceImpl implements GoalService {
 
 	private final GoalRepository goalRepository;
 	private final RecordRepository recordRepository;
+	private final MemberRepository memberRepository;
 
 	@Override
-	public Goal savingGoalCreate(GoalDto goalDto) {
+	public Goal savingGoalCreate(GoalDto goalDto, Long memberId) {
+
+		Member member = memberRepository.findById(memberId)
+			.orElseThrow(() -> new EntityNotFoundException("Member not found with id: " + memberId));
 		Goal goal = Goal.builder()
 			.goalType(goalDto.getGoalType())
 			.goalName(goalDto.getGoalName())
@@ -34,6 +40,7 @@ public class GoalServiceImpl implements GoalService {
 			.endDate(goalDto.getEndDate())
 			.updateDate(LocalDateTime.now()) // 현재 시간으로 업데이트 날짜 설정
 			.currentPrice(goalDto.getCurrentPrice())
+			.member(member)
 			.build();
 		goalRepository.save(goal);
 
