@@ -1,7 +1,12 @@
 package com.example.techtree.domain.member.service;
 
 import java.time.LocalDate;
+import java.util.Collections;
 
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -13,20 +18,21 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 //@Transactional(readOnly = true)
 @Service
-public class MemberService {
+public class MemberService implements UserDetailsService {
 	private final MemberRepository memberRepository;
 	private final PasswordEncoder passwordEncoder;
 
-	public Member MemberCreate (String login_id,String username, String password, String email, LocalDate birthday, String phoneNumber, String profile, String profileImage) {
+	public Member MemberCreate(String loginId, String username, String password, String email, LocalDate birthday,
+		String phoneNumber, String profile) {
 		validateInput(username, password, email);
 
 		Member member = new Member();
-		member.setLogin_id(login_id);
+		member.setLoginId(loginId);
 		member.setUsername(username);
 		member.setPassword(passwordEncoder.encode(password));
 		member.setEmail(email);
 		member.setBirthday(birthday);
-		 member.setPhoneNumber(phoneNumber);
+		// member.setPhoneNumber(phoneNumber);
 		// member.setProfileImage(profileImage);
 
 		this.memberRepository.save(member);
@@ -57,4 +63,10 @@ public class MemberService {
 		}
 	}
 
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		Member member = memberRepository.findByLoginId(username)
+			.orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다: " + username));
+		return new User(member.getLoginId(), member.getPassword(), Collections.emptyList());
+	}
 }
