@@ -37,7 +37,7 @@ public class KakaoService {
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(urlConnection.getOutputStream()));
             StringBuilder sb = new StringBuilder();
             sb.append("grant_type=authorization_code");
-            sb.append("&client_id=bcda04f3dbb1052307427b9508ca0914");
+            sb.append("&client_id=13be5c6666b89220f2b3d5571a7a5414");
             sb.append("&redirect_uri=http://localhost:8080/kakao/callback");
             sb.append("&code=" + code);
 
@@ -166,11 +166,13 @@ public class KakaoService {
     public Member login(KakaoUserInfo userInfo) {
         System.out.println(userInfo);
 
-        Optional<Member> opUser = memberService.findByProviderAndProviderId(SocialProvider.valueOf("KAKAO"), userInfo.getId().toString());
+//        Optional<Member> opUser = memberService.findByProviderAndProviderId(SocialProvider.valueOf("KAKAO"), userInfo.getId().toString());
+        Optional<Member> opUser = memberRepository.findByLoginIdAndProvider(userInfo.getEmail(), userInfo.getProvider());
 
-        System.out.println("opUser 통과");
+        System.out.println("opUser = " + opUser);
 
         if (opUser.isPresent()) {
+            System.out.println("opUser 통과");
             return opUser.get();
         }
 
@@ -182,6 +184,7 @@ public class KakaoService {
         }
         String randomNickname = "user_" + randomNumber;*/
 
+        System.out.println("강제 회원가입 시작");
         // 강제 회원가입
         Member member = Member.builder()
                 .loginId(userInfo.getEmail())

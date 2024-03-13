@@ -1,8 +1,9 @@
 package com.example.techtree.domain.member.service;
 
-import java.time.LocalDate;
-import java.util.Collections;
-
+import com.example.techtree.domain.member.dao.MemberRepository;
+import com.example.techtree.domain.member.entity.Member;
+import com.example.techtree.domain.member.entity.SocialProvider;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -10,14 +11,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.example.techtree.domain.member.dao.MemberRepository;
-import com.example.techtree.domain.member.entity.Member;
-import com.example.techtree.domain.member.entity.SocialProvider;
-import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -71,6 +66,7 @@ public class MemberService implements UserDetailsService {
 	public Optional<Member> findByProviderAndProviderId(SocialProvider provider, String providerId) {
 		return memberRepository.findByProviderAndProviderId(provider, providerId);
 	}
+
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		Member member = memberRepository.findByLoginId(username)

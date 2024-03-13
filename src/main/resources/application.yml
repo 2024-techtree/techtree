@@ -29,10 +29,11 @@ spring:
         registration:
           kakao:
             client-id: NEED_TO_INPUT_ON_SECRET
+            client-secret: QnpaBXc4q7T4rQszadAjQVLoXAyEgbnP
             scope: profile_nickname, profile_image
             client-name: Kakao
             authorization-grant-type: authorization_code
-            redirect-uri: 'http://localhost:8080/{action}/oauth2/code/{registrationId}'
+            redirect-uri: http://localhost:8080/kakao/callback
         provider:
           kakao:
             authorization-uri: https://kauth.kakao.com/oauth/authorize
