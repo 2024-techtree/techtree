@@ -27,7 +27,7 @@ import lombok.NoArgsConstructor;
 public class Goal {
 
 	@ManyToOne
-	@JoinColumn(name = "member_id")
+	@JoinColumn(name = "memberId")
 	private Member member;
 
 	@Id

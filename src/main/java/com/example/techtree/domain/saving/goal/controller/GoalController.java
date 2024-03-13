@@ -48,7 +48,7 @@ public class GoalController {
 
 		Long memberId = memberRepository.findByLoginId(loginId)
 			.orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + loginId))
-			.getMember_id();
+			.getMemberId();
 
 		Goal saveGoal = goalService.savingGoalCreate(goalDto, memberId);
 		return "redirect:/saving/goal/detail/" + saveGoal.getSaving_goal_id();
@@ -63,14 +63,21 @@ public class GoalController {
 	}
 
 	@GetMapping("/list")
-	public String savingGoalList(@RequestParam(name = "page", defaultValue = "1") int page, Model model) {
+	public String savingGoalList(@RequestParam(name = "page", defaultValue = "1") int page, Model model,
+		Principal principal) {
 		List<Goal> goals = goalService.getAllPosts();
+
+		String loginId = principal.getName();
+
+		Long memberId = memberRepository.findByLoginId(loginId)
+			.orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + loginId))
+			.getMemberId();
 
 		// 페이지 번호가 1 이하일 경우 0으로 설정
 		int pageIndex = Math.max(page - 1, 0);
 
 		Pageable pageable = PageRequest.of(pageIndex, 10);
-		Page<Goal> savingGoalPage = goalService.findGoals(pageable);
+		Page<Goal> savingGoalPage = goalService.findGoalsByMemberId(memberId, pageable);
 
 		final int PAGE_BLOCK = 5;
 

@@ -102,4 +102,9 @@ public class GoalServiceImpl implements GoalService {
 
 		return goalRepository.save(modifiedGoal);
 	}
+
+	@Override
+	public Page<Goal> findGoalsByMemberId(Long memberId, Pageable pageable) {
+		return goalRepository.findByMemberMemberId(memberId, pageable);
+	}
 }

@@ -26,4 +26,6 @@ public interface GoalService {
 	Page<Goal> findGoals(Pageable pageable);
 
 	Goal modifyGoal(Long saving_goal_id, GoalDto goalDto);
+
+	Page<Goal> findGoalsByMemberId(Long memberId, Pageable pageable);
 }
