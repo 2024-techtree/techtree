@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.techtree.domain.member.service.MemberService;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -20,6 +19,11 @@ import lombok.RequiredArgsConstructor;
 public class MemberController {
 
 	private final MemberService memberService;
+
+	@GetMapping("/login")
+	public String loginForm() {
+		return "domain/member/login_form"; // 로그인 폼 페이지 반환
+	}
 
 	@GetMapping("/signup")
 	public String signup(MemberCreateForm memberCreateForm, Model model) {
@@ -41,20 +45,18 @@ public class MemberController {
 		}
 
 		try {
-			memberService.MemberCreate(memberCreateForm.getLogin_id(), memberCreateForm.getUsername(),
+			memberService.MemberCreate(memberCreateForm.getLoginId(), memberCreateForm.getUsername(),
 				memberCreateForm.getPassword1(), memberCreateForm.getEmail(), memberCreateForm.getBirthday(),
-				memberCreateForm.getPhoneNumber(), memberCreateForm.getProfile(), memberCreateForm.getProfileImage());
-		}
-		catch(DataIntegrityViolationException e) {
+				memberCreateForm.getPhoneNumber(), memberCreateForm.getProfile());
+		} catch (DataIntegrityViolationException e) {
 			e.printStackTrace();
 			bindingResult.reject("signupFailed", "이미 등록된 사용자입니다.");
 			return "signup_form";
-		}catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			bindingResult.reject("signupFailed", e.getMessage());
 			return "signup_form";
 		}
-
 
 		return "redirect:/";
 	}

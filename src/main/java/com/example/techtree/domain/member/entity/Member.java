@@ -1,13 +1,20 @@
 package com.example.techtree.domain.member.entity;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.example.techtree.domain.saving.goal.entity.Goal;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.Setter;
-import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -16,9 +23,9 @@ public class Member {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long member_id;
+	private Long memberId;
 
-	private  String login_id;
+	private String loginId;
 
 	private String username; //가입한 사람의 이름. 동명이인 고려해 중복 해제
 
@@ -36,4 +43,6 @@ public class Member {
 
 	private String profileImage; // 프로필 이미지 경로
 
+	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Goal> goals = new ArrayList<>();
 }

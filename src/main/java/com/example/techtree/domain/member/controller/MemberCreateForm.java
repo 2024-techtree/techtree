@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
-
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,7 +18,7 @@ public class MemberCreateForm {
 
 	@Size(min = 3, max = 25, message = "로그인ID는 3자 이상 25자 이하여야 합니다.")
 	@NotEmpty(message = "로그인ID는 필수항목입니다.")
-	private String login_id;
+	private String loginId;
 
 	@NotEmpty(message = "비밀번호는 필수항목입니다.")
 	private String password1;

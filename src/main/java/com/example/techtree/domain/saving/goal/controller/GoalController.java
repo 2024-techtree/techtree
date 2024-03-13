@@ -1,13 +1,14 @@
 package com.example.techtree.domain.saving.goal.controller;
 
+import java.security.Principal;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.techtree.domain.member.dao.MemberRepository;
 import com.example.techtree.domain.saving.goal.dto.GoalDto;
 import com.example.techtree.domain.saving.goal.entity.Goal;
 import com.example.techtree.domain.saving.goal.service.GoalService;
@@ -31,16 +33,28 @@ import lombok.RequiredArgsConstructor;
 public class GoalController {
 
 	private final GoalService goalService;
+	private final MemberRepository memberRepository;
 
 	@GetMapping("/create")
-	public String savingGoalCreate() {
-
+	public String savingGoalCreate(Principal principal) {
+		if (principal == null) {
+			return "redirect:/member/login";
+		}
 		return "domain/saving/saving_goal_create";
 	}
 
 	@PostMapping("/create")
-	public String savingGoalCreate(@ModelAttribute GoalDto goalDto) {
-		Goal saveGoal = goalService.savingGoalCreate(goalDto);
+	public String savingGoalCreate(@ModelAttribute GoalDto goalDto, Principal principal) {
+		if (principal == null) {
+			return "redirect:/member/login";
+		}
+		String loginId = principal.getName();
+
+		Long memberId = memberRepository.findByLoginId(loginId)
+			.orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + loginId))
+			.getMemberId();
+
+		Goal saveGoal = goalService.savingGoalCreate(goalDto, memberId);
 		return "redirect:/saving/goal/detail/" + saveGoal.getSaving_goal_id();
 	}
 
@@ -53,14 +67,23 @@ public class GoalController {
 	}
 
 	@GetMapping("/list")
-	public String savingGoalList(@RequestParam(name = "page", defaultValue = "1") int page, Model model) {
-		List<Goal> goals = goalService.getAllPosts();
+	public String savingGoalList(@RequestParam(name = "page", defaultValue = "1") int page, Model model,
+		Principal principal) {
+		if (principal == null) {
+			return "redirect:/member/login";
+		}
+
+		String loginId = principal.getName();
+
+		Long memberId = memberRepository.findByLoginId(loginId)
+			.orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + loginId))
+			.getMemberId();
 
 		// 페이지 번호가 1 이하일 경우 0으로 설정
 		int pageIndex = Math.max(page - 1, 0);
 
 		Pageable pageable = PageRequest.of(pageIndex, 10);
-		Page<Goal> savingGoalPage = goalService.findGoals(pageable);
+		Page<Goal> savingGoalPage = goalService.findGoalsByMemberId(memberId, pageable);
 
 		final int PAGE_BLOCK = 5;
 
