@@ -1,22 +1,20 @@
 package com.example.techtree.domain.saving.goal.service;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.example.techtree.domain.member.dao.MemberRepository;
 import com.example.techtree.domain.member.entity.Member;
 import com.example.techtree.domain.saving.goal.dao.GoalRepository;
 import com.example.techtree.domain.saving.goal.dto.GoalDto;
 import com.example.techtree.domain.saving.goal.entity.Goal;
 import com.example.techtree.domain.saving.record.dao.RecordRepository;
-
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -55,15 +53,15 @@ public class GoalServiceImpl implements GoalService {
 	}
 
 	@Override
-	public List<String> getAllGoalNames() {
-		return goalRepository.findAllGoalNames();
+	public List<String> getAllGoalNames(Long memberId) {
+		return goalRepository.findAllGoalNamesByMemberId(memberId);
 	}
 
 	@Override
 	@Transactional
-	public void deleteGoalById(Long saving_goal_id) {
-		Goal goal = goalRepository.findById(saving_goal_id)
-			.orElseThrow(() -> new EntityNotFoundException("Goal not found with id: " + saving_goal_id));
+	public void deleteGoalById(Long savingGoalId) {
+		Goal goal = goalRepository.findById(savingGoalId)
+			.orElseThrow(() -> new EntityNotFoundException("Goal not found with id: " + savingGoalId));
 
 		// Goal을 참조하는 Record 삭제
 		recordRepository.deleteByGoal(goal);
@@ -93,9 +91,9 @@ public class GoalServiceImpl implements GoalService {
 	}
 
 	@Override
-	public Goal modifyGoal(Long saving_goal_id, GoalDto goalDto) {
-		Goal existingGoal = goalRepository.findById(saving_goal_id)
-			.orElseThrow(() -> new EntityNotFoundException("Goal not found with id: " + saving_goal_id));
+	public Goal modifyGoal(Long savingGoalId, GoalDto goalDto) {
+		Goal existingGoal = goalRepository.findById(savingGoalId)
+			.orElseThrow(() -> new EntityNotFoundException("Goal not found with id: " + savingGoalId));
 
 		// Goal 엔티티 수정을 빌더 패턴으로 진행합니다.
 		Goal modifiedGoal = Goal.modifyGoal(existingGoal, goalDto);
@@ -107,4 +105,6 @@ public class GoalServiceImpl implements GoalService {
 	public Page<Goal> findGoalsByMemberId(Long memberId, Pageable pageable) {
 		return goalRepository.findByMemberMemberId(memberId, pageable);
 	}
+
+
 }

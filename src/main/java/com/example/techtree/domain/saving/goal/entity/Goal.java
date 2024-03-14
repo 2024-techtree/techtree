@@ -1,23 +1,12 @@
 package com.example.techtree.domain.saving.goal.entity;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
 import com.example.techtree.domain.member.entity.Member;
 import com.example.techtree.domain.saving.goal.dto.GoalDto;
+import jakarta.persistence.*;
+import lombok.*;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Entity
@@ -32,7 +21,7 @@ public class Goal {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long saving_goal_id;
+	private Long savingGoalId;
 
 	//저축 목표 이름
 	@Column(columnDefinition = "TEXT")
@@ -67,7 +56,7 @@ public class Goal {
 
 	public static Goal modifyGoal(Goal existingGoal, GoalDto goalDto) {
 		return Goal.builder()
-			.saving_goal_id(existingGoal.getSaving_goal_id())
+			.savingGoalId(existingGoal.getSavingGoalId())
 			.goalName(goalDto.getGoalName())
 			.goalType(goalDto.getGoalType())
 			.startDate(goalDto.getStartDate())

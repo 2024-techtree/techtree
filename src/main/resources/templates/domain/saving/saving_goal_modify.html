@@ -26,10 +26,10 @@
 <!-- ----------------------------------------------- -->
 
 <div class="form-container">
-    <form th:action="@{/saving/goal/modify/{saving_goal_id}(saving_goal_id=${savingGoal.saving_goal_id})}"
+    <form th:action="@{/saving/goal/modify/{savingGoalId}(savingGoalId=${savingGoal.savingGoalId})}"
           method="post">
         <!-- Hidden input field to send the goal ID to the controller -->
-        <input type="hidden" id="saving_goal_id" name="saving_goal_id" th:value="${savingGoal.saving_goal_id}">
+        <input type="hidden" id="savingGoalId" name="savingGoalId" th:value="${savingGoal.savingGoalId}">
         <label for="goalName">저축 목표 이름:</label>
         <input type="text" id="goalName" name="goalName" th:value="${savingGoal.goalName}" required maxlength="30">
         <br>
