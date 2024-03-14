@@ -32,6 +32,7 @@ public class MemberService implements UserDetailsService {
 		member.setPassword(passwordEncoder.encode(password));
 		member.setEmail(email);
 		member.setBirthday(birthday);
+		member.setProvider(SocialProvider.APP);
 		// member.setPhoneNumber(phoneNumber);
 		// member.setProfileImage(profileImage);
 
