@@ -59,3 +59,32 @@ document.addEventListener("DOMContentLoaded", function () {
         currentPriceInput.value = currentPriceInput.value.replace(/,/g, '');
     });
 });
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('savingGoalForm');
+
+    form.addEventListener('submit', function (event) {
+        const goalPriceInput = document.getElementById('goalPrice');
+        const currentPriceInput = document.getElementById('currentPrice');
+
+        // 콤마를 제거한 숫자만 비교를 위해 추출
+        const goalPrice = parseInt(goalPriceInput.value.replace(/,/g, ''), 10);
+        const currentPrice = parseInt(currentPriceInput.value.replace(/,/g, ''), 10);
+
+        // 저축 목표 금액과 저축 현재 금액 비교
+        if (currentPrice > goalPrice) {
+            // 저축 현재 금액이 목표 금액보다 클 경우, 폼 제출을 방지하고 사용자에게 경고
+            alert('저축 현재 금액은 저축 목표 금액을 초과할 수 없습니다.');
+            event.preventDefault(); // 폼 제출 방지
+            // 알람 후에도 입력 필드의 형식을 유지
+            goalPriceInput.value = formatNumberToCurrency(goalPriceInput.value.replace(/,/g, ''));
+            currentPriceInput.value = formatNumberToCurrency(currentPriceInput.value.replace(/,/g, ''));
+        } else {
+            // 폼 제출 시 콤마 제거
+            goalPriceInput.value = goalPriceInput.value.replace(/,/g, '');
+            currentPriceInput.value = currentPriceInput.value.replace(/,/g, '');
+        }
+    });
+});
+
