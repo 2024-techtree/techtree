@@ -1,24 +1,24 @@
 package com.example.techtree.domain.member.entity;
 
+import com.example.techtree.domain.saving.goal.entity.Goal;
+import jakarta.persistence.*;
+import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
-import com.example.techtree.domain.saving.goal.entity.Goal;
-
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import lombok.Getter;
-import lombok.Setter;
+import static jakarta.persistence.EnumType.STRING;
 
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
+@Builder
+@AllArgsConstructor
 public class Member {
 
 	@Id
@@ -45,4 +45,22 @@ public class Member {
 
 	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Goal> goals = new ArrayList<>();
+
+	@Enumerated(STRING)
+	private SocialProvider provider;    // 카카오 기준으로 값 넣기, 없다면 null
+	private String providerId;  // 소셜 전용 ID 변수
+
+	private String role;
+
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		List<GrantedAuthority> authorities = new ArrayList<>();
+
+		if (this.role != null && this.role.equals("ADMIN")) {
+			authorities.add(new SimpleGrantedAuthority("ADMIN"));
+		}
+		else {
+			authorities.add(new SimpleGrantedAuthority("MEMBER"));
+		}
+		return authorities;
+	}
 }
