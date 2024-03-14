@@ -1,8 +1,8 @@
 package com.example.techtree.global.security;
 
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-
+import com.example.techtree.domain.member.service.CustomOAuth2UserService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -13,10 +13,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+
 @Configuration
 @EnableMethodSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
 
+	@Autowired
+	private final CustomOAuth2UserService customOAuth2UserService;
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http
@@ -70,7 +76,9 @@ public class SecurityConfig {
 				.invalidateHttpSession(true) // 세션 무효화
 				.deleteCookies("JSESSIONID") // 쿠키 삭제
 				.permitAll()
-			);
+			).oauth2Login(oauth2 -> oauth2
+						.userInfoEndpoint(userInfo -> userInfo
+								.userService(customOAuth2UserService)));
 
 		return http.build();
 	}

@@ -50,7 +50,9 @@ public class Member {
 	private SocialProvider provider;    // 카카오 기준으로 값 넣기, 없다면 null
 	private String providerId;  // 소셜 전용 ID 변수
 
-	private String role;
+	@Enumerated(STRING)
+	@Column(nullable = false)
+	private Role role;
 
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		List<GrantedAuthority> authorities = new ArrayList<>();
@@ -62,5 +64,12 @@ public class Member {
 			authorities.add(new SimpleGrantedAuthority("MEMBER"));
 		}
 		return authorities;
+	}
+
+	public Member update(String name, String picture) {
+		this.username = name;
+		this.profileImage = picture;
+
+		return this;
 	}
 }

@@ -27,6 +27,16 @@
                 <div style="font-size: 22px;">카카오 로그인</div>
             </div>
         </a>
+        <!--<a class="login_sns_icon"  th:href="@{https://accounts.google.com/o/oauth2/v2/auth(response_type = 'code', client_id = ${googleClientId},
+	redirect_uri = 'http://localhost:8080/login/oauth2/code/google',
+	scope = 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email')}">
+            <i class="fa-brands fa-google">
+            </i> 구글 로그인
+        </a>-->
+        <a class="login_sns_icon"  href="/oauth2/authorization/google">
+            <i class="fa-brands fa-google">
+            </i> 구글 로그인
+        </a>
     </form>
     <div class="login-links">
         <a href="/member/signup">회원가입</a> <!-- 회원가입 페이지로의 링크 -->

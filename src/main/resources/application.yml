@@ -1,7 +1,7 @@
 spring:
   profiles:
     active: dev
-    include: secret
+    include: private
   servlet:
     multipart.max-file-size: 100MB
     multipart:
@@ -29,7 +29,7 @@ spring:
         registration:
           kakao:
             client-id: NEED_TO_INPUT_ON_SECRET
-            client-secret: QnpaBXc4q7T4rQszadAjQVLoXAyEgbnP
+            client-secret:
             scope: profile_nickname, profile_image
             client-name: Kakao
             authorization-grant-type: authorization_code
