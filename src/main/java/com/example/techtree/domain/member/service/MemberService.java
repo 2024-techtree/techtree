@@ -2,6 +2,7 @@ package com.example.techtree.domain.member.service;
 
 import com.example.techtree.domain.member.dao.MemberRepository;
 import com.example.techtree.domain.member.entity.Member;
+import com.example.techtree.domain.member.entity.Role;
 import com.example.techtree.domain.member.entity.SocialProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.User;
@@ -32,6 +33,7 @@ public class MemberService implements UserDetailsService {
 		member.setEmail(email);
 		member.setBirthday(birthday);
 		member.setProvider(SocialProvider.APP);
+		member.setRole(Role.USER);
 		// member.setPhoneNumber(phoneNumber);
 		// member.setProfileImage(profileImage);
 

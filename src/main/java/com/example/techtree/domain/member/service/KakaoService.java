@@ -193,6 +193,7 @@ public class KakaoService {
                 .username(userInfo.getNickname())
                 .provider(SocialProvider.KAKAO)
                 .role(Role.USER)
+                .email(userInfo.getEmail())
                 .build();
 
         return memberRepository.save(member);
