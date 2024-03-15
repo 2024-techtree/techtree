@@ -22,7 +22,7 @@ public class Member {
 	private String loginId;
 	private String username; //가입한 사람의 이름. 동명이인 고려해 중복 해제
 	private String password;
-	/*@Column(unique = true)*/
+	@Column(unique = true)
 	private String email;
 	private LocalDate birthday;
 	@Column(unique = true)
