@@ -40,17 +40,11 @@ public class KakaoController {
 
     @GetMapping("/callback")
     public String getCI(@RequestParam String code, Model model, HttpServletRequest request, HttpServletResponse response) throws IOException {
-        System.out.println("code = " + code);
         String access_token = ks.getToken(code);
         KakaoUserInfo userInfo = ks.getUserInfo(access_token);
-        System.out.println("카카오 아이디 : " + userInfo.getId());
-        System.out.println("카카오 유저네임 : " + userInfo.getNickname());
-        System.out.println("카카오 이미지 네임 : " + userInfo.getProfileImg());
-        if(userInfo.getProfileImg() == null) userInfo.setProfileImg("src/main/resources/static/images/TechTree.png");
         model.addAttribute("code", code);
         model.addAttribute("access_token", access_token);
         model.addAttribute("userInfo", userInfo);
-        System.out.println("userInfo = " + userInfo);
 
         Member member = ks.login(userInfo);
 
