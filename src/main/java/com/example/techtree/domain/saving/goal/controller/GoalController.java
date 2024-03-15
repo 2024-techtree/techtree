@@ -1,10 +1,11 @@
 package com.example.techtree.domain.saving.goal.controller;
 
-import com.example.techtree.domain.member.dao.MemberRepository;
-import com.example.techtree.domain.saving.goal.dto.GoalDto;
-import com.example.techtree.domain.saving.goal.entity.Goal;
-import com.example.techtree.domain.saving.goal.service.GoalService;
-import lombok.RequiredArgsConstructor;
+import java.security.Principal;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -12,13 +13,21 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.security.Principal;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import com.example.techtree.domain.member.dao.MemberRepository;
+import com.example.techtree.domain.saving.goal.dto.GoalDto;
+import com.example.techtree.domain.saving.goal.entity.Goal;
+import com.example.techtree.domain.saving.goal.service.GoalService;
+
+import lombok.RequiredArgsConstructor;
 
 @Controller
 @RequiredArgsConstructor
@@ -46,6 +55,12 @@ public class GoalController {
 		Long memberId = memberRepository.findByLoginId(loginId)
 			.orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + loginId))
 			.getMemberId();
+
+		if (goalService.isDuplicateGoalName(goalDto.getGoalName(), memberId)) {
+			// 여기서는 간단히 리다이렉트를 수행하지만, 실제로는 오류 메시지를 사용자에게 보여주어야 할 수 있습니다.
+			// 예를 들어, RedirectAttributes를 사용하여 플래시 속성에 오류 메시지를 추가할 수 있습니다.
+			return "redirect:/saving/goal/create?error=duplicate";
+		}
 
 		Goal saveGoal = goalService.savingGoalCreate(goalDto, memberId);
 		return "redirect:/saving/goal/detail/" + saveGoal.getSavingGoalId();
@@ -113,8 +128,8 @@ public class GoalController {
 	public ResponseEntity<Map<String, String>> fetchGoalType(@RequestParam String goalName, Principal principal) {
 		String loginId = principal.getName();
 		Long memberId = memberRepository.findByLoginId(loginId)
-				.orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + loginId))
-				.getMemberId();
+			.orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + loginId))
+			.getMemberId();
 
 		String goalType = goalService.getGoalType(goalName, memberId);
 
