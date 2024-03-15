@@ -15,6 +15,7 @@ public class OAuthAttributes {
     private final String name;
     private final String email;
     private final String picture;
+    private final SocialProvider provider;
 
     @Builder
     public OAuthAttributes(Map<String, Object> attributes, String nameAttributeKey, String name, String email, String picture) {
@@ -23,6 +24,7 @@ public class OAuthAttributes {
         this.name = name;
         this.email = email;
         this.picture = picture;
+        this.provider = SocialProvider.GOOGLE;
     }
 
     public static OAuthAttributes of(String registrationId, String userNameAttributeName, Map<String, Object> attributes) {
