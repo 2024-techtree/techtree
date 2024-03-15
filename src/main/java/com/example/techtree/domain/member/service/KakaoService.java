@@ -108,7 +108,7 @@ public class KakaoService {
             String id = obj.get("id").toString();
             String nickname = properties.get("nickname").toString();
             Object profileImgObject = properties.get("profile_image");
-            String profileImg = (profileImgObject != null) ? profileImgObject.toString() : "resources/static/images/TechTree.png";  // 프로필 이미지 동의 안할 시 null 값 대신 기본 logo.png로 대체
+            String profileImg = (profileImgObject != null) ? profileImgObject.toString() : null;  // 프로필 이미지 동의 안할 시 null 값 대신 기본 logo.png로 대체
 
             String email = kakaoAccount.get("email").toString();
 
