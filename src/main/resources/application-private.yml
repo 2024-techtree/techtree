@@ -1,0 +1,12 @@
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            client-id: 13be5c6666b89220f2b3d5571a7a5414
+          google:
+            client-id: 976103141031-d5v0g4mh9ml8dq7rhtju6f4a86clkadl.apps.googleusercontent.com
+            client-secret: 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
+            redirect-uri: http://localhost:8080/login/oauth2/code/google
+            scope: profile,email

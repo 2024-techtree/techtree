@@ -1,0 +1,70 @@
+/* stock-page.css */
+
+/* 전체 페이지 스타일링 */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+}
+
+.template-container {
+    margin: 20px;
+}
+
+/* 조회시간 스타일링 */
+div.template-container > div:nth-child(3) {
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #495057;
+}
+
+/* 카드 스타일링 */
+.card {
+    margin-top: 20px;
+}
+
+.card-header {
+    background-color: #007bff;
+    color: #ffffff;
+    border: 1px solid #007bff;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+/* 테이블 스타일링 */
+.table {
+    font-size: 14px;
+}
+
+/* 주식 정보 행 스타일링 */
+.table tbody tr {
+    border-bottom: 1px solid #dee2e6;
+}
+
+/* 셀 스타일링 */
+.table tbody td {
+    padding: 10px;
+}
+
+/* 셀 내용 정렬 및 간격 조정 */
+.table tbody td:nth-child(2),
+.table tbody td:nth-child(4) {
+    text-align: right;
+}
+
+/* 빨간색과 파란색 글자 스타일링 */
+.table tbody td:nth-child(3),
+.table tbody td:nth-child(4) {
+    font-weight: bold;
+}
+
+.color-red {
+    color: red;
+}
+
+.color-blue {
+    color: blue;
+}

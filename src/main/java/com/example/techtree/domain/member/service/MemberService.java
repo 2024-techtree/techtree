@@ -1,8 +1,10 @@
 package com.example.techtree.domain.member.service;
 
-import java.time.LocalDate;
-import java.util.Collections;
-
+import com.example.techtree.domain.member.dao.MemberRepository;
+import com.example.techtree.domain.member.entity.Member;
+import com.example.techtree.domain.member.entity.Role;
+import com.example.techtree.domain.member.entity.SocialProvider;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -10,10 +12,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.example.techtree.domain.member.dao.MemberRepository;
-import com.example.techtree.domain.member.entity.Member;
-
-import lombok.RequiredArgsConstructor;
+import java.time.LocalDate;
+import java.util.Collections;
 
 @RequiredArgsConstructor
 //@Transactional(readOnly = true)
@@ -32,6 +32,8 @@ public class MemberService implements UserDetailsService {
 		member.setPassword(passwordEncoder.encode(password));
 		member.setEmail(email);
 		member.setBirthday(birthday);
+		member.setProvider(SocialProvider.APP);
+		member.setRole(Role.USER);
 		// member.setPhoneNumber(phoneNumber);
 		// member.setProfileImage(profileImage);
 
