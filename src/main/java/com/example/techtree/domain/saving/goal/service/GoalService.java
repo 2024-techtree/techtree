@@ -20,7 +20,6 @@ public interface GoalService {
 
 	List<Goal> getAllPosts();
 
-	String getGoalType(String goalName);
 
 	Page<Goal> findGoals(Pageable pageable);
 
@@ -28,4 +27,5 @@ public interface GoalService {
 
 	Page<Goal> findGoalsByMemberId(Long memberId, Pageable pageable);
 
+	String getGoalType(String goalName, Long memberId);
 }

@@ -80,8 +80,9 @@ public class GoalServiceImpl implements GoalService {
 		return goalRepository.findAll();
 	}
 
-	public String getGoalType(String goalName) {
-		Goal goal = goalRepository.findByGoalName(goalName);
+	@Override
+	public String getGoalType(String goalName, Long memberId) {
+		Goal goal = goalRepository.findByGoalNameAndMember_MemberId(goalName, memberId);
 		return goal != null ? goal.getGoalType() : "";
 	}
 
