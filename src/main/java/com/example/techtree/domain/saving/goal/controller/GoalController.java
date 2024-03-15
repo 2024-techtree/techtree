@@ -2,7 +2,9 @@ package com.example.techtree.domain.saving.goal.controller;
 
 import java.security.Principal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -150,5 +152,31 @@ public class GoalController {
 			// 에러 페이지 또는 적절한 처리를 여기에 추가할 수 있습니다.
 			return "error"; // 예시로 에러 페이지로 리다이렉트
 		}
+	}
+
+	@GetMapping("/dashboard")
+	public String savingGoalDashboard(Model model, Principal principal) {
+		if (principal == null) {
+			return "redirect:/member/login";
+		}
+		String loginId = principal.getName();
+
+		Long memberId = memberRepository.findByLoginId(loginId)
+			.orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + loginId))
+			.getMemberId();
+
+		List<Goal> goals = goalService.findGoalsByMemberId(memberId, Pageable.unpaged()).getContent();
+
+		// Java 8 스트림을 사용하여 데이터 가공
+		List<String> goalNames = goals.stream().map(Goal::getGoalName).collect(Collectors.toList());
+		List<Long> currentPrices = goals.stream().map(Goal::getCurrentPrice).collect(Collectors.toList());
+		List<Long> goalPrices = goals.stream().map(Goal::getGoalPrice).collect(Collectors.toList());
+
+		// 가공된 데이터를 모델에 추가
+		model.addAttribute("goalNames", goalNames);
+		model.addAttribute("currentPrices", currentPrices);
+		model.addAttribute("goalPrices", goalPrices);
+
+		return "domain/mypage/dashboard";
 	}
 }

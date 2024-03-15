@@ -77,4 +77,8 @@ public class Goal {
 			.updateDate(LocalDateTime.now())
 			.build();
 	}
+
+	public double getAchievementRate() {
+		return (double)currentPrice / goalPrice * 100;
+	}
 }
