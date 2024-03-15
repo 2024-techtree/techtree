@@ -1,21 +1,20 @@
 package com.example.techtree.domain.saving.goal.service;
 
-import java.util.List;
-
+import com.example.techtree.domain.saving.goal.dto.GoalDto;
+import com.example.techtree.domain.saving.goal.entity.Goal;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import com.example.techtree.domain.saving.goal.dto.GoalDto;
-import com.example.techtree.domain.saving.goal.entity.Goal;
+import java.util.List;
 
 public interface GoalService {
 	Goal savingGoalCreate(GoalDto testDto, Long memberId);
 
 	Goal findGoalById(Long id);
 
-	List<String> getAllGoalNames();
+	List<String> getAllGoalNames(Long memberId);
 
-	void deleteGoalById(Long saving_goal_id);
+	void deleteGoalById(Long savingGoalId);
 
 	Goal findByGoalName(String goalName);
 
@@ -25,7 +24,8 @@ public interface GoalService {
 
 	Page<Goal> findGoals(Pageable pageable);
 
-	Goal modifyGoal(Long saving_goal_id, GoalDto goalDto);
+	Goal modifyGoal(Long savingGoalId, GoalDto goalDto);
 
 	Page<Goal> findGoalsByMemberId(Long memberId, Pageable pageable);
+
 }
