@@ -1,5 +1,8 @@
-package com.example.techtree.domain.member.entity;
+package com.example.techtree.domain.member.dto;
 
+import com.example.techtree.domain.member.entity.Member;
+import com.example.techtree.domain.member.entity.Role;
+import com.example.techtree.domain.member.entity.SocialProvider;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -43,6 +46,7 @@ public class OAuthAttributes {
                 .loginId(email)
                 .profileImage(picture)
                 .provider(SocialProvider.GOOGLE)
+                .role(Role.USER)
                 .build();
     }
 }

@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.Collections;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 //@Transactional(readOnly = true)
@@ -62,10 +61,6 @@ public class MemberService implements UserDetailsService {
 		if (email == null) {
 			throw new IllegalArgumentException("이메일을 입력해주세요.");
 		}
-	}
-
-	public Optional<Member> findByProviderAndProviderId(SocialProvider provider, String providerId) {
-		return memberRepository.findByProviderAndProviderId(provider, providerId);
 	}
 
 	@Override
