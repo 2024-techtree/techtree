@@ -3,6 +3,7 @@ package com.example.techtree.domain.member.service;
 import com.example.techtree.domain.member.dao.MemberRepository;
 import com.example.techtree.domain.member.dto.KakaoUserInfo;
 import com.example.techtree.domain.member.entity.Member;
+import com.example.techtree.domain.member.entity.Role;
 import com.example.techtree.domain.member.entity.SocialProvider;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
@@ -191,6 +192,7 @@ public class KakaoService {
                 .profileImage(userInfo.getProfileImg())
                 .username(userInfo.getNickname())
                 .provider(SocialProvider.KAKAO)
+                .role(Role.USER)
                 .build();
 
         return memberRepository.save(member);

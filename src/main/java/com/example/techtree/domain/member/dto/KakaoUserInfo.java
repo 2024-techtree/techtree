@@ -18,4 +18,5 @@ public class KakaoUserInfo {
     private String email;
     @Enumerated(STRING)
     private SocialProvider provider;
+
 }
