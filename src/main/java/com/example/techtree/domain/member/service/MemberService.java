@@ -2,6 +2,7 @@ package com.example.techtree.domain.member.service;
 
 import com.example.techtree.domain.member.dao.MemberRepository;
 import com.example.techtree.domain.member.entity.Member;
+import com.example.techtree.domain.member.entity.Role;
 import com.example.techtree.domain.member.entity.SocialProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.User;
@@ -13,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.Collections;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 //@Transactional(readOnly = true)
@@ -33,6 +33,7 @@ public class MemberService implements UserDetailsService {
 		member.setEmail(email);
 		member.setBirthday(birthday);
 		member.setProvider(SocialProvider.APP);
+		member.setRole(Role.USER);
 		// member.setPhoneNumber(phoneNumber);
 		// member.setProfileImage(profileImage);
 
@@ -62,10 +63,6 @@ public class MemberService implements UserDetailsService {
 		if (email == null) {
 			throw new IllegalArgumentException("이메일을 입력해주세요.");
 		}
-	}
-
-	public Optional<Member> findByProviderAndProviderId(SocialProvider provider, String providerId) {
-		return memberRepository.findByProviderAndProviderId(provider, providerId);
 	}
 
 	@Override

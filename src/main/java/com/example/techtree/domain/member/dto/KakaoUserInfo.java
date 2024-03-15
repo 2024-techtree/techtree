@@ -19,11 +19,4 @@ public class KakaoUserInfo {
     @Enumerated(STRING)
     private SocialProvider provider;
 
-    public KakaoUserInfo(Long id, String nickname, String profileImg, SocialProvider provider, String email) {
-        this.id = id;
-        this.nickname = nickname;
-        this.profileImg = profileImg;
-        this.provider = provider;
-        this.email = email;
-    }
 }
