@@ -26,6 +26,8 @@ import com.example.techtree.domain.member.dao.MemberRepository;
 import com.example.techtree.domain.saving.goal.dto.GoalDto;
 import com.example.techtree.domain.saving.goal.entity.Goal;
 import com.example.techtree.domain.saving.goal.service.GoalService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
 
@@ -184,10 +186,20 @@ public class GoalController {
 		List<Long> goalPrices = goals.stream().map(Goal::getGoalPrice).collect(Collectors.toList());
 
 		// 가공된 데이터를 모델에 추가
-		model.addAttribute("goalNames", goalNames);
-		model.addAttribute("currentPrices", currentPrices);
-		model.addAttribute("goalPrices", goalPrices);
+		model.addAttribute("goalNames", convertToJson(goalNames));
+		model.addAttribute("currentPrices", convertToJson(currentPrices));
+		model.addAttribute("goalPrices", convertToJson(goalPrices));
 
 		return "domain/mypage/dashboard";
+	}
+
+	private String convertToJson(List<?> list) {
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			return mapper.writeValueAsString(list);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+			return "[]";
+		}
 	}
 }

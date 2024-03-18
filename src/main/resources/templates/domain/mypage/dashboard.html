@@ -35,67 +35,16 @@
 <div class="test11">
     <div class="container mt-5">
         <h2>저축 목표 대시보드</h2>
-        <canvas id="savingGoalChart"></canvas>
+        <canvas id="savingGoalChart" width="800" height="400"
+                th:data-goal-names="${goalNames}"
+                th:data-current-prices="${currentPrices}"
+                th:data-goal-prices="${goalPrices}">
+        </canvas>
     </div>
 </div>
 <!-- Template-footer 시작 -->
 <footer th:replace="~{layout/footer :: TechTreeFooter}"></footer>
 <!-- Template-footer 끝 -->
-
-<script th:inline="javascript">
-    /*<![CDATA[*/
-    // 서버에서 전달받은 저축 목표 데이터
-    var goalNames = /*[[${goalNames}]]*/ [];
-    var currentPrices = /*[[${currentPrices}]]*/ [];
-    var goalPrices = /*[[${goalPrices}]]*/ [];
-
-    // 차트 컨텍스트 가져오기
-    var ctx = document.getElementById('savingGoalChart').getContext('2d');
-
-    // 차트 생성
-    var savingGoalChart = new Chart(ctx, {
-        type: 'bar', // 차트 유형 설정
-        data: {
-            labels: goalNames, // x축 레이블 설정
-            datasets: [{
-                label: '달성 비율',
-                // 목표 금액 대비 현재 금액의 비율을 계산
-                data: currentPrices.map((value, index) => (value / goalPrices[index]) * 100),
-                backgroundColor: 'rgba(54, 162, 235, 0.6)',
-                borderColor: 'rgba(54, 162, 235, 1)',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: {
-                        // Y축의 표시 방식을 커스터마이징할 수 있습니다.
-                        callback: function (value, index, values) {
-                            if (value >= 1000) return value / 1000 + 'k'; // 1000 이상일 경우 'k'를 사용하여 표시
-                            return value;
-                        }
-                    }
-                }
-            },
-            responsive: true, // 반응형 차트 설정
-            plugins: {
-                legend: {
-                    display: false // 범례가 필요 없다면 숨길 수 있습니다.
-                },
-                tooltip: {
-                    // 툴팁을 커스터마이징하여 보다 많은 정보를 제공할 수 있습니다.
-                },
-                title: {
-                    display: true, // 차트 제목 표시 여부
-                    text: '저축 목표 대시보드' // 차트 제목
-                }
-            }
-        }
-    });
-    /*]]>*/
-</script>
 
 
 <!-- bootstrap -->
@@ -105,5 +54,6 @@
 
 <!-- js -->
 <script src="/js/layout/header.js" defer></script>
+<script src="/js/saving/goal/dashboard.js" defer></script>
 </body>
 </html>
