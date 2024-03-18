@@ -1,9 +1,11 @@
 package com.example.techtree.domain.inquiry.review.entity;
 
+import com.example.techtree.domain.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -24,4 +26,7 @@ public class Review {
 
 	private LocalDateTime createDate;
 	private LocalDateTime modifyDate;
+
+	@ManyToMany
+	Set<Member> like;
 }
