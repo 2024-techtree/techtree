@@ -90,7 +90,6 @@ public class KakaoService {
             urlConnection.setRequestMethod("GET");
 
             int responseCode = urlConnection.getResponseCode();
-            System.out.println("responseCode = " + responseCode);
 
 
             BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
@@ -100,24 +99,18 @@ public class KakaoService {
                 res += line;
             }
 
-            System.out.println("res = " + res);
-
 
 
             JSONParser parser = new JSONParser();
             JSONObject obj = (JSONObject) parser.parse(res);
             JSONObject properties = (JSONObject) obj.get("properties");
             JSONObject kakaoAccount = (JSONObject) obj.get("kakao_account");
-            System.out.println("res = " + res);
             String id = obj.get("id").toString();
             String nickname = properties.get("nickname").toString();
             Object profileImgObject = properties.get("profile_image");
-            String profileImg = (profileImgObject != null) ? profileImgObject.toString() : "resources/static/images/TechTree.png";  // 프로필 이미지 동의 안할 시 null 값 대신 기본 logo.png로 대체
-            System.out.println("profileImg = " + profileImg);
+            String profileImg = (profileImgObject != null) ? profileImgObject.toString() : null;  // 프로필 이미지 동의 안할 시 null 값 대신 기본 logo.png로 대체
 
             String email = kakaoAccount.get("email").toString();
-            System.out.println("email = " + email);
-            System.out.println("properties = " + properties);
 
             return KakaoUserInfo.builder()
                     .id(Long.valueOf(id))
