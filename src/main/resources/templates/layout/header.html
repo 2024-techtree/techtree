@@ -74,10 +74,9 @@
                         <!-- 버튼 형태로 변경, 햄버거 메뉴 아이콘과 프로필 아이콘을 포함 -->
                         <button class="btn" id="moreDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                             <img src="/images/menu-icon.svg" alt="메뉴 아이콘" class="hamburger-icon"> <!-- 햄버거 아이콘 -->
-                            <img src="/images/로그인%20이미지.png" alt="사용자 아이콘" class="user-icon"> <!-- 프로필 아이콘 -->
-                            <!--                            <img th:src="${#authorization.expression('isAuthenticated()') ? #authentication.principal.profileImage : '/images/로그인 이미지.png'}"-->
-                            <!--                                 alt="사용자 아이콘" class="user-icon"-->
-                            <!--                                 onerror="this.onerror=null; this.src='/images/기본 프로필.jpg';">-->
+                            <img th:src="${#authorization.expression('isAuthenticated()') ? #authentication.principal.profileImage : '/images/로그인 이미지.png'}"
+                                 alt="사용자 아이콘" class="user-icon"
+                                 onerror="this.onerror=null; this.src='/images/기본 프로필.jpg';">
                         </button>
 
                         <!-- 드롭다운 메뉴 -->
