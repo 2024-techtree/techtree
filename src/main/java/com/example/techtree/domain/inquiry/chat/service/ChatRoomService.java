@@ -3,6 +3,7 @@ package com.example.techtree.domain.inquiry.chat.service;
 import com.example.techtree.domain.inquiry.chat.dao.ChatRoomRepository;
 import com.example.techtree.domain.inquiry.chat.entity.ChatMessage;
 import com.example.techtree.domain.inquiry.chat.entity.ChatRoom;
+import com.example.techtree.domain.member.entity.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,9 +17,10 @@ public class ChatRoomService {
     private final ChatRoomRepository chatRoomRepository;
 
     @Transactional
-    public void make(String name) {
+    public void make(Member member) {
+
         ChatRoom chatRoom = ChatRoom.builder()
-                .name(name)
+                .name(member.getUsername())
                 .build();
 
         chatRoomRepository.save(chatRoom);
