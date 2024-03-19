@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>My Page</title>
+</head>
+<body>
+<h1>Welcome to My Page</h1>
+
+<!-- Success message -->
+<div th:if="${successMessage}">
+  <p th:text="${successMessage}" style="color: green;"></p>
+</div>
+
+<!-- Error message -->
+<div th:if="${errorMessage}">
+  <p th:text="${errorMessage}" style="color: red;"></p>
+</div>
+
+<!-- Display member information -->
+<div th:if="${member}">
+  <form th:action="@{/member/myPage}" th:object="${member}" method="post">
+    <label>Username:</label>
+    <input type="text" th:field="*{username}" readonly="readonly" /><br/>
+    <label>Email:</label>
+    <input type="email" th:field="*{email}" /><br/>
+    <label>Password:</label>
+    <input type="password" th:field="*{password}" /><br/>
+    <label>Confirm Password:</label>
+    <input type="password" th:field="*{confirmPassword}" /><br/>
+    <label>Birthday:</label>
+    <input type="date" th:field="*{birthday}" /><br/>
+    <label>Phone Number:</label>
+    <input type="text" th:field="*{phoneNumber}" /><br/>
+    <label>Profile:</label>
+    <input type="text" th:field="*{profile}" /><br/>
+    <label>Profile Image:</label>
+    <input type="text" th:field="*{profileImage}" /><br/>
+    <button type="submit">Update</button>
+  </form>
+</div>
+</body>
+</html>

@@ -63,4 +63,8 @@ public class Member {
 		}
 		return authorities;
 	}
+
+	@Transient
+	private String confirmPassword;
 }
+

@@ -28,19 +28,19 @@ public class MemberController {
 	@GetMapping("/signup")
 	public String signup(MemberCreateForm memberCreateForm, Model model) {
 
-		return "signup_form";
+		return "domain/member/signup_form";
 	}
 
 	@PostMapping("/signup")
 	public String signup(@ModelAttribute MemberCreateForm memberCreateForm, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
-			return "signup_form";
+			return "domain/member/signup_form";
 		}
 
 		if (!memberCreateForm.getPassword1().equals(memberCreateForm.getPassword2())) {
 			bindingResult.rejectValue("password2", "passwordInCorrect",
 				"비밀번호가 일치하지 않습니다.");
-			return "signup_form";
+			return "domain/member/signup_form";
 
 		}
 
@@ -51,14 +51,15 @@ public class MemberController {
 		} catch (DataIntegrityViolationException e) {
 			e.printStackTrace();
 			bindingResult.reject("signupFailed", "이미 등록된 사용자입니다.");
-			return "signup_form";
+			return "domain/member/signup_form";
 		} catch (Exception e) {
 			e.printStackTrace();
 			bindingResult.reject("signupFailed", e.getMessage());
-			return "signup_form";
+			return "domain/member/signup_form";
 		}
 
 		return "redirect:/";
 	}
+
 
 }
