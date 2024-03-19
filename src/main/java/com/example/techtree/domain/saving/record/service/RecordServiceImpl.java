@@ -1,5 +1,8 @@
 package com.example.techtree.domain.saving.record.service;
 
+import com.example.techtree.domain.member.dao.MemberRepository;
+import com.example.techtree.domain.member.entity.Member;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -19,15 +22,18 @@ import lombok.RequiredArgsConstructor;
 public class RecordServiceImpl implements RecordService {
 	private final RecordRepository recordRepository;
 	private final GoalService goalService;
-
+	private final MemberRepository memberRepository;
 	@Override
-	public Record savingRecordCreate(RecordDto recordDto) {
+	public Record savingRecordCreate(RecordDto recordDto, Long memberId) {
 		Goal goal = goalService.findByGoalName(recordDto.getGoalName());
 
+		Member member = memberRepository.findById(memberId)
+				.orElseThrow(() -> new EntityNotFoundException("Member not found with id: " + memberId));
 		Record record = Record.builder()
 			.goal(goal)
 			.savingPrice(recordDto.getSavingPrice())
 			.savingDate(recordDto.getSavingDate())
+			.member(member)
 			.build();
 
 		recordRepository.save(record);
@@ -37,7 +43,8 @@ public class RecordServiceImpl implements RecordService {
 	}
 
 	@Override
-	public Page<Record> getAllRecords(Pageable pageable) {
-		return recordRepository.findAll(pageable);
+	public Page<Record> getRecordsByGoalId(Long goalId, Pageable pageable) {
+		return recordRepository.findByGoal_SavingGoalId(goalId, pageable);
 	}
+
 }

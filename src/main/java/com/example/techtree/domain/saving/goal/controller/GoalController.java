@@ -2,7 +2,9 @@ package com.example.techtree.domain.saving.goal.controller;
 
 import java.security.Principal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,6 +26,8 @@ import com.example.techtree.domain.member.dao.MemberRepository;
 import com.example.techtree.domain.saving.goal.dto.GoalDto;
 import com.example.techtree.domain.saving.goal.entity.Goal;
 import com.example.techtree.domain.saving.goal.service.GoalService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.RequiredArgsConstructor;
 
@@ -54,14 +58,20 @@ public class GoalController {
 			.orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + loginId))
 			.getMemberId();
 
+		if (goalService.isDuplicateGoalName(goalDto.getGoalName(), memberId)) {
+			// 여기서는 간단히 리다이렉트를 수행하지만, 실제로는 오류 메시지를 사용자에게 보여주어야 할 수 있습니다.
+			// 예를 들어, RedirectAttributes를 사용하여 플래시 속성에 오류 메시지를 추가할 수 있습니다.
+			return "redirect:/saving/goal/create?error=duplicate";
+		}
+
 		Goal saveGoal = goalService.savingGoalCreate(goalDto, memberId);
-		return "redirect:/saving/goal/detail/" + saveGoal.getSaving_goal_id();
+		return "redirect:/saving/goal/detail/" + saveGoal.getSavingGoalId();
 	}
 
-	@GetMapping("/detail/{saving_goal_id}")
-	public String savingGoalDetail(@PathVariable Long saving_goal_id, Model model) {
+	@GetMapping("/detail/{savingGoalId}")
+	public String savingGoalDetail(@PathVariable Long savingGoalId, Model model) {
 
-		Goal goal = goalService.findGoalById(saving_goal_id);
+		Goal goal = goalService.findGoalById(savingGoalId);
 		model.addAttribute("savingGoal", goal);
 		return "domain/saving/saving_goal_detail";
 	}
@@ -102,10 +112,10 @@ public class GoalController {
 		return "domain/saving/saving_goal_list";
 	}
 
-	@DeleteMapping("/delete/{saving_goal_id}")
-	public ResponseEntity<?> deleteGoal(@PathVariable Long saving_goal_id) {
+	@DeleteMapping("/delete/{savingGoalId}")
+	public ResponseEntity<?> deleteGoal(@PathVariable Long savingGoalId) {
 		try {
-			goalService.deleteGoalById(saving_goal_id);
+			goalService.deleteGoalById(savingGoalId);
 			// 성공적으로 삭제되었을 때 200 OK 상태 코드와 메시지 반환
 			return ResponseEntity.ok("저축 목표가 성공적으로 삭제되었습니다.");
 		} catch (Exception e) {
@@ -117,8 +127,13 @@ public class GoalController {
 
 	@GetMapping("/fetchGoalType")
 	@ResponseBody
-	public ResponseEntity<Map<String, String>> fetchGoalType(@RequestParam String goalName) {
-		String goalType = goalService.getGoalType(goalName);
+	public ResponseEntity<Map<String, String>> fetchGoalType(@RequestParam String goalName, Principal principal) {
+		String loginId = principal.getName();
+		Long memberId = memberRepository.findByLoginId(loginId)
+			.orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + loginId))
+			.getMemberId();
+
+		String goalType = goalService.getGoalType(goalName, memberId);
 
 		Map<String, String> response = new HashMap<>();
 		response.put("goalType", goalType);
@@ -126,9 +141,9 @@ public class GoalController {
 		return ResponseEntity.ok(response);
 	}
 
-	@GetMapping("/modify/{saving_goal_id}")
-	public String savingGoalModifyPage(@PathVariable Long saving_goal_id, Model model) {
-		Goal savingGoal = goalService.findGoalById(saving_goal_id);
+	@GetMapping("/modify/{savingGoalId}")
+	public String savingGoalModifyPage(@PathVariable Long savingGoalId, Model model) {
+		Goal savingGoal = goalService.findGoalById(savingGoalId);
 
 		model.addAttribute("savingGoal", savingGoal);
 
@@ -136,19 +151,55 @@ public class GoalController {
 	}
 
 	// 이 부분은 목표 수정을 처리하는 컨트롤러입니다.
-	@PostMapping("/modify/{saving_goal_id}")
-	public String savingGoalModify(@PathVariable Long saving_goal_id, @ModelAttribute GoalDto goalDto) {
+	@PostMapping("/modify/{savingGoalId}")
+	public String savingGoalModify(@PathVariable Long savingGoalId, @ModelAttribute GoalDto goalDto) {
 		try {
 			// 목표 수정 서비스를 호출하여 수정된 목표를 가져옵니다.
-			Goal modifiedGoal = goalService.modifyGoal(saving_goal_id, goalDto);
+			Goal modifiedGoal = goalService.modifyGoal(savingGoalId, goalDto);
 
 			// 수정된 목표의 상세 페이지로 이동합니다.
-			return "redirect:/saving/goal/detail/" + modifiedGoal.getSaving_goal_id();
+			return "redirect:/saving/goal/detail/" + modifiedGoal.getSavingGoalId();
 		} catch (Exception e) {
 			// 예외 발생 시 로그로 출력
 			e.printStackTrace();
 			// 에러 페이지 또는 적절한 처리를 여기에 추가할 수 있습니다.
 			return "error"; // 예시로 에러 페이지로 리다이렉트
+		}
+	}
+
+	@GetMapping("/dashboard")
+	public String savingGoalDashboard(Model model, Principal principal) {
+		if (principal == null) {
+			return "redirect:/member/login";
+		}
+		String loginId = principal.getName();
+
+		Long memberId = memberRepository.findByLoginId(loginId)
+			.orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + loginId))
+			.getMemberId();
+
+		List<Goal> goals = goalService.findGoalsByMemberId(memberId, Pageable.unpaged()).getContent();
+
+		// Java 8 스트림을 사용하여 데이터 가공
+		List<String> goalNames = goals.stream().map(Goal::getGoalName).collect(Collectors.toList());
+		List<Long> currentPrices = goals.stream().map(Goal::getCurrentPrice).collect(Collectors.toList());
+		List<Long> goalPrices = goals.stream().map(Goal::getGoalPrice).collect(Collectors.toList());
+
+		// 가공된 데이터를 모델에 추가
+		model.addAttribute("goalNames", convertToJson(goalNames));
+		model.addAttribute("currentPrices", convertToJson(currentPrices));
+		model.addAttribute("goalPrices", convertToJson(goalPrices));
+
+		return "domain/mypage/dashboard";
+	}
+
+	private String convertToJson(List<?> list) {
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			return mapper.writeValueAsString(list);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+			return "[]";
 		}
 	}
 }

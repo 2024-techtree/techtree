@@ -17,4 +17,10 @@ public interface GoalRepository extends JpaRepository<Goal, Long> {
 	Goal findByGoalName(String goalName);
 
 	Page<Goal> findByMemberMemberId(Long memberId, Pageable pageable);
+
+	@Query("SELECT t.goalName FROM Goal t WHERE t.member.memberId = :memberId")
+	List<String> findAllGoalNamesByMemberId(Long memberId);
+
+	Goal findByGoalNameAndMember_MemberId(String goalName, Long memberId);
+	
 }
