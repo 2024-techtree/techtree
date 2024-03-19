@@ -10,6 +10,7 @@ function fetchAndSetGoalType() {
     });
 }
 
+
 function validateForm() {
     var goalName = document.getElementById("goalName").value;
 
@@ -100,10 +101,6 @@ function setInterest(interestRate) {
 
 function resetInterest() {
     document.getElementById('interest').value = '';
-}
-
-function validateForm() {
-    // 필요한 유효성 검사 수행
 }
 
 function toggleCalculator() {
