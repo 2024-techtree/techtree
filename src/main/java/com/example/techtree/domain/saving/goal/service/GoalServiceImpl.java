@@ -55,15 +55,15 @@ public class GoalServiceImpl implements GoalService {
 	}
 
 	@Override
-	public List<String> getAllGoalNames() {
-		return goalRepository.findAllGoalNames();
+	public List<String> getAllGoalNames(Long memberId) {
+		return goalRepository.findAllGoalNamesByMemberId(memberId);
 	}
 
 	@Override
 	@Transactional
-	public void deleteGoalById(Long saving_goal_id) {
-		Goal goal = goalRepository.findById(saving_goal_id)
-			.orElseThrow(() -> new EntityNotFoundException("Goal not found with id: " + saving_goal_id));
+	public void deleteGoalById(Long savingGoalId) {
+		Goal goal = goalRepository.findById(savingGoalId)
+			.orElseThrow(() -> new EntityNotFoundException("Goal not found with id: " + savingGoalId));
 
 		// Goal을 참조하는 Record 삭제
 		recordRepository.deleteByGoal(goal);
@@ -82,8 +82,9 @@ public class GoalServiceImpl implements GoalService {
 		return goalRepository.findAll();
 	}
 
-	public String getGoalType(String goalName) {
-		Goal goal = goalRepository.findByGoalName(goalName);
+	@Override
+	public String getGoalType(String goalName, Long memberId) {
+		Goal goal = goalRepository.findByGoalNameAndMember_MemberId(goalName, memberId);
 		return goal != null ? goal.getGoalType() : "";
 	}
 
@@ -93,9 +94,9 @@ public class GoalServiceImpl implements GoalService {
 	}
 
 	@Override
-	public Goal modifyGoal(Long saving_goal_id, GoalDto goalDto) {
-		Goal existingGoal = goalRepository.findById(saving_goal_id)
-			.orElseThrow(() -> new EntityNotFoundException("Goal not found with id: " + saving_goal_id));
+	public Goal modifyGoal(Long savingGoalId, GoalDto goalDto) {
+		Goal existingGoal = goalRepository.findById(savingGoalId)
+			.orElseThrow(() -> new EntityNotFoundException("Goal not found with id: " + savingGoalId));
 
 		// Goal 엔티티 수정을 빌더 패턴으로 진행합니다.
 		Goal modifiedGoal = Goal.modifyGoal(existingGoal, goalDto);
@@ -106,5 +107,10 @@ public class GoalServiceImpl implements GoalService {
 	@Override
 	public Page<Goal> findGoalsByMemberId(Long memberId, Pageable pageable) {
 		return goalRepository.findByMemberMemberId(memberId, pageable);
+	}
+
+	@Override
+	public boolean isDuplicateGoalName(String goalName, Long memberId) {
+		return goalRepository.findByGoalNameAndMember_MemberId(goalName, memberId) != null;
 	}
 }

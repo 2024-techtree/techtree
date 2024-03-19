@@ -1,22 +1,11 @@
 package com.example.techtree.domain.saving.record.entity;
 
-import java.time.LocalDate;
-
+import com.example.techtree.domain.member.entity.Member;
 import com.example.techtree.domain.saving.goal.entity.Goal;
+import jakarta.persistence.*;
+import lombok.*;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import java.time.LocalDate;
 
 @Getter
 @Entity
@@ -26,10 +15,14 @@ import lombok.NoArgsConstructor;
 public class Record {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long savingWrite_id;
+	private Long savingWriteId;
+
+	@ManyToOne
+	@JoinColumn(name = "memberId")
+	private Member member;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "saving_goal_id")
+	@JoinColumn(name = "savingGoalId")
 	private Goal goal;
 
 	// 저축할 금액
