@@ -13,19 +13,21 @@ public interface GoalService {
 
 	Goal findGoalById(Long id);
 
-	List<String> getAllGoalNames();
+	List<String> getAllGoalNames(Long memberId);
 
-	void deleteGoalById(Long saving_goal_id);
+	void deleteGoalById(Long savingGoalId);
 
 	Goal findByGoalName(String goalName);
 
 	List<Goal> getAllPosts();
 
-	String getGoalType(String goalName);
-
 	Page<Goal> findGoals(Pageable pageable);
 
-	Goal modifyGoal(Long saving_goal_id, GoalDto goalDto);
+	Goal modifyGoal(Long savingGoalId, GoalDto goalDto);
 
 	Page<Goal> findGoalsByMemberId(Long memberId, Pageable pageable);
+
+	String getGoalType(String goalName, Long memberId);
+	
+	boolean isDuplicateGoalName(String goalName, Long memberId);
 }

@@ -6,7 +6,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface RecordService {
-	Record savingRecordCreate(RecordDto recordDto);
 
-    Page<Record> getAllRecords(Pageable pageable);
+    Record savingRecordCreate(RecordDto recordDto, Long memberId);
+
+    Page<Record> getRecordsByGoalId(Long goalId, Pageable pageable);
 }
