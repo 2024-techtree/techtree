@@ -41,7 +41,7 @@ public class Member {
 
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		List<GrantedAuthority> authorities = new ArrayList<>();
-		if (this.role != null && this.role.equals("ADMIN")) {
+		if (this.role != null && this.role.equals(Role.ADMIN)) {
 			authorities.add(new SimpleGrantedAuthority("ADMIN"));
 		}
 		else {

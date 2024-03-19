@@ -41,6 +41,7 @@ public class ChatRoomController {
     ) {
         System.out.println("principal = " + principal.getName());
         Member member = memberService.findByLoginId(principal.getName());
+        System.out.println("member = " + member.getRole());
         ChatRoom room = chatRoomService.findById(roomId).get();
         model.addAttribute("room", room);
         model.addAttribute("username", member.getUsername());

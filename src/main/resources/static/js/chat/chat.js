@@ -50,12 +50,12 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // 이전 대화 내용을 불러와 화면에 출력합니다.
-    function loadChatHistory() {
+    /*function loadChatHistory() {
         const chatHistory = JSON.parse(localStorage.getItem(CHAT_HISTORY_KEY)) || [];
         chatHistory.forEach(message => {
             drawMoreChatMessage(message);
         });
-    }
+    }*/
 
     // 웹 소켓 연결을 시도합니다.
     const socket = new SockJS('/ws');
@@ -70,13 +70,13 @@ document.addEventListener("DOMContentLoaded", function () {
             drawMoreChatMessage(newMessage);
 
             // 새로운 메시지를 로컬 저장소에 추가합니다.
-            const chatHistory = JSON.parse(localStorage.getItem(CHAT_HISTORY_KEY)) || [];
+            /*const chatHistory = JSON.parse(localStorage.getItem(CHAT_HISTORY_KEY)) || [];
             chatHistory.push(newMessage);
-            localStorage.setItem(CHAT_HISTORY_KEY, JSON.stringify(chatHistory));
+            localStorage.setItem(CHAT_HISTORY_KEY, JSON.stringify(chatHistory));*/
         });
 
         // 이전 대화 내용을 불러옵니다.
-        loadChatHistory();
+        // loadChatHistory();
     });
 
     // 메시지 전송 폼을 가져와 이벤트를 추가합니다.

@@ -10,34 +10,48 @@
           integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
 
     <!-- 채팅 스타일 -->
+    <link rel="stylesheet" href="/css/common/footer.css">
+    <link rel="stylesheet" href="/css/common/header.css">
     <link rel="stylesheet" href="/css/domain/chat_room/chat.css">
 </head>
 <body>
+
+<!-- Template-header 시작 -->
+<header th:replace="~{layout/header :: TechTreeHeader}"></header>
+<!-- Template-header 끝 -->
 
 <!-- 채팅 메시지 출력 영역 -->
 <div class="container mt-4">
     <h1 th:text="'채팅방 ' + ${roomId}"></h1>
     <nav>
-        <a href="chat/room/make">채팅방 생성</a>
-        <a href="chat/room/list">채팅방 목록</a>
+        <a href="make">채팅방 생성</a>
+        <a href="list">채팅방 목록</a>
     </nav>
 
-    <!-- 메시지 입력 폼 -->
-    <form onsubmit="submitWriteForm(this); return false;" method="POST">
-        <input autocomplete="off" type="text" name="content" placeholder="내용">
-        <input type="submit" value="작성">
-    </form>
-
     <!-- 채팅 메시지 목록 -->
-    <ul class="chat__messages" id="chatMessages">
+    <ul class="list-group chat__messages" id="chatMessages">
         <!-- 여기에 채팅 메시지가 자동으로 추가됩니다. -->
         <th:block th:each="message : ${room.chatMessages}">
-            <li th:class="${message.name eq username} ? 'sent' : 'received'">
-                <span th:text="${message.name}">Sender</span>: <span th:text="${message.content}">Message</span>
+            <li th:class="${message.name eq username} ? 'list-group-item text-end' : 'list-group-item text-start'">
+                <strong th:text="${message.name}">Sender</strong>: <span th:text="${message.content}">Message</span>
             </li>
         </th:block>
     </ul>
+
+    <!-- 메시지 입력 폼 -->
+    <form onsubmit="submitWriteForm(this); return false;" method="POST" class="mb-4">
+        <div class="input-group">
+            <input autocomplete="off" type="text" name="content" placeholder="메시지 입력" class="form-control">
+            <button type="submit" class="btn btn-primary" style="background-color: #007bff;">전송</button>
+        </div>
+    </form>
 </div>
+
+<!-- Template-Footer 시작 -->
+<footer th:replace="~{layout/footer :: TechTreeFooter}"></footer>
+<!-- Template-Footer 끝 -->
+
+<script src="/js/layout/header.js" defer></script>
 
 <!-- 부트스트랩 자바스크립트 -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
@@ -52,7 +66,7 @@
     const username = /*[[${username}]]*/ '';
     const roomId = /*[[${roomId}]]*/ 0;
 </script>
-<script src="/js/layout/header.js" defer></script>
 <script src="/js/chat/chat.js" defer></script>
+<script src="/js/layout/header.js" defer></script>
 </body>
 </html>
