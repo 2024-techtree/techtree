@@ -31,13 +31,19 @@ public class ChatRoomController {
     private final SimpMessagingTemplate messagingTemplate;
     private final MemberService memberService;
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/{roomId}")
     public String showRoom(
             @PathVariable final long roomId,
-            final String writerName, Model model
+            final String writerName,
+            Model model,
+            Principal principal
     ) {
+        System.out.println("principal = " + principal.getName());
+        Member member = memberService.findByLoginId(principal.getName());
         ChatRoom room = chatRoomService.findById(roomId).get();
         model.addAttribute("room", room);
+        model.addAttribute("username", member.getUsername());
         return "domain/chat/chatRoom";
     }
 
@@ -61,7 +67,7 @@ public class ChatRoomController {
 
     @GetMapping("/list")
     public String showList(Model model) {
-        List<ChatRoom> chatRooms = chatRoomService.findAll();
+            List<ChatRoom> chatRooms = chatRoomService.findAll();
         model.addAttribute("chatRooms", chatRooms);
 
         return "domain/chat/chatList";
