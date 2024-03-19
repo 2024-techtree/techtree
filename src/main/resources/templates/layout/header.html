@@ -64,9 +64,9 @@
                     <div class="nav-dropdown" id="inquiryDropdown">
                         <!-- 하위 메뉴 항목들 -->
                         <a class="dropdown-item" href="/chat/room/make">관리자 문의</a>
-                        <a class="dropdown-item" href="#">후기</a>
-                        <th:block th:if="${#authentication.principal.username == 'techtree'}">
-                            <a class="dropdown-item" href="/chat/room/list">채팅 관리</a>
+                        <a class="dropdown-item" href="/review/list">후기</a>
+                        <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+                            <a class="nav-link" href="/chat/room/list">Admin</a>
                         </th:block>
                         <!-- 더 추가 가능 -->
                     </div>

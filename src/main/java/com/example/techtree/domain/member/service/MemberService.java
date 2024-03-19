@@ -5,8 +5,8 @@ import com.example.techtree.domain.member.entity.Member;
 import com.example.techtree.domain.member.entity.Role;
 import com.example.techtree.domain.member.entity.SocialProvider;
 import com.example.techtree.global.rsData.DataNotFoundException;
+import com.example.techtree.global.security.SecurityUser;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -14,7 +14,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.Collections;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -71,7 +70,8 @@ public class MemberService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Member member = memberRepository.findByLoginId(username)
                 .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다: " + username));
-        return new User(member.getLoginId(), member.getPassword(), Collections.emptyList());
+//        return new User(member.getLoginId(), member.getPassword(), Collections.emptyList());
+        return new SecurityUser(member.getMemberId(), member.getLoginId(), member.getPassword(), member.getAuthorities());
     }
 
     public Member findByLoginId(String name) {
