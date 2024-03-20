@@ -6,7 +6,6 @@ import com.example.techtree.domain.member.entity.Role;
 import com.example.techtree.domain.member.entity.SocialProvider;
 import com.example.techtree.global.security.SecurityUser;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -14,7 +13,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.Collections;
 
 @RequiredArgsConstructor
 //@Transactional(readOnly = true)
@@ -71,6 +69,6 @@ public class MemberService implements UserDetailsService {
 		Member member = memberRepository.findByLoginId(username)
 			.orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다: " + username));
 		return new SecurityUser(member.getMemberId(),
-				member.getUsername(), member.getProfileImage(), member.);
+				member.getUsername(), member.getPassword(), member.getProfileImage(), member.getAuthorities());
 	}
 }

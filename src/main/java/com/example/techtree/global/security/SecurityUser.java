@@ -16,9 +16,10 @@ public class SecurityUser extends User implements OAuth2User {
 
 	public SecurityUser(long id, String username, String password, String profileImage,
 		Collection<? extends GrantedAuthority> authorities) {
-		super(username, "", authorities);
+		super(username, password, authorities);
 		this.id = id;
 		this.profileImage = profileImage; // 프로필 이미지 초기화
+
 	}
 
 	@Override
