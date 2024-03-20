@@ -64,6 +64,11 @@
                     <span class="card-content" th:text="${review.content}"></span>
                     <p class="card-text" th:text="${review.createDate}"></p>
                 </div>
+                <a href="javascript:void(0);" class="recommend btn btn-sm btn-outline-secondary"
+                   th:data-uri="@{|/review/list/${review.id}|}">
+                    추천
+                    <span class="badge rounded-pill bg-success" th:text="${#lists.size(review.like)}"></span>
+                </a>
             </div>
         </div>
     </div>
@@ -100,5 +105,16 @@
         crossorigin="anonymous" defer></script>
 <!-- js -->
 <script src="/js/layout/header.js" defer></script>
+
+<script>
+    const recommend_elements = document.getElementsByClassName("recommend");
+    Array.from(recommend_elements).forEach(function(element) {
+        element.addEventListener('click', function() {
+            if(confirm("정말로 추천하시겠습니까?")) {
+                location.href = this.dataset.uri;
+            };
+        });
+    });
+</script>
 </body>
 </html>

@@ -35,17 +35,20 @@ public class Member {
 	private SocialProvider provider;    // 카카오 기준으로 값 넣기, 없다면 null
 	private String providerId;  // 소셜 전용 ID 변수
 
-//	@Enumerated(STRING)	// Constraint825 에 대한 에러 부분
+	@Enumerated(STRING)	// Constraint825 에 대한 에러 부분
 	@Column
 	private Role role;
 
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		List<GrantedAuthority> authorities = new ArrayList<>();
-		if (this.role != null && this.role.equals("ADMIN")) {
-			authorities.add(new SimpleGrantedAuthority("ADMIN"));
+		System.out.println("authorities = " + getRole());
+		if (this.role != null && this.role.equals(Role.ADMIN)) {
+			System.out.println("Admin ----");
+			authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
 		}
 		else {
-			authorities.add(new SimpleGrantedAuthority("MEMBER"));
+			System.out.println("Member ----");
+			authorities.add(new SimpleGrantedAuthority("ROLE_MEMBER"));
 		}
 		return authorities;
 	}

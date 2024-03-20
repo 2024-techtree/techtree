@@ -14,7 +14,6 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @ToString(callSuper = true)
 public class ChatMessage extends BaseEntity {
-    @Getter
     private String name;
 
     private String content;

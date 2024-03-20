@@ -43,6 +43,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
 		// 사용자 정보를 바탕으로 Member 엔티티 업데이트 또는 생성
 		Member member = saveOrUpdate(attributes);
+		System.out.println("google member = " + member.getUsername());
 
 		// SecurityUser 인스턴스 생성
 		SecurityUser securityUser = new SecurityUser(
@@ -50,6 +51,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 			member.getUsername(),
 			"", // 패스워드는 보통 null로 설정하며, OAuth2에서는 사용되지 않음
 			member.getProfileImage(),
+			member.getEmail(),
 			oAuth2User.getAuthorities()
 		);
 

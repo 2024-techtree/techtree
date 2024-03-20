@@ -46,7 +46,6 @@ public class KakaoService {
             bw.flush();
 
             int responseCode = urlConnection.getResponseCode();
-            System.out.println("responseCode = " + responseCode);
 
             BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
             String line = "";
@@ -54,7 +53,6 @@ public class KakaoService {
             while ((line = br.readLine()) != null) {
                 result += line;
             }
-            System.out.println("result = " + result);
 
             // json parsing
             JSONParser parser = new JSONParser();
@@ -62,8 +60,6 @@ public class KakaoService {
 
             String access_token = elem.get("access_token").toString();
             String refresh_token = elem.get("refresh_token").toString();
-            System.out.println("refresh_token = " + refresh_token);
-            System.out.println("access_token = " + access_token);
 
             token = access_token;
 
@@ -74,8 +70,6 @@ public class KakaoService {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
-
         return token;
     }
 
@@ -98,8 +92,6 @@ public class KakaoService {
             while ((line = br.readLine()) != null) {
                 res += line;
             }
-
-
 
             JSONParser parser = new JSONParser();
             JSONObject obj = (JSONObject) parser.parse(res);
@@ -158,25 +150,12 @@ public class KakaoService {
     }
 
     public Member login(KakaoUserInfo userInfo) {
-        System.out.println(userInfo);
-
-//        Optional<Member> opUser = memberService.findByProviderAndProviderId(SocialProvider.valueOf("KAKAO"), userInfo.getId().toString());
         Optional<Member> opUser = memberRepository.findByLoginIdAndProvider(userInfo.getEmail(), userInfo.getProvider());
-
-        System.out.println("opUser = " + opUser);
 
         if (opUser.isPresent()) {
             System.out.println("opUser 통과");
             return opUser.get();
         }
-
-        //랜덤 닉네임 생성
-        /*Random random = new Random();
-        int randomNumber = random.nextInt(9000) + 1000;
-        while (memberRepository.existsByNickname("user_" + randomNumber)) {
-            randomNumber = random.nextInt(9000) + 1000;
-        }
-        String randomNickname = "user_" + randomNumber;*/
 
         System.out.println("강제 회원가입 시작");
         // 강제 회원가입
