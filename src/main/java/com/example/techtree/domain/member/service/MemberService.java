@@ -7,6 +7,8 @@ import com.example.techtree.domain.member.entity.SocialProvider;
 import com.example.techtree.global.rsData.DataNotFoundException;
 import com.example.techtree.global.security.SecurityUser;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -71,15 +73,35 @@ public class MemberService implements UserDetailsService {
         Member member = memberRepository.findByLoginId(username)
                 .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다: " + username));
 //        return new User(member.getLoginId(), member.getPassword(), Collections.emptyList());
-        return new SecurityUser(member.getMemberId(), member.getLoginId(), member.getPassword(), member.getAuthorities());
+        return new SecurityUser(member.getMemberId(), member.getUsername(), member.getPassword(),
+                member.getProfileImage(), member.getLoginId(), member.getAuthorities());
     }
 
-    public Member findByLoginId(String name) {
-        Optional<Member> member = memberRepository.findByLoginId(name);
+    public Member findByLoginId(String loginId) {
+        System.out.println("loginId = " + loginId);
+        Optional<Member> member = memberRepository.findByLoginId(loginId);
         if (member.isPresent()) {
             return member.get();
         } else {
             throw new DataNotFoundException("user not found");
         }
     }
+
+    public String getLoginId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = "";
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            if(userDetails instanceof SecurityUser) {
+                email = ((SecurityUser) userDetails).getLoginId();
+                System.out.println("이메일 가져오기 성공 email = " + email);
+            } else {
+                throw new DataNotFoundException("user not found");
+            }
+        } else {
+            throw new DataNotFoundException("user not found");
+        }
+        return email;
+    }
+
 }

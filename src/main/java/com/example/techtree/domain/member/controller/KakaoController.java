@@ -1,10 +1,14 @@
 package com.example.techtree.domain.member.controller;
 
-import static com.example.techtree.domain.member.entity.SocialProvider.*;
-import static org.springframework.security.web.context.HttpSessionSecurityContextRepository.*;
-
-import java.io.IOException;
-
+import com.example.techtree.domain.member.dto.KakaoUserInfo;
+import com.example.techtree.domain.member.entity.Member;
+import com.example.techtree.domain.member.service.KakaoService;
+import com.example.techtree.global.security.SecurityUser;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
@@ -14,16 +18,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.example.techtree.domain.member.dto.KakaoUserInfo;
-import com.example.techtree.domain.member.entity.Member;
-import com.example.techtree.domain.member.service.KakaoService;
-import com.example.techtree.global.security.SecurityUser;
+import java.io.IOException;
 
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import lombok.RequiredArgsConstructor;
+import static com.example.techtree.domain.member.entity.SocialProvider.KAKAO;
+import static org.springframework.security.web.context.HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY;
 
 @Controller
 @RequiredArgsConstructor
@@ -51,7 +49,7 @@ public class KakaoController {
 		Member member = ks.login(userInfo);
 
 		SecurityUser securityUser = new SecurityUser(member.getMemberId(), member.getLoginId(),
-			member.getProfileImage(), "",
+			"", "", member.getEmail(),
 			member.getAuthorities());
 
 		Authentication authentication =

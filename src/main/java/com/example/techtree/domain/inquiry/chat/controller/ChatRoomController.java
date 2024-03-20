@@ -36,11 +36,10 @@ public class ChatRoomController {
     public String showRoom(
             @PathVariable final long roomId,
             final String writerName,
-            Model model,
-            Principal principal
+            Model model
     ) {
-        System.out.println("principal = " + principal.getName());
-        Member member = memberService.findByLoginId(principal.getName());
+        String loginId = memberService.getLoginId();
+        Member member = memberService.findByLoginId(loginId);
         System.out.println("member = " + member.getRole());
         ChatRoom room = chatRoomService.findById(roomId).get();
         model.addAttribute("room", room);
@@ -51,6 +50,7 @@ public class ChatRoomController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/make")
     public String showMake(Principal principal) {
+        System.out.println("principal = " + principal.getName());
         if(principal == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "로그인이 필요합니다.");
         }
@@ -59,8 +59,9 @@ public class ChatRoomController {
     }
 
     @PostMapping("/make")
-    public String make(Principal principal, Model model) {
-        Member member = memberService.findByLoginId(principal.getName());
+    public String make(Model model) {
+        String loginId = memberService.getLoginId();
+        Member member = memberService.findByLoginId(loginId);
         chatRoomService.make(member);
         model.addAttribute("member", member);
         return "redirect:/chat/room/list";
@@ -91,9 +92,9 @@ public class ChatRoomController {
     @ResponseBody
     public RsData<?> write(
             @PathVariable final long roomId,
-            @RequestBody final WriteRequestBody requestBody, Principal principal
-    ) {
-        Member member = memberService.findByLoginId(principal.getName());
+            @RequestBody final WriteRequestBody requestBody) {
+        String loginId = memberService.getLoginId();
+        Member member = memberService.findByLoginId(loginId);
         requestBody.setWriterName(member.getUsername());
 
         ChatMessage chatMessage = chatRoomService.write(roomId, requestBody.writerName, requestBody.getContent());
