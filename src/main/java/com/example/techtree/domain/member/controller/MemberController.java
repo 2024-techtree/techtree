@@ -6,10 +6,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequiredArgsConstructor
@@ -57,5 +55,15 @@ public class MemberController {
 		}
 
 		return "redirect:/";
+	}
+
+	@GetMapping("/member/findid")
+	public ModelAndView findMemberId(@RequestParam String username, @RequestParam String email, @RequestParam String phoneNumber, ModelAndView modelAndView) {
+		memberService.findLoginIdByUsernameEmailAndPhoneNumber(username, email, phoneNumber).ifPresentOrElse(
+				loginId -> modelAndView.addObject("message", "당신의 아이디는 " + loginId + " 입니다."),
+				() -> modelAndView.addObject("message", "해당 정보와 일치하는 사용자가 없습니다.")
+		);
+		modelAndView.setViewName("findIdResult"); // 결과를 보여줄 뷰의 이름
+		return modelAndView; // ModelAndView 객체 반환
 	}
 }

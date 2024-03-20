@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.Collections;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 //@Transactional(readOnly = true)
@@ -70,5 +71,10 @@ public class MemberService implements UserDetailsService {
 		Member member = memberRepository.findByLoginId(username)
 			.orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다: " + username));
 		return new User(member.getLoginId(), member.getPassword(), Collections.emptyList());
+	}
+
+	public Optional<String> findLoginIdByUsernameEmailAndPhoneNumber(String username, String email, String phoneNumber) {
+		return memberRepository.findByUsernameAndEmailAndPhoneNumber(username, email, phoneNumber)
+				.map(Member::getLoginId);
 	}
 }
