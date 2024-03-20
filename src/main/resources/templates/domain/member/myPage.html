@@ -1,43 +1,23 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Page</title>
 </head>
 <body>
-<h1>Welcome to My Page</h1>
-
-<!-- Success message -->
-<div th:if="${successMessage}">
-  <p th:text="${successMessage}" style="color: green;"></p>
+<h1>Welcome to Your Profile</h1>
+<div th:if="${member != null}">
+  <p th:text="'Username: ' + ${member.username}"></p>
+  <p th:text="'Email: ' + ${member.email}"></p>
+  <p th:text="'Birthday: ' + ${member.birthday}"></p>
+  <p th:text="'Phone Number: ' + ${member.phoneNumber}"></p>
+  <!-- Add more fields as needed -->
+  <!-- Here you can add forms for updating information -->
 </div>
-
-<!-- Error message -->
-<div th:if="${errorMessage}">
-  <p th:text="${errorMessage}" style="color: red;"></p>
-</div>
-
-<!-- Display member information -->
-<div th:if="${member}">
-  <form th:action="@{/member/myPage}" th:object="${member}" method="post">
-    <label>Username:</label>
-    <input type="text" th:field="*{username}" readonly="readonly" /><br/>
-    <label>Email:</label>
-    <input type="email" th:field="*{email}" /><br/>
-    <label>Password:</label>
-    <input type="password" th:field="*{password}" /><br/>
-    <label>Confirm Password:</label>
-    <input type="password" th:field="*{confirmPassword}" /><br/>
-    <label>Birthday:</label>
-    <input type="date" th:field="*{birthday}" /><br/>
-    <label>Phone Number:</label>
-    <input type="text" th:field="*{phoneNumber}" /><br/>
-    <label>Profile:</label>
-    <input type="text" th:field="*{profile}" /><br/>
-    <label>Profile Image:</label>
-    <input type="text" th:field="*{profileImage}" /><br/>
-    <button type="submit">Update</button>
-  </form>
+<div th:if="${member == null}">
+  <p>No member found!</p>
+  <!-- You can add appropriate messages or actions if no member is found -->
 </div>
 </body>
 </html>
