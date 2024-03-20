@@ -57,13 +57,18 @@ public class MemberController {
 		return "redirect:/";
 	}
 
-	@GetMapping("/member/findid")
+	@GetMapping("/findid") // 아이디 찾기 페이지를 보여주는 핸들러
+	public String findIdForm() {
+		return "domain/member/findid"; // 아이디 찾기 폼 페이지 반환
+	}
+
+	@PostMapping("/findid") // 아이디를 찾는 핸들러
 	public ModelAndView findMemberId(@RequestParam String username, @RequestParam String email, @RequestParam String phoneNumber, ModelAndView modelAndView) {
 		memberService.findLoginIdByUsernameEmailAndPhoneNumber(username, email, phoneNumber).ifPresentOrElse(
 				loginId -> modelAndView.addObject("message", "당신의 아이디는 " + loginId + " 입니다."),
 				() -> modelAndView.addObject("message", "해당 정보와 일치하는 사용자가 없습니다.")
 		);
-		modelAndView.setViewName("findIdResult"); // 결과를 보여줄 뷰의 이름
+		modelAndView.setViewName("domain/member/findIdResult"); // 결과를 보여줄 뷰의 이름
 		return modelAndView; // ModelAndView 객체 반환
 	}
 }

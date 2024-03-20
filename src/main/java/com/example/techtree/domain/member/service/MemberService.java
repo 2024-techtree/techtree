@@ -37,7 +37,7 @@ public class MemberService implements UserDetailsService {
         member.setBirthday(birthday);
         member.setProvider(SocialProvider.APP);
         member.setRole(Role.USER);
-        // member.setPhoneNumber(phoneNumber);
+        member.setPhoneNumber(phoneNumber);
         // member.setProfileImage(profileImage);
 
         this.memberRepository.save(member);
@@ -92,7 +92,7 @@ public class MemberService implements UserDetailsService {
         String email = "";
         if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            if(userDetails instanceof SecurityUser) {
+            if (userDetails instanceof SecurityUser) {
                 email = ((SecurityUser) userDetails).getLoginId();
                 System.out.println("이메일 가져오기 성공 email = " + email);
             } else {
@@ -104,4 +104,8 @@ public class MemberService implements UserDetailsService {
         return email;
     }
 
+    public Optional<String> findLoginIdByUsernameEmailAndPhoneNumber(String username, String email, String phoneNumber) {
+        return memberRepository.findByUsernameAndEmailAndPhoneNumber(username, email, phoneNumber)
+                .map(Member::getLoginId);
+    }
 }
