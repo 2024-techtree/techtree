@@ -1,12 +1,13 @@
 package com.example.techtree.domain.saving.goal.dao;
 
-import com.example.techtree.domain.saving.goal.entity.Goal;
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import java.util.List;
+import com.example.techtree.domain.saving.goal.entity.Goal;
 
 public interface GoalRepository extends JpaRepository<Goal, Long> {
 
@@ -21,4 +22,5 @@ public interface GoalRepository extends JpaRepository<Goal, Long> {
 	List<String> findAllGoalNamesByMemberId(Long memberId);
 
 	Goal findByGoalNameAndMember_MemberId(String goalName, Long memberId);
+	
 }
