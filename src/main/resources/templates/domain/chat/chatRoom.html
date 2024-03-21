@@ -33,7 +33,6 @@
         <!-- 여기에 채팅 메시지가 자동으로 추가됩니다. -->
         <th:block th:each="message : ${room.chatMessages}">
             <li th:class="${message.name eq username} ? 'list-group-item text-end' : 'list-group-item text-start'">
-                <strong th:text="${message.name}">Sender</strong>: <span th:text="${message.content}">Message</span>
             </li>
         </th:block>
     </ul>
