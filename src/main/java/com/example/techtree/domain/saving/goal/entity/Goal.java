@@ -94,8 +94,5 @@ public class Goal {
 			.status(goalDto.getCurrentPrice() >= goalDto.getGoalPrice() ? COMPLETED : IN_PROGRESS)
 			.build();
 	}
-
-	public double getAchievementRate() {
-		return (double)currentPrice / goalPrice * 100;
-	}
+	
 }

@@ -186,18 +186,22 @@ public class GoalController {
 
 		List<Goal> top5Goals = goalService.findTop5GoalsByMemberId(memberId);
 		// "완료" 상태의 저축 목표 조회
-		List<Goal> completedGoals = goalService.findByMemberIdAndStatus(memberId, GoalStatus.COMPLETED);
+		List<Goal> top5CompletedGoals = goalService.findTop5CompletedGoalsByMemberId(memberId, GoalStatus.COMPLETED);
 
 		// Java 8 스트림을 사용하여 데이터 가공
 		List<String> goalNames = top5Goals.stream().map(Goal::getGoalName).collect(Collectors.toList());
 		List<Long> currentPrices = top5Goals.stream().map(Goal::getCurrentPrice).collect(Collectors.toList());
 		List<Long> goalPrices = top5Goals.stream().map(Goal::getGoalPrice).collect(Collectors.toList());
 
-		List<String> completedGoalNames = completedGoals.stream().map(Goal::getGoalName).collect(Collectors.toList());
-		List<Long> completedCurrentPrices = completedGoals.stream()
+		List<String> completedGoalNames = top5CompletedGoals.stream()
+			.map(Goal::getGoalName)
+			.collect(Collectors.toList());
+		List<Long> completedCurrentPrices = top5CompletedGoals.stream()
 			.map(Goal::getCurrentPrice)
 			.collect(Collectors.toList());
-		List<Long> completedGoalPrices = completedGoals.stream().map(Goal::getGoalPrice).collect(Collectors.toList());
+		List<Long> completedGoalPrices = top5CompletedGoals.stream()
+			.map(Goal::getGoalPrice)
+			.collect(Collectors.toList());
 
 		// 가공된 데이터를 모델에 추가
 		model.addAttribute("goalNames", convertToJson(goalNames));

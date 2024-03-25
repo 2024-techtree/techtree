@@ -125,7 +125,8 @@ public class GoalServiceImpl implements GoalService {
 		Member member = memberRepository.findById(memberId)
 			.orElseThrow(() -> new IllegalArgumentException("해당 사용자가 존재하지 않습니다. id=" + memberId));
 		PageRequest pageRequest = PageRequest.of(0, 5, Sort.by("updateDate").descending());
-		return goalRepository.findByMemberOrderByUpdateDateDesc(member, pageRequest).getContent();
+		return goalRepository.findByMemberAndCurrentPriceLessThanGoalPriceOrderByUpdateDateDesc(member, pageRequest)
+			.getContent();
 	}
 
 	@Override
@@ -144,4 +145,20 @@ public class GoalServiceImpl implements GoalService {
 	public List<Goal> findByMemberIdAndStatus(Long memberId, GoalStatus status) {
 		return goalRepository.findByMemberIdAndStatus(memberId, status);
 	}
+
+	@Override
+	public List<Goal> findTop5CompletedGoalsByMemberId(Long memberId, GoalStatus status) {
+		Member member = memberRepository.findById(memberId)
+			.orElseThrow(() -> new IllegalArgumentException("해당 사용자가 존재하지 않습니다. id=" + memberId));
+
+		// 상태가 status인 목표를 찾기 위해 PageRequest 생성
+		PageRequest pageRequest = PageRequest.of(0, 5, Sort.by("updateDate").descending());
+
+		// findByMemberAndStatusOrderByUpdateDateDesc 메서드를 호출하여 상위 5개의 Goal 목록 조회
+		Page<Goal> goals = goalRepository.findByMemberAndStatusOrderByUpdateDateDesc(member, status, pageRequest);
+
+		// 조회된 Page<Goal>에서 목록 가져오기
+		return goals.getContent();
+	}
+
 }

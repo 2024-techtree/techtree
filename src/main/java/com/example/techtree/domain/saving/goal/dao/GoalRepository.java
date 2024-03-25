@@ -26,7 +26,11 @@ public interface GoalRepository extends JpaRepository<Goal, Long> {
 
 	Goal findByGoalNameAndMember_MemberId(String goalName, Long memberId);
 
-	Page<Goal> findByMemberOrderByUpdateDateDesc(Member member, Pageable pageable);
+	@Query("SELECT g FROM Goal g WHERE g.member = :member AND g.currentPrice < g.goalPrice ORDER BY g.updateDate DESC")
+	Page<Goal> findByMemberAndCurrentPriceLessThanGoalPriceOrderByUpdateDateDesc(@Param("member") Member member,
+		Pageable pageable);
+
+	Page<Goal> findByMemberAndStatusOrderByUpdateDateDesc(Member member, GoalStatus status, Pageable pageable);
 
 	@Query("SELECT g FROM Goal g WHERE g.member.memberId = :memberId AND g.status = :status")
 	List<Goal> findByMemberIdAndStatus(@Param("memberId") Long memberId, @Param("status") GoalStatus status);
