@@ -37,7 +37,7 @@ public class KisController {
         this.webClient = webClientBuilder.baseUrl(KisConfig.REST_BASE_URL).build();
     }
 
-    @GetMapping("/")
+    @GetMapping
     public String index(Model model) {
         return "domain/investment/index";
     }
@@ -52,8 +52,11 @@ public class KisController {
         );
         List<Tuple2<String, String>> iscdsAndOtherVariable2 = Arrays.asList(
                 Tuples.of(".DJI", "N"),
-                Tuples.of("QQQ", "N"),
-                Tuples.of("COMP", "N")
+                Tuples.of("COMP", "N"),
+                Tuples.of("SX5E", "N"), // 유로
+                Tuples.of("JP#NI225", "N"), // 닛케이
+                Tuples.of("CZ#399102", "N"),  // 심천
+                Tuples.of("HSCE", "N")  // 홍콩 항셍지수
         );
         System.out.println("iscdsAndOtherVariable1 = " + iscdsAndOtherVariable1);
         System.out.println("iscdsAndOtherVariable2 = " + iscdsAndOtherVariable2);
@@ -82,14 +85,12 @@ public class KisController {
 
         List<IndexData> indicesList = indicesFlux.collectList().block();
         List<IndexData> indicesList1 = indicesFlux1.collectList().block();
-        System.out.println("indicesList = " + indicesList);
-        System.out.println("indicesList1 = " + indicesList1);
         model.addAttribute("indicesKor", indicesList);
         model.addAttribute("indicesOvr", indicesList1);
 
         model.addAttribute("jobDate", getJobDateTime());
 
-        return "domain/investment/indices";
+        return "domain/investment/investmentTotal";
     }
 
     public String getStringToday() {
