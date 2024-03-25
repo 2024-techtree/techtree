@@ -37,6 +37,7 @@
                     <span th:text="|${chatRoom.id}.|"></span>
                     <span th:text="${chatRoom.name}"></span>
                 </a>
+                <button type="button" th:onclick="|location.href='@{/chat/room/delete(id=${chatRoom.id})}'|">채팅 종료</button>
             </li>
         </ul>
     </div>

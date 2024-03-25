@@ -1,5 +1,6 @@
 package com.example.techtree.domain.Investment.controller;
 
+
 import com.example.techtree.domain.Investment.model.IndexData;
 import com.example.techtree.domain.Investment.model.Invesment;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -25,7 +26,6 @@ import java.util.List;
 @Controller
 @RequestMapping("/investment")
 public class KisController {
-
     @Autowired
     private AccessTokenManager accessTokenManager;
 
@@ -37,7 +37,7 @@ public class KisController {
         this.webClient = webClientBuilder.baseUrl(KisConfig.REST_BASE_URL).build();
     }
 
-    @GetMapping("/index")
+    @GetMapping
     public String index(Model model) {
         return "domain/investment/index";
     }
@@ -50,6 +50,16 @@ public class KisController {
                 Tuples.of("2001", "U"),
                 Tuples.of("1001", "U")
         );
+        List<Tuple2<String, String>> iscdsAndOtherVariable2 = Arrays.asList(
+                Tuples.of(".DJI", "N"),
+                Tuples.of("COMP", "N"),
+                Tuples.of("SX5E", "N"), // 유로
+                Tuples.of("JP#NI225", "N"), // 닛케이
+                Tuples.of("CZ#399102", "N"),  // 심천
+                Tuples.of("HSCE", "N")  // 홍콩 항셍지수
+        );
+        System.out.println("iscdsAndOtherVariable1 = " + iscdsAndOtherVariable1);
+        System.out.println("iscdsAndOtherVariable2 = " + iscdsAndOtherVariable2);
 
         Flux<IndexData> indicesFlux = Flux.fromIterable(iscdsAndOtherVariable1)
                 .concatMap(tuple -> getMajorIndex(tuple.getT1(), tuple.getT2()))
@@ -61,16 +71,26 @@ public class KisController {
                         throw new RuntimeException(e);
                     }
                 });
+        Flux<IndexData> indicesFlux1 = Flux.fromIterable(iscdsAndOtherVariable2)
+                .concatMap(tuple -> getMajorIndex(tuple.getT1(), tuple.getT2()))
+                .map(jsonData -> {
+                    ObjectMapper objectMapper = new ObjectMapper();
+                    try {
+                        return objectMapper.readValue(jsonData, IndexData.class);
+                    } catch (JsonProcessingException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+        System.out.println("indicesFlux1 = " + indicesFlux1);
 
-
-        System.out.println("indicesFlux = " + indicesFlux);
         List<IndexData> indicesList = indicesFlux.collectList().block();
-        System.out.println("indicesList = " + indicesList);
+        List<IndexData> indicesList1 = indicesFlux1.collectList().block();
         model.addAttribute("indicesKor", indicesList);
+        model.addAttribute("indicesOvr", indicesList1);
 
         model.addAttribute("jobDate", getJobDateTime());
 
-        return "domain/investment/indices";
+        return "domain/investment/investmentTotal";
     }
 
     public String getStringToday() {
@@ -105,7 +125,8 @@ public class KisController {
                         .queryParam("fid_period_div_code", "D")
                         .build())
                 .header("content-type","application/json")
-                .header("authorization","Bearer " + accessTokenManager.getAccessToken())
+                .header("authorization","Bearer " +
+                        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0b2tlbiIsImF1ZCI6IjU4NWY5YjlmLTRjYTYtNDNlOS1iMjk2LTE3ZThkZjcyYzIyNyIsImlzcyI6InVub2d3IiwiZXhwIjoxNzExNDEzOTg1LCJpYXQiOjE3MTEzMjc1ODUsImp0aSI6IlBTMHE5TDNUNW1YclRoNTJJc0lzQWJJNjZtQm1kUGg4M1lyYyJ9.smC8PppQzeWWzB0es-q4m1390P6F_1IwI8Wgx7VBsOQ7c4PONqnUmqxs_UYa9_fmKnmCxN5HtYFXTrcxrPeStg")
                 .header("appkey",KisConfig.APPKEY)
                 .header("appsecret",KisConfig.APPSECRET)
                 .header("tr_id",tr_id)
@@ -121,7 +142,7 @@ public class KisController {
         return webClient.get()
                 .uri(url)
                 .header("content-type","application/json")
-                .header("authorization","Bearer " + accessTokenManager.getAccessToken())
+                .header("authorization","Bearer " + "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0b2tlbiIsImF1ZCI6IjU4NWY5YjlmLTRjYTYtNDNlOS1iMjk2LTE3ZThkZjcyYzIyNyIsImlzcyI6InVub2d3IiwiZXhwIjoxNzExNDEzOTg1LCJpYXQiOjE3MTEzMjc1ODUsImp0aSI6IlBTMHE5TDNUNW1YclRoNTJJc0lzQWJJNjZtQm1kUGg4M1lyYyJ9.smC8PppQzeWWzB0es-q4m1390P6F_1IwI8Wgx7VBsOQ7c4PONqnUmqxs_UYa9_fmKnmCxN5HtYFXTrcxrPeStg")
                 .header("appkey",KisConfig.APPKEY)
                 .header("appsecret",KisConfig.APPSECRET)
                 .header("tr_id","FHKST01010100")
