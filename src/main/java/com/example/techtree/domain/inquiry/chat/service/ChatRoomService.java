@@ -5,6 +5,7 @@ import com.example.techtree.domain.inquiry.chat.entity.ChatMessage;
 import com.example.techtree.domain.inquiry.chat.entity.ChatRoom;
 import com.example.techtree.domain.member.entity.Member;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,6 +15,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class ChatRoomService {
+    @Autowired
     private final ChatRoomRepository chatRoomRepository;
 
     @Transactional
@@ -41,5 +43,9 @@ public class ChatRoomService {
 
     public Optional<ChatRoom> findById(long roomId) {
         return chatRoomRepository.findById(roomId);
+    }
+
+    public void deleteChatRoom(Long Id) {
+        chatRoomRepository.deleteById(Id);
     }
 }
