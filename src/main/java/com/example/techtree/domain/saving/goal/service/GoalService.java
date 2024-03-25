@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.example.techtree.domain.saving.goal.dto.GoalDto;
 import com.example.techtree.domain.saving.goal.entity.Goal;
+import com.example.techtree.domain.saving.goal.entity.GoalStatus;
 
 public interface GoalService {
 	Goal savingGoalCreate(GoalDto testDto, Long memberId);
@@ -28,6 +29,13 @@ public interface GoalService {
 	Page<Goal> findGoalsByMemberId(Long memberId, Pageable pageable);
 
 	String getGoalType(String goalName, Long memberId);
-	
+
 	boolean isDuplicateGoalName(String goalName, Long memberId);
+
+	List<Goal> findTop5GoalsByMemberId(Long memberId);
+
+	void updateCurrentPrice(Long goalId, Long savingPrice);
+
+	List<Goal> findByMemberIdAndStatus(Long memberId, GoalStatus status);
+
 }

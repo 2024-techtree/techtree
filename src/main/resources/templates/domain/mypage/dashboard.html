@@ -42,6 +42,16 @@
         </canvas>
     </div>
 </div>
+<div class="test12">
+    <div class="container mt-5">
+        <h2>완료된 저축 목표</h2>
+        <canvas id="completedGoalChart" width="800" height="400"
+                th:data-completed-goal-names="${completedGoalNames}"
+                th:data-completed-current-prices="${completedCurrentPrices}"
+                th:data-completed-goal-prices="${completedGoalPrices}">
+        </canvas>
+    </div>
+</div>
 <!-- Template-footer 시작 -->
 <footer th:replace="~{layout/footer :: TechTreeFooter}"></footer>
 <!-- Template-footer 끝 -->
