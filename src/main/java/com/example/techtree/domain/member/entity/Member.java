@@ -60,4 +60,8 @@ public class Member {
 
 		return this;
 	}
+
+//	public void setId(Long id) {
+//		this.memberId = id;
+//	}
 }
