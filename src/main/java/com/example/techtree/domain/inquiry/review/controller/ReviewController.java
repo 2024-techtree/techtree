@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 
@@ -47,7 +48,7 @@ public class ReviewController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/like/{id}")
-    public String like(Principal principal, @PathVariable("id") Long id) {
+    public String like(Principal principal, @PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
         // 현재 로그인한 사용자 정보 가져오기
         String username = principal.getName();
 
@@ -56,6 +57,13 @@ public class ReviewController {
 
         // 현재 로그인한 사용자를 Member로 변환하여 추천 처리
         Member member = reviewService.getMemberByUsername(username);
+
+        // 이미 추천한 후기인지 확인
+        if (reviewService.isAlreadyLiked(review, member)) {
+            // 이미 추천한 경우, 에러 메시지를 추가하고 리스트 페이지로 리다이렉트
+            redirectAttributes.addFlashAttribute("errorMessage", "이미 추천한 후기입니다.");
+            return "redirect:/review/list";
+        }
 
         // 추천 처리
         reviewService.like(review, member);

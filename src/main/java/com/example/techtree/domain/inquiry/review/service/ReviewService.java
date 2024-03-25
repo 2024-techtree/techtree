@@ -49,14 +49,9 @@ public class ReviewService {
         reviewRepository.save(review);
     }
 
-//    public void like(Long reviewId, Member member) {
-//        Optional<Review> optionalReview = reviewRepository.findById(reviewId);
-//        if (optionalReview.isPresent()) {
-//            Review review = optionalReview.get();
-//            review.getLike().add(member);
-//            reviewRepository.save(review);
-//        } else {
-//            throw new RuntimeException("Review not found with ID: " + reviewId);
-//        }
-//    }
+    public boolean isAlreadyLiked(Review review, Member member) {
+        // 후기의 추천자 목록에 해당 사용자가 포함되어 있는지 확인하여 이미 추천한 경우 true 반환
+        return review.getLike().contains(member);
+    }
+
 }
