@@ -1,12 +1,25 @@
 package com.example.techtree.domain.saving.goal.entity;
 
-import com.example.techtree.domain.member.entity.Member;
-import com.example.techtree.domain.saving.goal.dto.GoalDto;
-import jakarta.persistence.*;
-import lombok.*;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+
+import com.example.techtree.domain.member.entity.Member;
+import com.example.techtree.domain.saving.goal.dto.GoalDto;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
@@ -49,6 +62,17 @@ public class Goal {
 	//수정한 날짜
 	@Column
 	private LocalDateTime updateDate;
+
+	@Enumerated(EnumType.STRING)
+	private GoalStatus status; // 저축 목표 상태
+
+	public void updateStatus() {
+		if (this.currentPrice >= this.goalPrice) {
+			this.status = GoalStatus.COMPLETED;
+		} else {
+			this.status = GoalStatus.IN_PROGRESS;
+		}
+	}
 
 	public void updateCurrentPrice(Long savingPrice) {
 		this.currentPrice += savingPrice;
