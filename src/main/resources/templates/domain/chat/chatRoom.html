@@ -26,6 +26,7 @@
     <nav>
         <a href="make">채팅방 생성</a>
         <a href="list">채팅방 목록</a>
+        <button id="endConversationBtn" class="btn btn-danger" style="color: #333333" sec:authorize="hasRole('ROLE_ADMIN')">대화 종료</button>
     </nav>
 
     <!-- 채팅 메시지 목록 -->
@@ -33,13 +34,12 @@
         <!-- 여기에 채팅 메시지가 자동으로 추가됩니다. -->
         <th:block th:each="message : ${room.chatMessages}">
             <li th:class="${message.name eq username} ? 'list-group-item text-end' : 'list-group-item text-start'">
-                <strong th:text="${message.name}">Sender</strong>: <span th:text="${message.content}">Message</span>
             </li>
         </th:block>
     </ul>
 
     <!-- 메시지 입력 폼 -->
-    <form onsubmit="submitWriteForm(this); return false;" method="POST" class="mb-4">
+    <form id="chatForm" onsubmit="submitWriteForm(this); return false;" method="POST" class="mb-4">
         <div class="input-group">
             <input autocomplete="off" type="text" name="content" placeholder="메시지 입력" class="form-control">
             <button type="submit" class="btn btn-primary" style="background-color: #007bff;">전송</button>
@@ -68,5 +68,13 @@
 </script>
 <script src="/js/chat/chat.js" defer></script>
 <script src="/js/layout/header.js" defer></script>
+<script>
+    document.getElementById('endConversationBtn').addEventListener('click', function() {
+        // 대화 종료 버튼 클릭 시 실행되는 코드
+        document.getElementById('chatMessages').innerHTML = '<li class="list-group-item">관리자님이 대화를 종료했습니다.</li>';
+        document.getElementById('chatForm').querySelector('input[name="content"]').disabled = true;
+        document.getElementById('chatForm').querySelector('button[type="submit"]').disabled = true;
+    });
+</script>
 </body>
 </html>

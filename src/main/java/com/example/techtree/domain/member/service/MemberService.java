@@ -38,7 +38,7 @@ public class MemberService implements UserDetailsService {
         member.setBirthday(birthday);
         member.setProvider(SocialProvider.APP);
         member.setRole(Role.USER);
-        // member.setPhoneNumber(phoneNumber);
+        member.setPhoneNumber(phoneNumber);
         // member.setProfileImage(profileImage);
 
         String defaultProfileImage = "/images/기본 프로필.jpg";
