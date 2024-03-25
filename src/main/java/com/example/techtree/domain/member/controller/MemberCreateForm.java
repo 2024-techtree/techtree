@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.Getter;
@@ -35,9 +36,17 @@ public class MemberCreateForm {
 
 	private LocalDate birthday;
 
+	@Pattern(regexp="[0-9]{11}", message="올바른 핸드폰 번호를 입력하세요.")
 	private String phoneNumber;
 
 	private String profile;
 
 	private String profileImage;
+
+	@Getter
+	private boolean loginIdExists;
+
+	public void setLoginIdExists(boolean loginIdExists) {
+		this.loginIdExists = loginIdExists;
+	}
 }

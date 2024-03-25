@@ -41,6 +41,12 @@ public class MemberService implements UserDetailsService {
         // member.setPhoneNumber(phoneNumber);
         // member.setProfileImage(profileImage);
 
+        String defaultProfileImage = "/images/기본 프로필.jpg";
+        if (profile == null || profile.isEmpty()) {
+            profile = defaultProfileImage; // 기본 이미지 파일 경로로 변경
+        }
+        member.setProfile(profile);
+
         this.memberRepository.save(member);
         return member;
     }

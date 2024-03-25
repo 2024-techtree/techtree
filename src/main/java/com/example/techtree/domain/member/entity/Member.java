@@ -15,6 +15,7 @@ import static jakarta.persistence.EnumType.STRING;
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
+
 public class Member {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -60,4 +61,5 @@ public class Member {
 
 		return this;
 	}
+
 }

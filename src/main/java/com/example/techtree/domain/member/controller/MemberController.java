@@ -1,6 +1,9 @@
 package com.example.techtree.domain.member.controller;
 
+import com.example.techtree.domain.member.dao.MemberRepository;
 import com.example.techtree.domain.member.service.MemberService;
+
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class MemberController {
 
 	private final MemberService memberService;
+	private final MemberRepository memberRepository;
 
 	@GetMapping("/login")
 	public String loginForm() {
@@ -30,9 +34,11 @@ public class MemberController {
 	}
 
 	@PostMapping("/signup")
-	public String signup(@ModelAttribute MemberCreateForm memberCreateForm, BindingResult bindingResult) {
-		if (bindingResult.hasErrors()) {
-			return "domain/member/signup_form";
+	public String signup(@ModelAttribute @Valid MemberCreateForm memberCreateForm, BindingResult bindingResult) {
+		// 아이디 중복 검사
+		if (memberRepository.findByLoginId(memberCreateForm.getLoginId()).isPresent()) {
+			bindingResult.rejectValue("loginId", "loginId.exists", "이미 사용 중인 아이디입니다.");
+			memberCreateForm.setLoginIdExists(true);
 		}
 
 		if (!memberCreateForm.getPassword1().equals(memberCreateForm.getPassword2())) {
