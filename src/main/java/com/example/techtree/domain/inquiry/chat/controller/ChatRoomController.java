@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -26,6 +27,7 @@ import java.util.List;
 @RequestMapping("/chat/room")
 @RequiredArgsConstructor
 public class ChatRoomController {
+    @Autowired
     private final ChatRoomService chatRoomService;
     private final ChatMessageService chatMessageService;
     private final SimpMessagingTemplate messagingTemplate;
@@ -69,8 +71,11 @@ public class ChatRoomController {
 
     @GetMapping("/list")
     public String showList(Model model) {
-            List<ChatRoom> chatRooms = chatRoomService.findAll();
+        List<ChatRoom> chatRooms = chatRoomService.findAll();
+        String loginId = memberService.getLoginId();
+        Member member = memberService.findByLoginId(loginId);
         model.addAttribute("chatRooms", chatRooms);
+        model.addAttribute("member", member);
 
         return "domain/chat/chatList";
     }
@@ -104,5 +109,12 @@ public class ChatRoomController {
         messagingTemplate.convertAndSend("/topic/chat/room/" + roomId + "/messageCreated", writeRs);
 
         return RsData.of("S-1", "성공");
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/delete")
+    public String deleteChatRoom(@RequestParam(value = "id") Long id) {
+        chatRoomService.deleteChatRoom(id);
+        return "redirect:/chat/room/list";
     }
 }
