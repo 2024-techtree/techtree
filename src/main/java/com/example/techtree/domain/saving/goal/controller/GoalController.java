@@ -143,7 +143,10 @@ public class GoalController {
 	}
 
 	@GetMapping("/modify/{savingGoalId}")
-	public String savingGoalModifyPage(@PathVariable Long savingGoalId, Model model) {
+	public String savingGoalModifyPage(@PathVariable Long savingGoalId, Model model, Principal principal) {
+		if (principal == null) {
+			return "redirect:/member/login";
+		}
 		Goal savingGoal = goalService.findGoalById(savingGoalId);
 
 		model.addAttribute("savingGoal", savingGoal);
@@ -153,7 +156,18 @@ public class GoalController {
 
 	// 이 부분은 목표 수정을 처리하는 컨트롤러입니다.
 	@PostMapping("/modify/{savingGoalId}")
-	public String savingGoalModify(@PathVariable Long savingGoalId, @ModelAttribute GoalDto goalDto) {
+	public String savingGoalModify(@PathVariable Long savingGoalId, @ModelAttribute GoalDto goalDto,
+		Principal principal) {
+		if (principal == null) {
+			return "redirect:/member/login";
+		}
+
+		String loginId = principal.getName();
+
+		Long memberId = memberRepository.findByLoginId(loginId)
+			.orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + loginId))
+			.getMemberId();
+
 		try {
 			// 목표 수정 서비스를 호출하여 수정된 목표를 가져옵니다.
 			Goal modifiedGoal = goalService.modifyGoal(savingGoalId, goalDto);

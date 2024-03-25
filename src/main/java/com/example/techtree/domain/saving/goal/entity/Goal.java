@@ -1,5 +1,7 @@
 package com.example.techtree.domain.saving.goal.entity;
 
+import static com.example.techtree.domain.saving.goal.entity.GoalStatus.*;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -80,6 +82,7 @@ public class Goal {
 
 	public static Goal modifyGoal(Goal existingGoal, GoalDto goalDto) {
 		return Goal.builder()
+			.member(existingGoal.getMember()) // 기존 Goal의 member 정보를 유지
 			.savingGoalId(existingGoal.getSavingGoalId())
 			.goalName(goalDto.getGoalName())
 			.goalType(goalDto.getGoalType())
@@ -88,6 +91,7 @@ public class Goal {
 			.goalPrice(goalDto.getGoalPrice())
 			.currentPrice(goalDto.getCurrentPrice())
 			.updateDate(LocalDateTime.now())
+			.status(goalDto.getCurrentPrice() >= goalDto.getGoalPrice() ? COMPLETED : IN_PROGRESS)
 			.build();
 	}
 
