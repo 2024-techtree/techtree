@@ -36,7 +36,6 @@ public class MemberCreateForm {
 
 	private LocalDate birthday;
 
-	@Pattern(regexp="[0-9]{11}", message="올바른 핸드폰 번호를 입력하세요.")
 	private String phoneNumber;
 
 	private String profile;
