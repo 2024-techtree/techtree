@@ -6,6 +6,7 @@ import com.example.techtree.domain.member.entity.Role;
 import com.example.techtree.domain.member.entity.SocialProvider;
 import com.example.techtree.global.rsData.DataNotFoundException;
 import com.example.techtree.global.security.SecurityUser;
+import com.example.techtree.global.security.SecurityUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -39,6 +40,12 @@ public class MemberService implements UserDetailsService {
         member.setRole(Role.USER);
         member.setPhoneNumber(phoneNumber);
         // member.setProfileImage(profileImage);
+
+        String defaultProfileImage = "/images/기본 프로필.jpg";
+        if (profile == null || profile.isEmpty()) {
+            profile = defaultProfileImage; // 기본 이미지 파일 경로로 변경
+        }
+        member.setProfile(profile);
 
         this.memberRepository.save(member);
         return member;
