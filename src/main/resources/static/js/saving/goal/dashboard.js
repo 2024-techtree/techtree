@@ -62,7 +62,9 @@ document.addEventListener('DOMContentLoaded', function () {
     var completedCanvas = document.getElementById('completedGoalChart'); // 새로운 canvas 요소의 ID
     var completedGoalNames = JSON.parse(completedCanvas.getAttribute('data-completed-goal-names'));
 
-
+    while (completedGoalNames.length < 1) {
+        completedGoalNames.push(`샘플`);
+    }
     var ctxCompleted = completedCanvas.getContext('2d');
     var completedChart = new Chart(ctxCompleted, {
         type: 'doughnut', // 원형 차트 유형을 'doughnut'으로 설정
