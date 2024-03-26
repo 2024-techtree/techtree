@@ -126,6 +126,5 @@ public class MemberService implements UserDetailsService {
 
         // 비밀번호 업데이트
         member.setPassword(encryptedPassword);
-//        memberRepository.save(member);
     }
 }
