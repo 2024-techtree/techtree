@@ -30,12 +30,13 @@
           method="post">
         <!-- Hidden input field to send the goal ID to the controller -->
         <input type="hidden" id="savingGoalId" name="savingGoalId" th:value="${savingGoal.savingGoalId}">
-        <label for="goalName">저축 목표 이름:</label>
-        <input type="text" id="goalName" name="goalName" th:value="${savingGoal.goalName}" required maxlength="30">
+        <label for="goalName" class="form-label">저축 목표 이름</label>
+        <input type="text" id="goalName" name="goalName" th:value="${savingGoal.goalName}" required maxlength="30"
+               class="form-control">
         <br>
 
-        <label for="goalType">저축 목표 유형:</label>
-        <select id="goalType" name="goalType" required>
+        <label for="goalType" class="form-label">저축 목표 유형</label>
+        <select id="goalType" name="goalType" required class="form-control">
             <option value="정기 예금" th:selected="${savingGoal.goalType eq '정기 예금'}">정기 예금</option>
             <option value="정기 적금" th:selected="${savingGoal.goalType eq '정기 적금'}">정기 적금</option>
             <option value="자유 적금" th:selected="${savingGoal.goalType eq '자유 적금'}">자유 적금</option>
@@ -43,21 +44,23 @@
         </select>
         <br>
 
-        <label for="goalPrice">저축 목표 금액:</label>
-        <input type="text" id="goalPrice" name="goalPrice" th:value="${savingGoal.goalPrice}" required maxlength="13">
+        <label for="goalPrice" class="form-label">저축 목표 금액</label>
+        <input type="text" id="goalPrice" name="goalPrice" th:value="${savingGoal.goalPrice}" required maxlength="13"
+               class="form-control">
         <br>
 
-        <label for="startDate">저축 목표 시작일:</label>
-        <input type="date" id="startDate" name="startDate" th:value="${savingGoal.startDate}" required>
+        <label for="startDate" class="form-label">저축 목표 시작일</label>
+        <input type="date" id="startDate" name="startDate" th:value="${savingGoal.startDate}" required
+               class="form-control">
         <br>
 
-        <label for="endDate">저축 목표 종료일:</label>
-        <input type="date" id="endDate" name="endDate" th:value="${savingGoal.endDate}" required>
+        <label for="endDate" class="form-label">저축 목표 종료일</label>
+        <input type="date" id="endDate" name="endDate" th:value="${savingGoal.endDate}" required class="form-control">
         <br>
 
-        <label for="currentPrice">저축 현재 금액:</label>
+        <label for="currentPrice" class="form-label">저축 현재 금액</label>
         <input type="text" id="currentPrice" name="currentPrice" th:value="${savingGoal.currentPrice}" required
-               maxlength="13">
+               maxlength="13" class="form-control">
         <br>
 
         <button class="input-button" type="submit">수정</button>
