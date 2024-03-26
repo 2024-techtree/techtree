@@ -42,3 +42,9 @@ techtree_dev.trace.db
 
 ### secret ###
 #application-secret.yml
+
+### DS.Store ###
+.DS_Store
+._.DS_Store
+**/.DS_Store
+**/._.DS_Store

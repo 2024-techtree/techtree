@@ -1,6 +1,9 @@
 package com.example.techtree.domain.member.controller;
 
+import com.example.techtree.domain.member.dao.MemberRepository;
 import com.example.techtree.domain.member.service.MemberService;
+
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
@@ -16,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class MemberController {
 
 	private final MemberService memberService;
+	private final MemberRepository memberRepository;
 
 	@GetMapping("/login")
 	public String loginForm() {
@@ -25,20 +29,27 @@ public class MemberController {
 	@GetMapping("/signup")
 	public String signup(MemberCreateForm memberCreateForm, Model model) {
 
-		return "signup_form";
+		return "domain/member/signup_form";
 	}
 
 	@PostMapping("/signup")
-	public String signup(@ModelAttribute MemberCreateForm memberCreateForm, BindingResult bindingResult) {
-		if (bindingResult.hasErrors()) {
-			return "signup_form";
+	public String signup(@ModelAttribute @Valid MemberCreateForm memberCreateForm, BindingResult bindingResult) {
+
+		if (memberRepository.existsByLoginId(memberCreateForm.getLoginId())) { // 중복 아이디 검사 로직 변경
+			bindingResult.rejectValue("loginId", "loginId.exists", "이미 사용 중인 아이디입니다.");
+			return "domain/member/signup_form";
 		}
 
 		if (!memberCreateForm.getPassword1().equals(memberCreateForm.getPassword2())) {
 			bindingResult.rejectValue("password2", "passwordInCorrect",
 				"비밀번호가 일치하지 않습니다.");
-			return "signup_form";
+			return "domain/member/signup_form";
 
+		}
+
+		if (memberCreateForm.getPhoneNumber().length() != 11 || memberRepository.existsByPhoneNumber(memberCreateForm.getPhoneNumber())) {
+			bindingResult.rejectValue("phoneNumber", "phoneNumber.invalid", "핸드폰 번호를 다시 입력해주세요.");
+			return "domain/member/signup_form";
 		}
 
 		try {
@@ -48,11 +59,11 @@ public class MemberController {
 		} catch (DataIntegrityViolationException e) {
 			e.printStackTrace();
 			bindingResult.reject("signupFailed", "이미 등록된 사용자입니다.");
-			return "signup_form";
+			return "domain/member/signup_form";
 		} catch (Exception e) {
 			e.printStackTrace();
 			bindingResult.reject("signupFailed", e.getMessage());
-			return "signup_form";
+			return "domain/member/signup_form";
 		}
 
 		return "redirect:/";

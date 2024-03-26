@@ -60,12 +60,8 @@
             <input type="tel" id="phoneNumber" name="phoneNumber" th:field="${memberCreateForm.phoneNumber}">
         </div>
         <div>
-            <label for="profile">프로필 경로:</label>
-            <input type="text" id="profile" name="profile" th:field="${memberCreateForm.profile}">
-        </div>
-        <div>
-            <label for="profileImage">프로필 이미지 경로:</label>
-            <input type="text" id="profileImage" name="profileImage" th:field="${memberCreateForm.profileImage}">
+            <label for="profile">프로필 이미지:</label>
+            <input type="file" id="profile" name="profile" th:field="${memberCreateForm.profile}">
         </div>
         <button type="submit">가입하기</button>
     </form>
