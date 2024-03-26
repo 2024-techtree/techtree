@@ -75,9 +75,44 @@ public class RecordController {
 
 	@GetMapping("/goal/{goalId}/records")
 	public String savingRecordListByGoal(@PathVariable Long goalId,
-		@RequestParam(name = "page", defaultValue = "1") int page, Model model) {
+		@RequestParam(name = "page", defaultValue = "1") int page, Model model, Principal principal) {
+		if (principal == null) {
+			return "redirect:/member/login";
+		}
+
 		Pageable pageable = PageRequest.of(page - 1, 10);
 		Page<Record> recordPage = recordService.getRecordsByGoalId(goalId, pageable);
+
+		final int PAGE_BLOCK = 5;
+		int startBlockPage = ((page - 1) / PAGE_BLOCK) * PAGE_BLOCK + 1;
+		int endBlockPage = recordPage.getTotalPages() > 0 ?
+			Math.min(startBlockPage + PAGE_BLOCK - 1, recordPage.getTotalPages()) : 1;
+
+		model.addAttribute("records", recordPage.getContent());
+		model.addAttribute("startBlockPage", startBlockPage);
+		model.addAttribute("endBlockPage", endBlockPage);
+		model.addAttribute("currentPage", page);
+		model.addAttribute("totalPages", recordPage.getTotalPages());
+		model.addAttribute("goalId", goalId); // 목표 ID도 모델에 추가
+
+		return "/domain/saving/record_list";
+	}
+
+	@GetMapping("/list")
+	public String savingRecordAllListByGoal(Long goalId,
+		@RequestParam(name = "page", defaultValue = "1") int page, Model model, Principal principal) {
+		if (principal == null) {
+			return "redirect:/member/login";
+		}
+
+		String loginId = principal.getName();
+
+		Long memberId = memberRepository.findByLoginId(loginId)
+			.orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + loginId))
+			.getMemberId();
+
+		Pageable pageable = PageRequest.of(page - 1, 10);
+		Page<Record> recordPage = recordService.getRecordsByMemberId(memberId, pageable);
 
 		final int PAGE_BLOCK = 5;
 		int startBlockPage = ((page - 1) / PAGE_BLOCK) * PAGE_BLOCK + 1;

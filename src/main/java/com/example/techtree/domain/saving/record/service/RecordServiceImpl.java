@@ -52,4 +52,10 @@ public class RecordServiceImpl implements RecordService {
 		return recordRepository.findByGoal_SavingGoalId(goalId, pageable);
 	}
 
+	@Override
+	public Page<Record> getRecordsByMemberId(Long memberId, Pageable pageable) {
+		// 여기에 memberId를 사용하여 모든 저축 기록을 조회하는 로직을 구현합니다.
+		return recordRepository.findAllByMember_MemberId(memberId, pageable);
+	}
+
 }
