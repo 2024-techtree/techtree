@@ -36,7 +36,6 @@ public class Member {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long memberId;
-	@Column(unique = true)
 	private String loginId;
 	private String username; //가입한 사람의 이름. 동명이인 고려해 중복 해제
 	private String password;
