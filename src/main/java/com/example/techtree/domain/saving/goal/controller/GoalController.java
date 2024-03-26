@@ -207,7 +207,7 @@ public class GoalController {
 		model.addAttribute("goalNames", convertToJson(goalNames));
 		model.addAttribute("currentPrices", convertToJson(currentPrices));
 		model.addAttribute("goalPrices", convertToJson(goalPrices));
-
+		model.addAttribute("currentPage", "dashboard");
 		model.addAttribute("completedGoalNames", convertToJson(completedGoalNames));
 		model.addAttribute("completedCurrentPrices", convertToJson(completedCurrentPrices));
 		model.addAttribute("completedGoalPrices", convertToJson(completedGoalPrices));
