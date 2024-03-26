@@ -125,8 +125,10 @@ public class KisController {
                         .queryParam("fid_period_div_code", "D")
                         .build())
                 .header("content-type","application/json")
-                .header("authorization","Bearer " +
-                        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0b2tlbiIsImF1ZCI6IjU4NWY5YjlmLTRjYTYtNDNlOS1iMjk2LTE3ZThkZjcyYzIyNyIsImlzcyI6InVub2d3IiwiZXhwIjoxNzExNDEzOTg1LCJpYXQiOjE3MTEzMjc1ODUsImp0aSI6IlBTMHE5TDNUNW1YclRoNTJJc0lzQWJJNjZtQm1kUGg4M1lyYyJ9.smC8PppQzeWWzB0es-q4m1390P6F_1IwI8Wgx7VBsOQ7c4PONqnUmqxs_UYa9_fmKnmCxN5HtYFXTrcxrPeStg")
+                .header("authorization","Bearer " + "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdW" +
+                        "IiOiJ0b2tlbiIsImF1ZCI6IjEwMGQ0NzVjLTg2ZDQtNGRkZi1hOGM2LTAxODUzMDQxM2YyNCIsImlzcyI6InVub2d3IiwiZXhwI" +
+                        "joxNzExNTI0OTI1LCJpYXQiOjE3MTE0Mzg1MjUsImp0aSI6IlBTMHE5TDNUNW1YclRoNTJJc0lzQWJJNjZtQm1kUGg4M1lyYyJ9" +
+                        ".yVVGh3MOdIn2hQZoxgfsDc3KLpL5NoxkH4T0eg-KlVISzbholqY-boEW5P8KNEJGH0Maj-oU5PI1XvePrMzrJg")
                 .header("appkey",KisConfig.APPKEY)
                 .header("appsecret",KisConfig.APPSECRET)
                 .header("tr_id",tr_id)
@@ -142,7 +144,10 @@ public class KisController {
         return webClient.get()
                 .uri(url)
                 .header("content-type","application/json")
-                .header("authorization","Bearer " + "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0b2tlbiIsImF1ZCI6IjU4NWY5YjlmLTRjYTYtNDNlOS1iMjk2LTE3ZThkZjcyYzIyNyIsImlzcyI6InVub2d3IiwiZXhwIjoxNzExNDEzOTg1LCJpYXQiOjE3MTEzMjc1ODUsImp0aSI6IlBTMHE5TDNUNW1YclRoNTJJc0lzQWJJNjZtQm1kUGg4M1lyYyJ9.smC8PppQzeWWzB0es-q4m1390P6F_1IwI8Wgx7VBsOQ7c4PONqnUmqxs_UYa9_fmKnmCxN5HtYFXTrcxrPeStg")
+                .header("authorization","Bearer " + "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdW" +
+                        "IiOiJ0b2tlbiIsImF1ZCI6IjEwMGQ0NzVjLTg2ZDQtNGRkZi1hOGM2LTAxODUzMDQxM2YyNCIsImlzcyI6InVub2d3IiwiZXhwI" +
+                        "joxNzExNTI0OTI1LCJpYXQiOjE3MTE0Mzg1MjUsImp0aSI6IlBTMHE5TDNUNW1YclRoNTJJc0lzQWJJNjZtQm1kUGg4M1lyYyJ9" +
+                        ".yVVGh3MOdIn2hQZoxgfsDc3KLpL5NoxkH4T0eg-KlVISzbholqY-boEW5P8KNEJGH0Maj-oU5PI1XvePrMzrJg")
                 .header("appkey",KisConfig.APPKEY)
                 .header("appsecret",KisConfig.APPSECRET)
                 .header("tr_id","FHKST01010100")
