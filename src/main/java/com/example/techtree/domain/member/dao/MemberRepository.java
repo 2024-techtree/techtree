@@ -11,6 +11,8 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     Optional<Member> findByLoginIdAndProvider(String loginId, SocialProvider provider);
 
+    Optional<Member> findByUsernameAndEmailAndPhoneNumber(String username, String email, String phoneNumber);
+
     Optional<Member> findByUsername(String name);
 
 	Optional<Member> findByMemberId(Long Id);
@@ -18,4 +20,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 	boolean existsByLoginId(String loginId);
 
 	boolean existsByPhoneNumber(String phoneNumber);
+
+    Member findByLoginIdAndUsernameAndEmailAndPhoneNumber(String loginId, String username, String email, String phoneNumber);
+
 }
