@@ -94,10 +94,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 legend: {
                     position: 'top', // 범례 위치를 상단으로 설정
                 },
-                title: {
-                    display: true,
-                    text: '완료된 저축 목표' // 차트 제목 설정
-                },
                 tooltip: {
                     callbacks: {
                         label: function (context) {
