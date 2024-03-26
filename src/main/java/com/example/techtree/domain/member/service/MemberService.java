@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.Optional;
@@ -99,7 +100,7 @@ public class MemberService implements UserDetailsService {
         String email = "";
         if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            if(userDetails instanceof SecurityUser) {
+            if (userDetails instanceof SecurityUser) {
                 email = ((SecurityUser) userDetails).getLoginId();
                 System.out.println("이메일 가져오기 성공 email = " + email);
             } else {
@@ -111,4 +112,26 @@ public class MemberService implements UserDetailsService {
         return email;
     }
 
+    public Optional<String> findLoginIdByUsernameEmailAndPhoneNumber(String username, String email, String phoneNumber) {
+        return memberRepository.findByUsernameAndEmailAndPhoneNumber(username, email, phoneNumber)
+                .map(Member::getLoginId);
+    }
+
+    public boolean validateUser(String loginId, String username, String email, String phoneNumber) {
+        Member member = memberRepository.findByLoginIdAndUsernameAndEmailAndPhoneNumber(loginId, username, email, phoneNumber);
+        return member != null;
+    }
+
+    @Transactional
+    public void updatePassword(String loginId, String newPassword) {
+        // 새 비밀번호를 암호화
+        String encryptedPassword = passwordEncoder.encode(newPassword);
+
+        // 회원 정보 조회
+        Member member = memberRepository.findByLoginId(loginId)
+                .orElseThrow(() -> new DataNotFoundException("User not found with loginId: " + loginId));
+
+        // 비밀번호 업데이트
+        member.setPassword(encryptedPassword);
+    }
 }

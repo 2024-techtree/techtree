@@ -27,7 +27,9 @@
 <!-- Template-header 끝 -->
 
 <!-- ----------------------------------------------- -->
-
+<div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+    <span th:text="${errorMessage}"></span>
+</div>
 <div class="container mt-4 mb-4">
 
     <div class="alert alert-info" role="alert">
@@ -65,7 +67,7 @@
                     <p class="card-text" th:text="${review.createDate}"></p>
                 </div>
                 <a href="javascript:void(0);" class="recommend btn btn-sm btn-outline-secondary"
-                   th:data-uri="@{|/review/list/${review.id}|}">
+                   th:data-uri="@{|/review/like/${review.id}|}">
                     추천
                     <span class="badge rounded-pill bg-success" th:text="${#lists.size(review.like)}"></span>
                 </a>
