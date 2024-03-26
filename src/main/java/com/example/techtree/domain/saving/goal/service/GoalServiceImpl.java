@@ -19,6 +19,8 @@ import com.example.techtree.domain.saving.goal.dto.GoalDto;
 import com.example.techtree.domain.saving.goal.entity.Goal;
 import com.example.techtree.domain.saving.goal.entity.GoalStatus;
 import com.example.techtree.domain.saving.record.dao.RecordRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -159,6 +161,16 @@ public class GoalServiceImpl implements GoalService {
 
 		// 조회된 Page<Goal>에서 목록 가져오기
 		return goals.getContent();
+	}
+
+	public String convertToJson(List<?> list) {
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			return mapper.writeValueAsString(list);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+			return "[]";
+		}
 	}
 
 }

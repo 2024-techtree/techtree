@@ -39,4 +39,6 @@ public interface GoalService {
 	List<Goal> findByMemberIdAndStatus(Long memberId, GoalStatus status);
 
 	List<Goal> findTop5CompletedGoalsByMemberId(Long memberId, GoalStatus status);
+
+	String convertToJson(List<?> list);
 }
