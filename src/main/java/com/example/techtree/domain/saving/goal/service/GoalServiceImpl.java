@@ -1,10 +1,14 @@
 package com.example.techtree.domain.saving.goal.service;
 
+import static com.example.techtree.domain.saving.goal.entity.GoalStatus.*;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,6 +17,7 @@ import com.example.techtree.domain.member.entity.Member;
 import com.example.techtree.domain.saving.goal.dao.GoalRepository;
 import com.example.techtree.domain.saving.goal.dto.GoalDto;
 import com.example.techtree.domain.saving.goal.entity.Goal;
+import com.example.techtree.domain.saving.goal.entity.GoalStatus;
 import com.example.techtree.domain.saving.record.dao.RecordRepository;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -38,6 +43,7 @@ public class GoalServiceImpl implements GoalService {
 			.goalPrice(goalDto.getGoalPrice())
 			.startDate(goalDto.getStartDate())
 			.endDate(goalDto.getEndDate())
+			.status(goalDto.getCurrentPrice() >= goalDto.getGoalPrice() ? COMPLETED : IN_PROGRESS)
 			.updateDate(LocalDateTime.now()) // 현재 시간으로 업데이트 날짜 설정
 			.currentPrice(goalDto.getCurrentPrice())
 			.member(member)
@@ -113,4 +119,46 @@ public class GoalServiceImpl implements GoalService {
 	public boolean isDuplicateGoalName(String goalName, Long memberId) {
 		return goalRepository.findByGoalNameAndMember_MemberId(goalName, memberId) != null;
 	}
+
+	@Override
+	public List<Goal> findTop5GoalsByMemberId(Long memberId) {
+		Member member = memberRepository.findById(memberId)
+			.orElseThrow(() -> new IllegalArgumentException("해당 사용자가 존재하지 않습니다. id=" + memberId));
+		PageRequest pageRequest = PageRequest.of(0, 5, Sort.by("updateDate").descending());
+		return goalRepository.findByMemberAndCurrentPriceLessThanGoalPriceOrderByUpdateDateDesc(member, pageRequest)
+			.getContent();
+	}
+
+	@Override
+	@Transactional
+	public void updateCurrentPrice(Long goalId, Long savingPrice) {
+		Goal goal = goalRepository.findById(goalId)
+			.orElseThrow(() -> new IllegalArgumentException("Invalid goal ID: " + goalId));
+
+		goal.updateCurrentPrice(savingPrice);
+		goal.updateStatus(); // 상태 업데이트 호출
+
+		goalRepository.save(goal); // 변경된 엔티티를 저장
+	}
+
+	@Override
+	public List<Goal> findByMemberIdAndStatus(Long memberId, GoalStatus status) {
+		return goalRepository.findByMemberIdAndStatus(memberId, status);
+	}
+
+	@Override
+	public List<Goal> findTop5CompletedGoalsByMemberId(Long memberId, GoalStatus status) {
+		Member member = memberRepository.findById(memberId)
+			.orElseThrow(() -> new IllegalArgumentException("해당 사용자가 존재하지 않습니다. id=" + memberId));
+
+		// 상태가 status인 목표를 찾기 위해 PageRequest 생성
+		PageRequest pageRequest = PageRequest.of(0, 5, Sort.by("updateDate").descending());
+
+		// findByMemberAndStatusOrderByUpdateDateDesc 메서드를 호출하여 상위 5개의 Goal 목록 조회
+		Page<Goal> goals = goalRepository.findByMemberAndStatusOrderByUpdateDateDesc(member, status, pageRequest);
+
+		// 조회된 Page<Goal>에서 목록 가져오기
+		return goals.getContent();
+	}
+
 }

@@ -1,21 +1,37 @@
 package com.example.techtree.domain.member.entity;
-import com.example.techtree.domain.saving.goal.entity.Goal;
-import jakarta.persistence.*;
-import lombok.*;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
+import static jakarta.persistence.EnumType.*;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import static jakarta.persistence.EnumType.STRING;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
+import com.example.techtree.domain.saving.goal.entity.Goal;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 @Getter
 @Setter
 @Entity
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
-
 public class Member {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,7 +52,7 @@ public class Member {
 	private SocialProvider provider;    // 카카오 기준으로 값 넣기, 없다면 null
 	private String providerId;  // 소셜 전용 ID 변수
 
-	@Enumerated(STRING)	// Constraint825 에 대한 에러 부분
+	@Enumerated(STRING)    // Constraint825 에 대한 에러 부분
 	@Column
 	private Role role;
 
@@ -46,8 +62,7 @@ public class Member {
 		if (this.role != null && this.role.equals(Role.ADMIN)) {
 			System.out.println("Admin ----");
 			authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-		}
-		else {
+		} else {
 			System.out.println("Member ----");
 			authorities.add(new SimpleGrantedAuthority("ROLE_MEMBER"));
 		}
@@ -61,5 +76,4 @@ public class Member {
 
 		return this;
 	}
-
 }

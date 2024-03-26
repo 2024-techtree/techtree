@@ -1,0 +1,19 @@
+<html>
+<head>
+    <link rel="stylesheet" href="/css/common/sidelayout.css">
+</head>
+<body>
+
+<!-- 왼쪽 네비게이션 메뉴 -->
+<aside class="template--leftAside">
+    <nav class="nav flex-column">
+        <a class="nav-link" href="/member/mypage">개인정보</a>
+        <a class="nav-link" th:classappend="${currentPage == 'dashboard' ? 'active' : ''}"
+           href="/saving/goal/dashboard">대시보드</a>
+        <a class="nav-link" href="/member/inquiry">문의내역</a>
+        <a class="nav-link" href="/member/logout">로그아웃</a>
+    </nav>
+</aside>
+
+</body>
+</html>

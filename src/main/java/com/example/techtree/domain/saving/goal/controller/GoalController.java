@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.example.techtree.domain.member.dao.MemberRepository;
 import com.example.techtree.domain.saving.goal.dto.GoalDto;
 import com.example.techtree.domain.saving.goal.entity.Goal;
+import com.example.techtree.domain.saving.goal.entity.GoalStatus;
 import com.example.techtree.domain.saving.goal.service.GoalService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -69,8 +70,10 @@ public class GoalController {
 	}
 
 	@GetMapping("/detail/{savingGoalId}")
-	public String savingGoalDetail(@PathVariable Long savingGoalId, Model model) {
-
+	public String savingGoalDetail(@PathVariable Long savingGoalId, Model model, Principal principal) {
+		if (principal == null) {
+			return "redirect:/member/login";
+		}
 		Goal goal = goalService.findGoalById(savingGoalId);
 		model.addAttribute("savingGoal", goal);
 		return "domain/saving/saving_goal_detail";
@@ -142,7 +145,10 @@ public class GoalController {
 	}
 
 	@GetMapping("/modify/{savingGoalId}")
-	public String savingGoalModifyPage(@PathVariable Long savingGoalId, Model model) {
+	public String savingGoalModifyPage(@PathVariable Long savingGoalId, Model model, Principal principal) {
+		if (principal == null) {
+			return "redirect:/member/login";
+		}
 		Goal savingGoal = goalService.findGoalById(savingGoalId);
 
 		model.addAttribute("savingGoal", savingGoal);
@@ -178,17 +184,33 @@ public class GoalController {
 			.orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + loginId))
 			.getMemberId();
 
-		List<Goal> goals = goalService.findGoalsByMemberId(memberId, Pageable.unpaged()).getContent();
+		List<Goal> top5Goals = goalService.findTop5GoalsByMemberId(memberId);
+		// "완료" 상태의 저축 목표 조회
+		List<Goal> top5CompletedGoals = goalService.findTop5CompletedGoalsByMemberId(memberId, GoalStatus.COMPLETED);
 
 		// Java 8 스트림을 사용하여 데이터 가공
-		List<String> goalNames = goals.stream().map(Goal::getGoalName).collect(Collectors.toList());
-		List<Long> currentPrices = goals.stream().map(Goal::getCurrentPrice).collect(Collectors.toList());
-		List<Long> goalPrices = goals.stream().map(Goal::getGoalPrice).collect(Collectors.toList());
+		List<String> goalNames = top5Goals.stream().map(Goal::getGoalName).collect(Collectors.toList());
+		List<Long> currentPrices = top5Goals.stream().map(Goal::getCurrentPrice).collect(Collectors.toList());
+		List<Long> goalPrices = top5Goals.stream().map(Goal::getGoalPrice).collect(Collectors.toList());
+
+		List<String> completedGoalNames = top5CompletedGoals.stream()
+			.map(Goal::getGoalName)
+			.collect(Collectors.toList());
+		List<Long> completedCurrentPrices = top5CompletedGoals.stream()
+			.map(Goal::getCurrentPrice)
+			.collect(Collectors.toList());
+		List<Long> completedGoalPrices = top5CompletedGoals.stream()
+			.map(Goal::getGoalPrice)
+			.collect(Collectors.toList());
 
 		// 가공된 데이터를 모델에 추가
 		model.addAttribute("goalNames", convertToJson(goalNames));
 		model.addAttribute("currentPrices", convertToJson(currentPrices));
 		model.addAttribute("goalPrices", convertToJson(goalPrices));
+		model.addAttribute("currentPage", "dashboard");
+		model.addAttribute("completedGoalNames", convertToJson(completedGoalNames));
+		model.addAttribute("completedCurrentPrices", convertToJson(completedCurrentPrices));
+		model.addAttribute("completedGoalPrices", convertToJson(completedGoalPrices));
 
 		return "domain/mypage/dashboard";
 	}
@@ -202,4 +224,5 @@ public class GoalController {
 			return "[]";
 		}
 	}
+
 }

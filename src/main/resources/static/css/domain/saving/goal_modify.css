@@ -1,0 +1,26 @@
+.form-label {
+    font-weight: bold;
+    color: #007bff;
+    margin-bottom: 10px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    border: 1px solid #ced4da;
+    box-sizing: border-box;
+}
+
+.input-button {
+    width: 100%; /* 버튼의 너비를 폼의 너비에 맞춥니다. */
+    padding: 10px 0; /* 상하 패딩을 조정하여 버튼의 높이를 조절합니다. */
+    background-color: #007bff; /* 버튼의 배경색을 설정합니다. */
+    color: white; /* 버튼의 텍스트 색상을 흰색으로 설정합니다. */
+    border: none; /* 테두리를 제거합니다. */
+    border-radius: 4px; /* 모서리를 둥글게 합니다. */
+    cursor: pointer; /* 마우스 오버 시 커서를 포인터로 변경합니다. */
+    font-size: 16px; /* 텍스트 크기를 조정합니다. */
+    margin-top: 20px; /* 상단 마진을 추가하여 이전 요소와의 간격을 조정합니다. */
+}

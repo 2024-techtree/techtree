@@ -4,6 +4,10 @@ import java.time.LocalDate;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.example.techtree.domain.saving.goal.entity.GoalStatus;
+
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -31,4 +35,6 @@ public class GoalDto {
 	private Long goalPrice;
 	private Long currentPrice;
 
+	@Enumerated(EnumType.STRING)
+	private GoalStatus status; // 저축 목표 상태
 }
