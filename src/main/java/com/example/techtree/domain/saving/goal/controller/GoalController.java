@@ -1,6 +1,5 @@
 package com.example.techtree.domain.saving.goal.controller;
 
-import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,7 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,13 +21,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.example.techtree.domain.member.dao.MemberRepository;
 import com.example.techtree.domain.saving.goal.dto.GoalDto;
 import com.example.techtree.domain.saving.goal.entity.Goal;
 import com.example.techtree.domain.saving.goal.entity.GoalStatus;
 import com.example.techtree.domain.saving.goal.service.GoalService;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.example.techtree.global.security.SecurityUser;
 
 import lombok.RequiredArgsConstructor;
 
@@ -36,28 +33,24 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RequestMapping("/saving/goal/")
 public class GoalController {
-
 	private final GoalService goalService;
-	private final MemberRepository memberRepository;
 
 	@GetMapping("/create")
-	public String savingGoalCreate(Principal principal) {
-		if (principal == null) {
+	public String savingGoalCreate(@AuthenticationPrincipal SecurityUser securityUser) {
+		if (securityUser == null) {
 			return "redirect:/member/login";
 		}
 		return "domain/saving/saving_goal_create";
 	}
 
 	@PostMapping("/create")
-	public String savingGoalCreate(@ModelAttribute GoalDto goalDto, Principal principal) {
-		if (principal == null) {
+	public String savingGoalCreate(@ModelAttribute GoalDto goalDto,
+		@AuthenticationPrincipal SecurityUser securityUser) {
+		if (securityUser == null) {
 			return "redirect:/member/login";
 		}
-		String loginId = principal.getName();
 
-		Long memberId = memberRepository.findByLoginId(loginId)
-			.orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + loginId))
-			.getMemberId();
+		Long memberId = securityUser.getId();
 
 		if (goalService.isDuplicateGoalName(goalDto.getGoalName(), memberId)) {
 			// 여기서는 간단히 리다이렉트를 수행하지만, 실제로는 오류 메시지를 사용자에게 보여주어야 할 수 있습니다.
@@ -70,8 +63,9 @@ public class GoalController {
 	}
 
 	@GetMapping("/detail/{savingGoalId}")
-	public String savingGoalDetail(@PathVariable Long savingGoalId, Model model, Principal principal) {
-		if (principal == null) {
+	public String savingGoalDetail(@PathVariable Long savingGoalId, Model model,
+		@AuthenticationPrincipal SecurityUser securityUser) {
+		if (securityUser == null) {
 			return "redirect:/member/login";
 		}
 		Goal goal = goalService.findGoalById(savingGoalId);
@@ -81,16 +75,12 @@ public class GoalController {
 
 	@GetMapping("/list")
 	public String savingGoalList(@RequestParam(name = "page", defaultValue = "1") int page, Model model,
-		Principal principal) {
-		if (principal == null) {
+		@AuthenticationPrincipal SecurityUser securityUser) {
+		if (securityUser == null) {
 			return "redirect:/member/login";
 		}
 
-		String loginId = principal.getName();
-
-		Long memberId = memberRepository.findByLoginId(loginId)
-			.orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + loginId))
-			.getMemberId();
+		Long memberId = securityUser.getId();
 
 		// 페이지 번호가 1 이하일 경우 0으로 설정
 		int pageIndex = Math.max(page - 1, 0);
@@ -130,11 +120,9 @@ public class GoalController {
 
 	@GetMapping("/fetchGoalType")
 	@ResponseBody
-	public ResponseEntity<Map<String, String>> fetchGoalType(@RequestParam String goalName, Principal principal) {
-		String loginId = principal.getName();
-		Long memberId = memberRepository.findByLoginId(loginId)
-			.orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + loginId))
-			.getMemberId();
+	public ResponseEntity<Map<String, String>> fetchGoalType(@RequestParam String goalName,
+		@AuthenticationPrincipal SecurityUser securityUser) {
+		Long memberId = securityUser.getId();
 
 		String goalType = goalService.getGoalType(goalName, memberId);
 
@@ -145,8 +133,9 @@ public class GoalController {
 	}
 
 	@GetMapping("/modify/{savingGoalId}")
-	public String savingGoalModifyPage(@PathVariable Long savingGoalId, Model model, Principal principal) {
-		if (principal == null) {
+	public String savingGoalModifyPage(@PathVariable Long savingGoalId, Model model,
+		@AuthenticationPrincipal SecurityUser securityUser) {
+		if (securityUser == null) {
 			return "redirect:/member/login";
 		}
 		Goal savingGoal = goalService.findGoalById(savingGoalId);
@@ -174,15 +163,11 @@ public class GoalController {
 	}
 
 	@GetMapping("/dashboard")
-	public String savingGoalDashboard(Model model, Principal principal) {
-		if (principal == null) {
+	public String savingGoalDashboard(Model model, @AuthenticationPrincipal SecurityUser securityUser) {
+		if (securityUser == null) {
 			return "redirect:/member/login";
 		}
-		String loginId = principal.getName();
-
-		Long memberId = memberRepository.findByLoginId(loginId)
-			.orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + loginId))
-			.getMemberId();
+		Long memberId = securityUser.getId();
 
 		List<Goal> top5Goals = goalService.findTop5GoalsByMemberId(memberId);
 		// "완료" 상태의 저축 목표 조회
@@ -204,25 +189,15 @@ public class GoalController {
 			.collect(Collectors.toList());
 
 		// 가공된 데이터를 모델에 추가
-		model.addAttribute("goalNames", convertToJson(goalNames));
-		model.addAttribute("currentPrices", convertToJson(currentPrices));
-		model.addAttribute("goalPrices", convertToJson(goalPrices));
+		model.addAttribute("goalNames", goalService.convertToJson(goalNames));
+		model.addAttribute("currentPrices", goalService.convertToJson(currentPrices));
+		model.addAttribute("goalPrices", goalService.convertToJson(goalPrices));
 		model.addAttribute("currentPage", "dashboard");
-		model.addAttribute("completedGoalNames", convertToJson(completedGoalNames));
-		model.addAttribute("completedCurrentPrices", convertToJson(completedCurrentPrices));
-		model.addAttribute("completedGoalPrices", convertToJson(completedGoalPrices));
+		model.addAttribute("completedGoalNames", goalService.convertToJson(completedGoalNames));
+		model.addAttribute("completedCurrentPrices", goalService.convertToJson(completedCurrentPrices));
+		model.addAttribute("completedGoalPrices", goalService.convertToJson(completedGoalPrices));
 
 		return "domain/mypage/dashboard";
-	}
-
-	private String convertToJson(List<?> list) {
-		ObjectMapper mapper = new ObjectMapper();
-		try {
-			return mapper.writeValueAsString(list);
-		} catch (JsonProcessingException e) {
-			e.printStackTrace();
-			return "[]";
-		}
 	}
 
 }

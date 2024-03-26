@@ -1,14 +1,13 @@
 package com.example.techtree.domain.saving.record.controller;
 
-import java.security.Principal;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +22,7 @@ import com.example.techtree.domain.saving.goal.service.GoalService;
 import com.example.techtree.domain.saving.record.dto.RecordDto;
 import com.example.techtree.domain.saving.record.entity.Record;
 import com.example.techtree.domain.saving.record.service.RecordService;
+import com.example.techtree.global.security.SecurityUser;
 
 import lombok.RequiredArgsConstructor;
 
@@ -36,18 +36,15 @@ public class RecordController {
 	private final MemberRepository memberRepository;
 
 	@GetMapping("/create")
-	public String savingRecordCreate(Model model, Principal principal) {
+	public String savingRecordCreate(Model model, @AuthenticationPrincipal SecurityUser securityUser) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String username = authentication.getName(); // 현재 사용자의 아이디
 		// 사용자가 로그인하지 않은 경우 로그인 페이지로 리다이렉트합니다.
-		if (principal == null) {
+		if (securityUser == null) {
 			return "redirect:/member/login";
 		}
-		String loginId = principal.getName();
 
-		Long memberId = memberRepository.findByLoginId(loginId)
-			.orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + loginId))
-			.getMemberId();
+		Long memberId = securityUser.getId();
 
 		// 사용자가 로그인한 경우 목표 목록을 가져와서 뷰에 전달합니다.
 		List<String> goalNames = goalService.getAllGoalNames(memberId);
@@ -59,15 +56,14 @@ public class RecordController {
 
 	// RecordController
 	@PostMapping("/create")
-	public String savingRecordCreate(@ModelAttribute RecordDto recordDto, Principal principal) {
-		if (principal == null) {
+	public String savingRecordCreate(@ModelAttribute RecordDto recordDto,
+		@AuthenticationPrincipal SecurityUser securityUser) {
+		if (securityUser == null) {
 			return "redirect:/member/login";
 		}
-		String loginId = principal.getName();
 
-		Long memberId = memberRepository.findByLoginId(loginId)
-			.orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + loginId))
-			.getMemberId();
+		Long memberId = securityUser.getId();
+
 		Record saveRecord = recordService.savingRecordCreate(recordDto, memberId);
 
 		return "redirect:/saving/goal/list";
@@ -75,8 +71,9 @@ public class RecordController {
 
 	@GetMapping("/goal/{goalId}/records")
 	public String savingRecordListByGoal(@PathVariable Long goalId,
-		@RequestParam(name = "page", defaultValue = "1") int page, Model model, Principal principal) {
-		if (principal == null) {
+		@RequestParam(name = "page", defaultValue = "1") int page, Model model,
+		@AuthenticationPrincipal SecurityUser securityUser) {
+		if (securityUser == null) {
 			return "redirect:/member/login";
 		}
 
@@ -100,16 +97,13 @@ public class RecordController {
 
 	@GetMapping("/list")
 	public String savingRecordAllListByGoal(Long goalId,
-		@RequestParam(name = "page", defaultValue = "1") int page, Model model, Principal principal) {
-		if (principal == null) {
+		@RequestParam(name = "page", defaultValue = "1") int page, Model model,
+		@AuthenticationPrincipal SecurityUser securityUser) {
+		if (securityUser == null) {
 			return "redirect:/member/login";
 		}
 
-		String loginId = principal.getName();
-
-		Long memberId = memberRepository.findByLoginId(loginId)
-			.orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + loginId))
-			.getMemberId();
+		Long memberId = securityUser.getId();
 
 		Pageable pageable = PageRequest.of(page - 1, 10);
 		Page<Record> recordPage = recordService.getRecordsByMemberId(memberId, pageable);
