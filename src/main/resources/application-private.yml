@@ -8,5 +8,5 @@ spring:
           google:
             client-id: 976103141031-d5v0g4mh9ml8dq7rhtju6f4a86clkadl.apps.googleusercontent.com
             client-secret: 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
-            redirect-uri: http://localhost:8080/login/oauth2/code/google
+            redirect-uri: https://www.techtree.store/login/oauth2/code/google
             scope: profile,email
