@@ -1,5 +1,6 @@
 package com.example.techtree.domain.inquiry.chat.controller;
 
+import com.example.techtree.domain.inquiry.chat.dto.ChatRoomDto;
 import com.example.techtree.domain.inquiry.chat.entity.ChatMessage;
 import com.example.techtree.domain.inquiry.chat.entity.ChatRoom;
 import com.example.techtree.domain.inquiry.chat.service.ChatMessageService;
@@ -7,6 +8,7 @@ import com.example.techtree.domain.inquiry.chat.service.ChatRoomService;
 import com.example.techtree.domain.member.entity.Member;
 import com.example.techtree.domain.member.service.MemberService;
 import com.example.techtree.global.rsData.RsData;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +19,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -46,27 +49,39 @@ public class ChatRoomController {
         ChatRoom room = chatRoomService.findById(roomId).get();
         model.addAttribute("room", room);
         model.addAttribute("username", member.getUsername());
+        System.out.println("현재 관리자 아이디 = " + room.getName());
+        System.out.println("현재 관리자 아이디 = " + member.getUsername());
         return "domain/chat/chatRoom";
     }
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/make")
-    public String showMake(Principal principal) {
-        System.out.println("principal = " + principal.getName());
+    public String showMake(Principal principal, Model model, ChatRoomDto chatRoomDto) {
+        System.out.println("login principal = " + principal.getName());
+        model.addAttribute("chatDto", chatRoomDto);
         if(principal == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "로그인이 필요합니다.");
         }
-        System.out.println("principal = " + principal.getName());
         return "domain/chat/chatmake";
     }
 
     @PostMapping("/make")
-    public String make(Model model) {
+    public String make(Model model, @Valid @ModelAttribute("chatDto") ChatRoomDto chatRoomDto
+    , BindingResult bindingResult) {
         String loginId = memberService.getLoginId();
         Member member = memberService.findByLoginId(loginId);
-        chatRoomService.make(member);
+        ChatRoom chatRoom;
         model.addAttribute("member", member);
-        return "redirect:/chat/room/list";
+        if(bindingResult.hasErrors()) {
+            return "domain/chat/chatmake";
+        }
+        try {
+            chatRoom = chatRoomService.make(chatRoomDto, member);   // 치환 후 redirect 에서 바로 방으로 이동
+        } catch (Exception e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            return "domain/chat/chatmake";
+        }
+        return "redirect:/chat/room/" + chatRoom.getId();
     }
 
     @GetMapping("/list")
@@ -102,11 +117,13 @@ public class ChatRoomController {
         Member member = memberService.findByLoginId(loginId);
         requestBody.setWriterName(member.getUsername());
 
-        ChatMessage chatMessage = chatRoomService.write(roomId, requestBody.writerName, requestBody.getContent());
+        ChatMessage chatMessage = chatRoomService.write(roomId, requestBody.getContent(), requestBody.getWriterName());
 
         RsData<WriteResponseBody> writeRs = RsData.of("S-1", "%d번 메시지를 작성하였습니다.".formatted(chatMessage.getId()), new WriteResponseBody(chatMessage));
 
         messagingTemplate.convertAndSend("/topic/chat/room/" + roomId + "/messageCreated", writeRs);
+
+        System.out.println("member.getUsername() = " + member.getUsername());
 
         return RsData.of("S-1", "성공");
     }

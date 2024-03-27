@@ -1,6 +1,7 @@
 package com.example.techtree.domain.inquiry.chat.service;
 
 import com.example.techtree.domain.inquiry.chat.dao.ChatRoomRepository;
+import com.example.techtree.domain.inquiry.chat.dto.ChatRoomDto;
 import com.example.techtree.domain.inquiry.chat.entity.ChatMessage;
 import com.example.techtree.domain.inquiry.chat.entity.ChatRoom;
 import com.example.techtree.domain.member.entity.Member;
@@ -19,13 +20,12 @@ public class ChatRoomService {
     private final ChatRoomRepository chatRoomRepository;
 
     @Transactional
-    public void make(Member member) {
-
-        ChatRoom chatRoom = ChatRoom.builder()
-                .name(member.getUsername())
-                .build();
+    public ChatRoom make(ChatRoomDto chatRoomDto, Member member) {
+        ChatRoom chatRoom = chatRoomDto.toEntity(member);
 
         chatRoomRepository.save(chatRoom);
+
+        return chatRoom;
     }
 
     public List<ChatRoom> findAll() {
@@ -33,10 +33,10 @@ public class ChatRoomService {
     }
 
     @Transactional
-    public ChatMessage write(long roomId, String writerName, String content) {
+    public ChatMessage write(long roomId, String content, String writer) {
         ChatRoom chatRoom = chatRoomRepository.findById(roomId).get();
 
-        ChatMessage chatMessage = chatRoom.writeMessage(writerName, content);
+        ChatMessage chatMessage = chatRoom.writeMessage(content, writer);
 
         return chatMessage;
     }

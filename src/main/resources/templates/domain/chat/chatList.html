@@ -34,7 +34,8 @@
         <ul class="room-list">
             <li class="room-item" th:each="chatRoom : ${chatRooms}">
                 <a th:href="${chatRoom.id}">
-                    <span th:text="|${chatRoom.id}.|"></span>
+                    <span th:text="|${chatRoom.id}. |"></span>
+                    <span th:text="|${chatRoom.title} |"></span>
                     <span th:text="${chatRoom.name}"></span>
                 </a>
                 <button type="button" th:onclick="|location.href='@{/chat/room/delete(id=${chatRoom.id})}'|">채팅 종료</button>

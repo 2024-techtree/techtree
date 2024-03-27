@@ -22,10 +22,8 @@
 
 <!-- 채팅 메시지 출력 영역 -->
 <div class="container mt-4">
-    <h1 th:text="'채팅방 ' + ${roomId}"></h1>
+    <h1 th:text="'채팅방: ' + ${room.title}"></h1>
     <nav>
-        <a href="make">채팅방 생성</a>
-        <a href="list">채팅방 목록</a>
         <button id="endConversationBtn" class="btn btn-danger" style="color: #333333" sec:authorize="hasRole('ROLE_ADMIN')">대화 종료</button>
     </nav>
 

@@ -50,12 +50,12 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // 이전 대화 내용을 불러와 화면에 출력합니다.
-    function loadChatHistory() {
+    /*function loadChatHistory() {
         const chatHistory = JSON.parse(localStorage.getItem(CHAT_HISTORY_KEY)) || [];   // localstorage 사용 X
         chatHistory.forEach(message => {
             drawMoreChatMessage(message);
         });
-    }
+    }*/
 
     // 웹 소켓 연결을 시도합니다.
     const socket = new SockJS('/ws');

@@ -2,7 +2,6 @@ package com.example.techtree.domain.member.controller;
 
 import com.example.techtree.domain.member.dao.MemberRepository;
 import com.example.techtree.domain.member.service.MemberService;
-
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -22,8 +21,7 @@ public class MemberController {
 	private final MemberRepository memberRepository;
 
 	@GetMapping("/login")
-	public String loginForm() {
-		return "domain/member/login_form"; // 로그인 폼 페이지 반환
+	public String loginForm() {return "domain/member/login_form"; // 로그인 폼 페이지 반환
 	}
 
 	@GetMapping("/signup")
