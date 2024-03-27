@@ -10,10 +10,10 @@ spring:
     virtual:
       enabled: true
   datasource:
-    url: jdbc:h2:./techtree_dev;MODE=MYSQL;TRACE_LEVEL_FILE=2
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
+    url: jdbc:mysql://localhost:3306/techtree?useSSL=false&serverTimezone=UTC&characterEncoding=UTF-8
+    username: TechTree
+    password: 20240327
+    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
       ddl-auto: update
@@ -52,3 +52,4 @@ server:
     key-store-password: 1234
     key-store: classpath:keystore.p12
     key-store-type: PKCS12
+
