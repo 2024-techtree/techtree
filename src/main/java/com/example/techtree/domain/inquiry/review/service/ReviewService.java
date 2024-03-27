@@ -12,6 +12,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 public class ReviewService {
@@ -46,6 +48,7 @@ public class ReviewService {
 
         // 추천 처리
         review.getLike().add(member);
+        review.setLikeCount((int) review.getLike().stream().count());
         reviewRepository.save(review);
     }
 
@@ -54,4 +57,7 @@ public class ReviewService {
         return review.getLike().contains(member);
     }
 
+    public List<Review> get3TopList() {
+        return reviewRepository.findTop3ByOrderByLikeCountDesc();
+    }
 }

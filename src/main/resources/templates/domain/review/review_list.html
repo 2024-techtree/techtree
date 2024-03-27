@@ -52,15 +52,19 @@
     </div>
     <a th:href="@{/review/create}" class="btn btn-primary mb-3">후기 등록하기</a>
 
-    <h2>
+    <h2 class="mt-4">
         <i class="fa-solid fa-thumbs-up"></i> 추천 후기</h2>
     <div class="row row-cols-3 g-4">
-        <div th:each="review : ${reviewList}" class="col">
+        <div th:each="topReview : ${top3Reviews}" class="col">
             <div class="card square-card">
                 <div class="card-body">
-                    <h5 class="card-title" th:text="${review.title}"></h5>
-                    <span class="card-content" th:text="${review.content}"></span>
-                    <p class="card-text" th:text="${review.createDate}"></p>
+                    <h5 class="card-title" th:text="${topReview.title}"></h5>
+                    <p class="card-text" th:text="${topReview.content}"></p>
+                    <p class="card-text"><small class="text-muted" th:text="${topReview.createDate}"></small></p>
+                    <div class="card-footer">
+                        <span class="badge bg-primary">추천 수</span>
+                        <span class="badge rounded-pill bg-success" th:text="${topReview.likeCount}"></span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -75,14 +79,16 @@
             <div class="card square-card">
                 <div class="card-body">
                     <h5 class="card-title" th:text="${review.title}"></h5>
-                    <span class="card-content" th:text="${review.content}"></span>
-                    <p class="card-text" th:text="${review.createDate}"></p>
+                    <p class="card-text" th:text="${review.content}"></p>
+                    <p class="card-text"><small class="text-muted" th:text="${review.createDate}"></small></p>
                 </div>
-                <a href="javascript:void(0);" class="recommend-btn btn btn-sm btn-outline-secondary"
-                   th:data-uri="@{|/review/like/${review.id}|}">
-                    추천
-                    <span class="badge rounded-pill bg-success" th:text="${#lists.size(review.like)}"></span>
-                </a>
+                <div class="card-footer">
+                    <a href="javascript:void(0);" class="recommend-btn btn btn-sm btn-outline-secondary"
+                       th:data-uri="@{|/review/like/${review.id}|}">
+                        추천
+                        <span class="badge rounded-pill bg-success" th:text="${#lists.size(review.like)}"></span>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
