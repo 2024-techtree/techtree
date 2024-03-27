@@ -47,6 +47,7 @@ public class Member {
 	private String profile; // 프로필 경로
 	private String profileImage; // 프로필 이미지 경로
 	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+	@Builder.Default
 	private List<Goal> goals = new ArrayList<>();
 	@Enumerated(STRING)
 	private SocialProvider provider;    // 카카오 기준으로 값 넣기, 없다면 null
