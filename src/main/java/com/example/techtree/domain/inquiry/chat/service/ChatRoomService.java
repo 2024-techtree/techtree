@@ -5,6 +5,8 @@ import com.example.techtree.domain.inquiry.chat.dto.ChatRoomDto;
 import com.example.techtree.domain.inquiry.chat.entity.ChatMessage;
 import com.example.techtree.domain.inquiry.chat.entity.ChatRoom;
 import com.example.techtree.domain.member.entity.Member;
+import com.example.techtree.domain.saving.goal.entity.GoalStatus;
+import com.example.techtree.global.rsData.DataNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,6 +48,18 @@ public class ChatRoomService {
     }
 
     public void deleteChatRoom(Long Id) {
+
         chatRoomRepository.deleteById(Id);
+    }
+
+    public void completeChatRoom(Long roomId) {
+        Optional<ChatRoom> optionalChatRoom = findById(roomId);
+        if (optionalChatRoom.isPresent()) {
+            ChatRoom chatRoom = optionalChatRoom.get();
+            chatRoom.setGoalStatus(GoalStatus.COMPLETED);
+            chatRoomRepository.save(chatRoom);
+        } else {
+            throw new DataNotFoundException("roomId not found");
+        }
     }
 }

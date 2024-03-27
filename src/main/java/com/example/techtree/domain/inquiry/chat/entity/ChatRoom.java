@@ -1,6 +1,7 @@
 package com.example.techtree.domain.inquiry.chat.entity;
 
 import com.example.techtree.domain.member.entity.Member;
+import com.example.techtree.domain.saving.goal.entity.GoalStatus;
 import com.example.techtree.global.entity.chat.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -34,6 +35,9 @@ public class ChatRoom extends BaseEntity {
     private Member member;
 
     private String title;
+    @Enumerated(EnumType.STRING)
+    @Column
+    private GoalStatus goalStatus; // 진행 혹은 완료
 
     public ChatMessage writeMessage(String content, String writer) {
         System.out.println("getMember().getUsername() = " + this.name);

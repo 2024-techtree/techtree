@@ -2,6 +2,7 @@ package com.example.techtree.domain.inquiry.chat.dto;
 
 import com.example.techtree.domain.inquiry.chat.entity.ChatRoom;
 import com.example.techtree.domain.member.entity.Member;
+import com.example.techtree.domain.saving.goal.entity.GoalStatus;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
@@ -22,7 +23,14 @@ public class ChatRoomDto {
         return ChatRoom.builder()
                 .member(member)
                 .name(member.getUsername())
+                .goalStatus(GoalStatus.IN_PROGRESS)
                 .title(title)
+                .build();
+    }
+    public void updateGoalStatus(Long roomId) {
+        ChatRoom.builder()
+                .id(roomId)
+                .goalStatus(GoalStatus.COMPLETED)
                 .build();
     }
 }

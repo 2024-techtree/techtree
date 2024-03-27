@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -25,6 +26,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/chat/room")
@@ -89,6 +91,7 @@ public class ChatRoomController {
         List<ChatRoom> chatRooms = chatRoomService.findAll();
         String loginId = memberService.getLoginId();
         Member member = memberService.findByLoginId(loginId);
+        System.out.println("chatRooms = " + chatRooms.get(1).getGoalStatus());
         model.addAttribute("chatRooms", chatRooms);
         model.addAttribute("member", member);
 
@@ -133,5 +136,16 @@ public class ChatRoomController {
     public String deleteChatRoom(@RequestParam(value = "id") Long id) {
         chatRoomService.deleteChatRoom(id);
         return "redirect:/chat/room/list";
+    }
+
+    @PutMapping("/complete/{roomId}")
+    public ResponseEntity<String> completeChatRoom(@PathVariable Long roomId) {
+        // roomId에 해당하는 채팅방을 찾아 상태를 변경합니다.
+        System.out.println("종료를 진행합니다. " + roomId);
+        chatRoomService.completeChatRoom(roomId);
+        Optional<ChatRoom> chatRoom = chatRoomService.findById(roomId);
+        System.out.println(" chatRoom의 상태 " + chatRoom.get().getGoalStatus());
+
+        return ResponseEntity.status(HttpStatus.OK).body("Chat room completed successfully!");
     }
 }

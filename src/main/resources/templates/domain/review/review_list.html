@@ -17,6 +17,18 @@
 
     <title>예시</title>
 
+    <style>
+        /* Custom CSS for recommendation button */
+        .recommend-btn {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+        }
+
+        .recommend-btn .badge {
+            margin-left: 5px;
+        }
+    </style>
 </head>
 <body>
 
@@ -66,7 +78,7 @@
                     <span class="card-content" th:text="${review.content}"></span>
                     <p class="card-text" th:text="${review.createDate}"></p>
                 </div>
-                <a href="javascript:void(0);" class="recommend btn btn-sm btn-outline-secondary"
+                <a href="javascript:void(0);" class="recommend-btn btn btn-sm btn-outline-secondary"
                    th:data-uri="@{|/review/like/${review.id}|}">
                     추천
                     <span class="badge rounded-pill bg-success" th:text="${#lists.size(review.like)}"></span>
@@ -109,7 +121,7 @@
 <script src="/js/layout/header.js" defer></script>
 
 <script>
-    const recommend_elements = document.getElementsByClassName("recommend");
+    const recommend_elements = document.getElementsByClassName("recommend-btn");
     Array.from(recommend_elements).forEach(function(element) {
         element.addEventListener('click', function() {
             if(confirm("정말로 추천하시겠습니까?")) {
