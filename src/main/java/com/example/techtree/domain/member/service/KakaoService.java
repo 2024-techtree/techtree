@@ -45,7 +45,7 @@ public class KakaoService {
 			StringBuilder sb = new StringBuilder();
 			sb.append("grant_type=authorization_code");
 			sb.append("&client_id=13be5c6666b89220f2b3d5571a7a5414");
-			sb.append("&redirect_uri=https://www.techtree2024/kakao/callback");
+			sb.append("&redirect_uri=https://www.techtree2024.store/kakao/callback");
 			sb.append("&code=" + code);
 
 			bw.write(sb.toString());
