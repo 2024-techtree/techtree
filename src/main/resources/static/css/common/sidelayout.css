@@ -1,6 +1,7 @@
 .main1 {
     display: flex;
     flex-direction: row; /* 사이드바와 메인 콘텐츠가 수평으로 나란히 배치되도록 설정 */
+    align-items: flex-start; /* 세로축에서 상단 정렬 */
 }
 
 .side {

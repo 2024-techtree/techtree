@@ -40,36 +40,37 @@
         <div th:replace="~{layout/sidelayout.html}"></div>
     </div>
 
+    <div class="dashboard-wrapper">
+        <div class="dashboard-main-container">
+            <h1> DashBoard </h1>
 
-    <div class="dashboard-main-container">
-        <h1> DashBoard </h1>
-
-        <div class="dashboard-container">
-            <div class="chart-container">
-                <h3> 저축 목표 현황 </h3>
-                <canvas id="savingGoalChart" class="dashboard-chart" height="800px" width="900px"
-                        th:data-goal-names="${goalNames}"
-                        th:data-current-prices="${currentPrices}"
-                        th:data-goal-prices="${goalPrices}">
-                </canvas>
+            <div class="dashboard-container">
+                <div class="chart-container">
+                    <h3> 저축 목표 현황 </h3>
+                    <canvas id="savingGoalChart" class="dashboard-chart" height="800px" width="900px"
+                            th:data-goal-names="${goalNames}"
+                            th:data-current-prices="${currentPrices}"
+                            th:data-goal-prices="${goalPrices}">
+                    </canvas>
+                </div>
+                <div class="chart-container">
+                    <h3>완료된 저축 목표</h3>
+                    <canvas id="completedGoalChart" class="dashboard-chart"
+                            th:data-completed-goal-names="${completedGoalNames}"
+                            th:data-completed-current-prices="${completedCurrentPrices}"
+                            th:data-completed-goal-prices="${completedGoalPrices}">
+                    </canvas>
+                </div>
             </div>
-            <div class="chart-container">
-                <h3>완료된 저축 목표</h3>
-                <canvas id="completedGoalChart" class="dashboard-chart"
-                        th:data-completed-goal-names="${completedGoalNames}"
-                        th:data-completed-current-prices="${completedCurrentPrices}"
-                        th:data-completed-goal-prices="${completedGoalPrices}">
-                </canvas>
-            </div>
-        </div>
-        <div class="button-container">
-            <div class="button-group button-group-left">
-                <a href="/saving/goal/list?page=1" class="btn btn-primary">목표 목록</a>
-                <a href="/saving/goal/create" class="btn btn-primary">목표 작성</a>
-            </div>
-            <div class="button-group button-group-right">
-                <a href="/saving/record/list" class="btn btn-primary">기록 목록</a>
-                <a href="/saving/record/create" class="btn btn-primary">기록 작성</a>
+            <div class="button-container">
+                <div class="button-group button-group-left">
+                    <a href="/saving/goal/list?page=1" class="btn btn-primary">목표 목록</a>
+                    <a href="/saving/goal/create" class="btn btn-primary">목표 작성</a>
+                </div>
+                <div class="button-group button-group-right">
+                    <a href="/saving/record/list" class="btn btn-primary">기록 목록</a>
+                    <a href="/saving/record/create" class="btn btn-primary">기록 작성</a>
+                </div>
             </div>
         </div>
     </div>

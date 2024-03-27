@@ -2,11 +2,19 @@ body {
     font-family: Arial, sans-serif; /* 기본 폰트 설정 */
 }
 
+.dashboard-wrapper {
+    display: flex;
+    justify-content: center; /* 가로축에서 중앙 정렬 */
+    width: 100%; /* 부모 요소의 전체 너비를 차지하도록 설정 */
+}
+
 .dashboard-main-container {
     margin-top: 30px;
     margin-bottom: 50px;
     text-align: center;
-    flex-grow: 0.5; /* 메인 콘텐츠 영역이 남은 공간을 모두 차지하도록 설정 */
+    width: 100%; /* 부모 요소의 전체 너비를 차지하도록 설정 */
+    max-width: 1200px; /* 최대 너비를 1200px로 설정 */
+    margin-right: 190px;
 }
 
 /* 대시보드 컨테이너 스타일 */
