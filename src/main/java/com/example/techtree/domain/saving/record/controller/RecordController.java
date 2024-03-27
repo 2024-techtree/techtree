@@ -51,7 +51,7 @@ public class RecordController {
 		model.addAttribute("goalNames", goalNames);
 		model.addAttribute("recordDto", new RecordDto());
 
-		return "/domain/saving/record_create";
+		return "domain/saving/record_create";
 	}
 
 	// RecordController
@@ -92,7 +92,7 @@ public class RecordController {
 		model.addAttribute("totalPages", recordPage.getTotalPages());
 		model.addAttribute("goalId", goalId); // 목표 ID도 모델에 추가
 
-		return "/domain/saving/record_list";
+		return "domain/saving/record_list";
 	}
 
 	@GetMapping("/list")
@@ -120,7 +120,7 @@ public class RecordController {
 		model.addAttribute("totalPages", recordPage.getTotalPages());
 		model.addAttribute("goalId", goalId); // 목표 ID도 모델에 추가
 
-		return "/domain/saving/record_list";
+		return "domain/saving/record_list";
 	}
 
 }
