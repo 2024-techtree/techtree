@@ -47,3 +47,8 @@ logging:
         orm.jdbc.bind: trace
         SQL: debug
         type: trace
+server:
+  ssl:
+    key-store-password: 1234
+    key-store: classpath:keystore.p12
+    key-store-type: PKCS12
