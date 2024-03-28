@@ -22,15 +22,14 @@
 
 <!-- 채팅 메시지 출력 영역 -->
 <div class="container mt-4">
-    <h1 th:text="'채팅방: ' + ${room.title}"></h1>
-    <nav>
-        <button id="endConversationBtn" class="btn btn-danger" style="color: #333333" sec:authorize="hasRole('ROLE_ADMIN')">대화 종료</button>
-    </nav>
+    <div class="chat_name">
+        <h1 th:text="'채팅방: ' + ${room.title}"></h1>
+    </div>
 
     <!-- 채팅 메시지 목록 -->
     <ul class="list-group chat__messages" id="chatMessages">
         <!-- 여기에 채팅 메시지가 자동으로 추가됩니다. -->
-        <th:block th:each="message : ${room.chatMessages}" >
+        <th:block th:each="message : ${room.chatMessages}">
             <li th:class="${message.name eq username} ? 'list-group-item text-end' : 'list-group-item text-start'">
                 <span th:text="${message.name} + ': ' + ${message.content}"></span>
             </li>
@@ -68,7 +67,7 @@
 <script src="/js/chat/chat.js" defer></script>
 <script src="/js/layout/header.js" defer></script>
 <script>
-    document.getElementById('endConversationBtn').addEventListener('click', function() {
+    document.getElementById('endConversationBtn').addEventListener('click', function () {
         // 대화 종료 버튼 클릭 시 실행되는 코드
         document.getElementById('chatMessages').innerHTML = '<li class="list-group-item">관리자님이 대화를 종료했습니다.</li>';
         document.getElementById('chatForm').querySelector('input[name="content"]').disabled = true;
