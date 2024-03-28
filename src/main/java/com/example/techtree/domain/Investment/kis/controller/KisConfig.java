@@ -1,4 +1,4 @@
-package com.example.techtree.domain.Investment.controller;
+package com.example.techtree.domain.Investment.kis.controller;
 
 import org.springframework.context.annotation.Configuration;
 
