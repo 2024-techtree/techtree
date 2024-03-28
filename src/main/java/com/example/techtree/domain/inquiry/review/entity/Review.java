@@ -4,7 +4,7 @@ import com.example.techtree.domain.member.entity.Member;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Set;
 
 @Entity
@@ -24,8 +24,8 @@ public class Review {
 	@Column(columnDefinition = "TEXT")
 	private String content;
 
-	private LocalDateTime createDate;
-	private LocalDateTime modifyDate;
+	private LocalDate createDate;
+	private LocalDate modifyDate;
 
 	@ManyToMany
 	Set<Member> like;

@@ -29,9 +29,6 @@
             <input class="form-control me-2" type="search" id="stockCode" name="stockCode" placeholder="종목코드" aria-label="Search">
             <button class="btn btn-outline-success" type="submit">Search</button>
         </div>
-        <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
-            <span th:text="${errorMessage}"></span>
-        </div>
     </form>
 
     <!-- 조회시간 -->

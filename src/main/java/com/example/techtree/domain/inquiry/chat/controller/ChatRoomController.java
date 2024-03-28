@@ -91,7 +91,6 @@ public class ChatRoomController {
         List<ChatRoom> chatRooms = chatRoomService.findAll();
         String loginId = memberService.getLoginId();
         Member member = memberService.findByLoginId(loginId);
-        System.out.println("chatRooms = " + chatRooms.get(1).getGoalStatus());
         model.addAttribute("chatRooms", chatRooms);
         model.addAttribute("member", member);
 
@@ -144,7 +143,6 @@ public class ChatRoomController {
         System.out.println("종료를 진행합니다. " + roomId);
         chatRoomService.completeChatRoom(roomId);
         Optional<ChatRoom> chatRoom = chatRoomService.findById(roomId);
-        System.out.println(" chatRoom의 상태 " + chatRoom.get().getGoalStatus());
 
         return ResponseEntity.status(HttpStatus.OK).body("Chat room completed successfully!");
     }

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/common/footer.css">
+    <link rel="stylesheet" href="/css/common/header.css">
+    <link rel="stylesheet" href="/css/template/template.css">
+    <link rel="stylesheet" href="/css/template/introduction.css"> <!-- 추가된 CSS -->
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+
+    <title>예시</title>
+</head>
+<body>
+
+<!-- Header -->
+<header th:replace="~{layout/header :: TechTreeHeader}"></header>
+
+<!-- Main Content -->
+<div class="container" style="margin-right: 3rem;">
+    <h1 class="main-title">TechTree에 대하여</h1>
+    <p class="description">테크트리는 혁신과 기술에 관한 통찰력을 제공합니다. 우리는 최신 기술과 트렌드에 대한 정보를 제공하고, 혁신적인 아이디어와 개념을 탐구합니다.</p>
+    <img src="/images/techtree_mainpage.png" alt="TechTree 이미지" class="img-fluid mb-4">
+</div>
+
+<!-- Footer -->
+<footer th:replace="~{layout/footer :: TechTreeFooter}"></footer>
+
+<!-- Bootstrap Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
+        crossorigin="anonymous" defer></script>
+<!-- Header JavaScript -->
+<script src="/js/layout/header.js" defer></script>
+</body>
+</html>

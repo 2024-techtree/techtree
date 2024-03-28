@@ -13,4 +13,6 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     Page<Review> findAll(Pageable pageable);
 
     List<Review> findTop3ByOrderByLikeCountDesc();
+
+    long count();
 }

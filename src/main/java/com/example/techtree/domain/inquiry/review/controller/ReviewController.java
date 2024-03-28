@@ -28,9 +28,10 @@ public class ReviewController {
     public String list(Model model, @RequestParam(value = "review", defaultValue = "0") int page) {
         Page<Review> reviewList = this.reviewService.getList(page);
         List<Review> top3Reviews = this.reviewService.get3TopList();
-        System.out.println("top3Reviews = " + top3Reviews);
+        Long totalReview = reviewService.getTotalReviewCount();
         model.addAttribute("reviewList", reviewList);
         model.addAttribute("top3Reviews", top3Reviews);
+        model.addAttribute("totalReview", totalReview);
         return "domain/review/review_list";
     }
 

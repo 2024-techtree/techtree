@@ -4,7 +4,7 @@ import com.example.techtree.domain.inquiry.review.entity.Review;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -26,8 +26,8 @@ public class ReviewDto {
         return Review.builder()
                 .title(title)
                 .content(content)
-                .createDate(LocalDateTime.now())
-                .modifyDate(LocalDateTime.now())
+                .createDate(LocalDate.now())
+                .modifyDate(LocalDate.now())
                 .likeCount(0)
                 .build();
 

@@ -135,20 +135,24 @@ public class KisController {
 
         return webClient.get()
                 .uri(url)
-                .header("content-type","application/json")
-                .header("authorization","Bearer " + "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0b2tlbiIsImF1ZCI6IjI5NGI5NTU5LTkwOWUtNDc3YS1hMDVlLTY0NzU1OTI5ZWExNiIsImlzcyI6InVub2d3IiwiZXhwIjoxNzExNjg3OTA1LCJpYXQiOjE3MTE2MDE1MDUsImp0aSI6IlBTMHE5TDNUNW1YclRoNTJJc0lzQWJJNjZtQm1kUGg4M1lyYyJ9.Fi8p6-AfXQmaDWSy8biKKFYlniR0a7Um3yBXG6QyPjtzfMobczxDcfE9cyJrP2GsdHpumtGEApsSYQltvjzQRg")
-                .header("appkey",KisConfig.APPKEY)
-                .header("appsecret",KisConfig.APPSECRET)
-                .header("tr_id","FHKST01010100")
+                .header("content-type", "application/json")
+                .header("authorization", "Bearer " + "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0b2tlbiIsImF1ZCI6IjI5NGI5NTU5LTkwOWUtNDc3YS1hMDVlLTY0NzU1OTI5ZWExNiIsImlzcyI6InVub2d3IiwiZXhwIjoxNzExNjg3OTA1LCJpYXQiOjE3MTE2MDE1MDUsImp0aSI6IlBTMHE5TDNUNW1YclRoNTJJc0lzQWJJNjZtQm1kUGg4M1lyYyJ9.Fi8p6-AfXQmaDWSy8biKKFYlniR0a7Um3yBXG6QyPjtzfMobczxDcfE9cyJrP2GsdHpumtGEApsSYQltvjzQRg")
+                .header("appkey", KisConfig.APPKEY)
+                .header("appsecret", KisConfig.APPSECRET)
+                .header("tr_id", "FHKST01010100")
                 .retrieve()
                 .bodyToMono(Invesment.class)
-                .doOnSuccess(body -> {
+                .flatMap(body -> {
                     model.addAttribute("equity", body.getOutput());
                     model.addAttribute("jobDate", getJobDateTime());
                     model.addAttribute("id", id);
-
+                    return Mono.just("domain/investment/equities");
                 })
-                .doOnError(result -> System.out.println("*** error: " + result))
-                .thenReturn("domain/investment/equities");
+                .onErrorResume(Exception.class, ex -> {
+                    boolean flag = false;
+                    System.out.println("*** error: " + ex);
+                    return Mono.just("redirect:/investment/indices");
+                });
     }
+
 }

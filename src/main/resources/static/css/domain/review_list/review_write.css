@@ -4,14 +4,19 @@
 
 .form-label {
     font-size: 1.2rem;
+    font-weight: bold;
+    color: #6c757d; /* 회색 */
 }
 
 .form-control {
     font-size: 1.2rem;
+    border-color: #6c757d; /* 회색 */
 }
 
 .btn-primary {
     font-size: 1.2rem;
+    background-color: #007bff; /* 파란색 */
+    border-color: #007bff; /* 파란색 */
 }
 
 /* 수정한 스타일 */
@@ -23,4 +28,15 @@
 
 .mb-3 textarea {
     resize: horizontal; /* 수직 리사이즈 유지 */
+}
+
+.my-3 {
+    color: #212529;
+    font-weight: bold;
+    margin-left: 3rem;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3; /* 더 진한 파란색 */
+    border-color: #0056b3; /* 더 진한 파란색 */
 }

@@ -17,18 +17,6 @@
 
     <title>예시</title>
 
-    <style>
-        /* Custom CSS for recommendation button */
-        .recommend-btn {
-            position: absolute;
-            bottom: 10px;
-            right: 10px;
-        }
-
-        .recommend-btn .badge {
-            margin-left: 5px;
-        }
-    </style>
 </head>
 <body>
 
@@ -46,7 +34,7 @@
 
     <div class="alert alert-info" role="alert">
         <span style="color: black; font-size: 80%;">테크트리 고객님이 남겨주신</span><br>
-        <strong style="font-size: 28px; color: black">12641개의 생생한 사용후기</strong>
+        <strong style="font-size: 28px; color: black" th:text="${totalReview} + '개의 생생한 사용후기'"></strong>
         <br>
         <span class="text-muted" style="color: #808080; font-size: 80%;">테크트리 홈페이지 사용하신 사용자님들의 후기입니다.</span>
     </div>

@@ -60,4 +60,8 @@ public class ReviewService {
     public List<Review> get3TopList() {
         return reviewRepository.findTop3ByOrderByLikeCountDesc();
     }
+
+    public long getTotalReviewCount() {
+        return reviewRepository.count();
+    }
 }
