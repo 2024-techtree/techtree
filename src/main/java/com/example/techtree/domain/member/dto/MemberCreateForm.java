@@ -1,4 +1,4 @@
-package com.example.techtree.domain.member.controller;
+package com.example.techtree.domain.member.dto;
 
 import java.time.LocalDate;
 

@@ -1,23 +1,24 @@
 package com.example.techtree.domain.member.service;
 
-import java.util.Optional;
-
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import com.example.techtree.domain.member.dao.MemberRepository;
 import com.example.techtree.domain.member.dto.MyPage;
 import com.example.techtree.domain.member.entity.Member;
-
+import com.example.techtree.global.rsData.DataNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class MyPageService {
 
 	private final MemberRepository memberRepository;
+	private final PasswordEncoder passwordEncoder;
 
 	public Optional<Member> getLoggedInMember() {
 		UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -29,40 +30,24 @@ public class MyPageService {
 
 	@Transactional
 	public void updateMember(MyPage myPage, Long id) {
-		Optional<Member> optionalMember = memberRepository.findById(id);
-		Member member = optionalMember.orElseThrow(() -> new IllegalArgumentException("해당 회원을 찾을 수 없습니다."));
+		Member member = memberRepository.findById(id)
+				.orElseThrow(() -> new DataNotFoundException("User not found"));
 
-
-		// 새로운 값을 입력한 경우에만 업데이트
-		if (myPage.getEmail() != null) {
-			member.setEmail(myPage.getEmail());
+		if (!myPage.getPassword().equals(myPage.getConfirmPassword())) { // 비밀번호 일치 확인
+			throw new IllegalStateException("비밀번호가 일치하지않습니다.");
 		}
-		if (myPage.getBirthday() != null) {
-			member.setBirthday(myPage.getBirthday());
-		}
-		if (myPage.getPhoneNumber() != null) {
-			member.setPhoneNumber(myPage.getPhoneNumber());
-		}
-		if (myPage.getProfileImage() != null) {
-			member.setProfileImage(myPage.getProfileImage());
-		}
-
+		String encryptedPassword = passwordEncoder.encode(myPage.getPassword());
+		member.setPhoneNumber(myPage.getPhoneNumber());
+		member.setPassword(encryptedPassword);
 		// 변경된 회원 정보를 저장
 		memberRepository.save(member);
 	}
 
 
-	public MyPage getProfile(long id) {
-		Optional<Member> optMember = memberRepository.findByMemberId(id);
-		Member member = optMember.orElseThrow(() -> new IllegalArgumentException("해당 회원을 찾을 수 없습니다."));
-		return new MyPage(
-			member.getUsername(),
-			"", // 비밀번호는 가져오지 않음
-			"", // 비밀번호 확인용 필드는 기본값으로 설정
-			member.getEmail(),
-			member.getBirthday(),
-			member.getPhoneNumber(),
-			member.getProfile()
-		);
+	public Member getProfile(long id) {
+		Member member = memberRepository.findByMemberId(id)
+				.orElseThrow(() -> new DataNotFoundException("User not found"));;
+
+		return member;
 	}
 }

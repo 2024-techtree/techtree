@@ -154,5 +154,4 @@ public class KisController {
                     return Mono.just("redirect:/investment/indices");
                 });
     }
-
 }

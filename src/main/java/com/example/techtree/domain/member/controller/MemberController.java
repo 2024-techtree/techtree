@@ -1,6 +1,7 @@
 package com.example.techtree.domain.member.controller;
 
 import com.example.techtree.domain.member.dao.MemberRepository;
+import com.example.techtree.domain.member.dto.MemberCreateForm;
 import com.example.techtree.domain.member.service.MemberService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
