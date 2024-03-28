@@ -37,11 +37,6 @@ public class KisController {
         this.webClient = webClientBuilder.baseUrl(KisConfig.REST_BASE_URL).build();
     }
 
-    @GetMapping
-    public String index(Model model) {
-        return "domain/investment/index";
-    }
-
     @GetMapping("/indices")
     public String majorIndices(Model model) {
 
@@ -150,6 +145,7 @@ public class KisController {
                 .doOnSuccess(body -> {
                     model.addAttribute("equity", body.getOutput());
                     model.addAttribute("jobDate", getJobDateTime());
+                    model.addAttribute("id", id);
                 })
                 .doOnError(result -> System.out.println("*** error: " + result))
                 .thenReturn("domain/investment/equities");
