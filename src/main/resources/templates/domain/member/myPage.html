@@ -14,40 +14,79 @@
   <link rel="stylesheet" href="/css/common/header.css">
   <link rel="stylesheet" href="/css/template/template.css">
   <link rel="stylesheet" href="/css/domain/member/mypage.css">
+
+  <!-- Datepicker 라이브러리 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+  <style>
+    .template-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .blue-box {
+      background-color: #007bff;
+      color: #fff;
+      padding: 10px;
+      margin-top: 10px;
+    }
+
+    .center-align {
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
 
 <!-- My Page 컨텐츠 -->
 <div class="template-container my-page-container">
-  <h2>My Page</h2>
-  <form action="/member/mypage" method="post">
-    <div class="form-group">
-      <label for="email">이메일</label>
-      <input type="email" id="email" name="email" class="form-control" value="" readonly>
+  <div style="max-width: 400px; width: 100%;">
+    <h2 style="text-align: center;">My Page</h2>
 
-    </div>
-    <div class="form-group">
-      <label for="birthday">생년월일</label>
-      <input type="date" id="birthday" name="birthday" class="form-control" value="${member.birthday}" >
-    </div>
-    <div class="form-group">
-      <label for="phoneNumber">전화번호</label>
-      <input type="tel" id="phoneNumber" name="phoneNumber" class="form-control" value="" >
-    </div>
-    <div class="form-group">
-      <label for="profileImage">프로필 이미지</label>
-      <input type="file" id="profileImage" name="profileImage" class="form-control">
-    </div>
-    <div class="form-group">
-      <label for="password">새로운 비밀번호</label>
-      <input type="password" id="password" name="password" class="form-control">
-    </div>
-    <div class="form-group">
-      <label for="confirmPassword">비밀번호 확인</label>
-      <input type="password" id="confirmPassword" name="confirmPassword" class="form-control">
-    </div>
-    <button type="submit" class="btn btn-primary">회원 정보 수정</button>
-  </form>
+    <form action="/member/mypage/update" method="post">
+      <div class="form-group">
+        <label for="email">이메일</label>
+        <input type="email" id="email" name="email" class="form-control" value="${member.email}" readonly>
+      </div>
+      <div class="form-group">
+        <label for="phoneNumber">전화번호</label>
+        <div class="d-flex justify-content-between align-items-center">
+          <input type="tel" id="phoneNumber" name="phoneNumber" class="form-control" value="${member.phoneNumber}" readonly>
+          <button type="button" class="btn btn-primary blue-box" onclick="updateField('phoneNumber')">전화번호 변경</button>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="profileImage">프로필 이미지</label>
+        <div class="d-flex justify-content-between align-items-center">
+          <input type="file" id="profileImage" name="profileImage" class="form-control">
+          <button type="button" class="btn btn-primary blue-box" onclick="updateField('profileImage')">프로필 이미지 변경</button>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="password">비밀번호</label>
+        <div class="d-flex justify-content-between align-items-center">
+          <input type="password" id="password" name="password" class="form-control" placeholder="******" value="******" readonly>
+          <button type="button" class="btn btn-primary blue-box" onclick="showPasswordFields()">비밀번호 변경</button>
+        </div>
+      </div>
+      <div id="newPasswordFields" style="display: none;">
+        <div class="form-group">
+          <label for="newPassword">신규 비밀번호</label>
+          <input type="password" id="newPassword" name="newPassword" class="form-control" placeholder="신규 비밀번호">
+        </div>
+        <div class="form-group">
+          <label for="confirmNewPassword">신규 비밀번호 확인</label>
+          <input type="password" id="confirmNewPassword" name="confirmNewPassword" class="form-control" placeholder="신규 비밀번호 확인">
+        </div>
+      </div>
+      <div class="center-align">
+        <button type="submit" class="btn btn-primary blue-box">회원 정보 수정</button>
+      </div>
+    </form>
+  </div>
 </div>
 
 <!-- 부트스트랩 JS 파일 -->
@@ -56,5 +95,23 @@
         crossorigin="anonymous" defer></script>
 <!-- 사용자 정의 JavaScript -->
 <script src="/js/layout/header.js" defer></script>
+
+<script>
+  // 전화번호 변경 버튼 클릭 시 새 전화번호 입력 필드를 보여주는 함수
+  function updateField(field) {
+    var inputField = document.getElementById(field);
+    inputField.readOnly = false;
+    var newPhoneNumberFields = document.getElementById("newPhoneNumberFields");
+    newPhoneNumberFields.style.display = "block";
+  }
+
+
+  // 비밀번호 변경 버튼 클릭 시 새 비밀번호 입력 필드를 보여주는 함수
+  function showPasswordFields() {
+    var newPasswordFields = document.getElementById("newPasswordFields");
+    newPasswordFields.style.display = "block";
+  }
+</script>
+
 </body>
 </html>
