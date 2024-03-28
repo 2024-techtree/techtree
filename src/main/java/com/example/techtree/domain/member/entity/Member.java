@@ -1,30 +1,18 @@
 package com.example.techtree.domain.member.entity;
 
-import static jakarta.persistence.EnumType.*;
+import com.example.techtree.domain.inquiry.chat.entity.ChatRoom;
+import com.example.techtree.domain.saving.goal.entity.Goal;
+import jakarta.persistence.*;
+import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-
-import com.example.techtree.domain.saving.goal.entity.Goal;
-
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import static jakarta.persistence.EnumType.STRING;
 
 @Getter
 @Setter
@@ -56,6 +44,9 @@ public class Member {
 	@Enumerated(STRING)    // Constraint825 에 대한 에러 부분
 	@Column
 	private Role role;
+
+	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<ChatRoom> chatRooms = new ArrayList<>();
 
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		List<GrantedAuthority> authorities = new ArrayList<>();

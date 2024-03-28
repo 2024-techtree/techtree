@@ -57,3 +57,51 @@
     align-self: flex-start; /* 다른 사용자의 메시지를 왼쪽으로 배치합니다. */
     background-color: #ffffff; /* 다른 사용자의 메시지 배경색을 설정합니다. */
 }
+
+.room-item button {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin-right: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-create-room {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+
+.room-item {
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.room-item a {
+    text-decoration: none;
+    color: #333;
+    display: inline-block;
+    margin-bottom: 5px;
+}
+
+
+
+.room-item button.disabled-btn {
+    background-color: #6c757d;
+    cursor: not-allowed;
+}

@@ -10,3 +10,5 @@ spring:
             client-secret: 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
             redirect-uri: https://www.techtree2024.store/login/oauth2/code/google
             scope: profile,email
+exchange-authkey: CG4BqpjHZ0vHIIzSoJRXhRPdQFapDq1w
+exchange-data: AP01

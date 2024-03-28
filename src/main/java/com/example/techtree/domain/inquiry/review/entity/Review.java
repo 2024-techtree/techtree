@@ -29,4 +29,6 @@ public class Review {
 
 	@ManyToMany
 	Set<Member> like;
+
+	private Integer likeCount;
 }

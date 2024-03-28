@@ -1,11 +1,10 @@
 package com.example.techtree.domain.inquiry.chat.entity;
 
+import com.example.techtree.domain.member.entity.Member;
+import com.example.techtree.domain.saving.goal.entity.GoalStatus;
 import com.example.techtree.global.entity.chat.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OrderBy;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -30,10 +29,21 @@ public class ChatRoom extends BaseEntity {
     @JsonIgnore
     private List<ChatMessage> chatMessages = new ArrayList<>();
 
-    public ChatMessage writeMessage(String writerName, String content) {
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "memberId")
+    private Member member;
+
+    private String title;
+    @Enumerated(EnumType.STRING)
+    @Column
+    private GoalStatus goalStatus; // 진행 혹은 완료
+
+    public ChatMessage writeMessage(String content, String writer) {
+        System.out.println("getMember().getUsername() = " + this.name);
         ChatMessage chatMessage = ChatMessage.builder()
                 .chatRoom(this)
-                .name(writerName)
+                .name(writer)    // 시큐리티에서 가져온 name 사용
                 .content(content)
                 .build();
 

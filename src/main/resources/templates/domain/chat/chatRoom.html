@@ -22,18 +22,17 @@
 
 <!-- 채팅 메시지 출력 영역 -->
 <div class="container mt-4">
-    <h1 th:text="'채팅방 ' + ${roomId}"></h1>
+    <h1 th:text="'채팅방: ' + ${room.title}"></h1>
     <nav>
-        <a href="make">채팅방 생성</a>
-        <a href="list">채팅방 목록</a>
         <button id="endConversationBtn" class="btn btn-danger" style="color: #333333" sec:authorize="hasRole('ROLE_ADMIN')">대화 종료</button>
     </nav>
 
     <!-- 채팅 메시지 목록 -->
     <ul class="list-group chat__messages" id="chatMessages">
         <!-- 여기에 채팅 메시지가 자동으로 추가됩니다. -->
-        <th:block th:each="message : ${room.chatMessages}">
+        <th:block th:each="message : ${room.chatMessages}" >
             <li th:class="${message.name eq username} ? 'list-group-item text-end' : 'list-group-item text-start'">
+                <span th:text="${message.name} + ': ' + ${message.content}"></span>
             </li>
         </th:block>
     </ul>
