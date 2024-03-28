@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // 이전 대화 내용을 불러와 화면에 출력합니다.
     /*function loadChatHistory() {
-        const chatHistory = JSON.parse(localStorage.getItem(CHAT_HISTORY_KEY)) || [];
+        const chatHistory = JSON.parse(localStorage.getItem(CHAT_HISTORY_KEY)) || [];   // localstorage 사용 X
         chatHistory.forEach(message => {
             drawMoreChatMessage(message);
         });

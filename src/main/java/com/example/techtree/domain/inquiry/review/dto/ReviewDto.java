@@ -28,6 +28,7 @@ public class ReviewDto {
                 .content(content)
                 .createDate(LocalDateTime.now())
                 .modifyDate(LocalDateTime.now())
+                .likeCount(0)
                 .build();
 
     }

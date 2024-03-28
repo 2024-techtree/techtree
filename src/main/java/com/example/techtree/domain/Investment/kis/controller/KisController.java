@@ -1,8 +1,8 @@
-package com.example.techtree.domain.Investment.controller;
+package com.example.techtree.domain.Investment.kis.controller;
 
 
-import com.example.techtree.domain.Investment.model.IndexData;
-import com.example.techtree.domain.Investment.model.Invesment;
+import com.example.techtree.domain.Investment.kis.model.IndexData;
+import com.example.techtree.domain.Investment.kis.model.Invesment;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,11 +35,6 @@ public class KisController {
 
     public KisController(WebClient.Builder webClientBuilder) {
         this.webClient = webClientBuilder.baseUrl(KisConfig.REST_BASE_URL).build();
-    }
-
-    @GetMapping
-    public String index(Model model) {
-        return "domain/investment/index";
     }
 
     @GetMapping("/indices")
@@ -125,8 +120,7 @@ public class KisController {
                         .queryParam("fid_period_div_code", "D")
                         .build())
                 .header("content-type","application/json")
-                .header("authorization","Bearer " +
-                        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0b2tlbiIsImF1ZCI6IjU4NWY5YjlmLTRjYTYtNDNlOS1iMjk2LTE3ZThkZjcyYzIyNyIsImlzcyI6InVub2d3IiwiZXhwIjoxNzExNDEzOTg1LCJpYXQiOjE3MTEzMjc1ODUsImp0aSI6IlBTMHE5TDNUNW1YclRoNTJJc0lzQWJJNjZtQm1kUGg4M1lyYyJ9.smC8PppQzeWWzB0es-q4m1390P6F_1IwI8Wgx7VBsOQ7c4PONqnUmqxs_UYa9_fmKnmCxN5HtYFXTrcxrPeStg")
+                .header("authorization","Bearer " + "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0b2tlbiIsImF1ZCI6IjI5NGI5NTU5LTkwOWUtNDc3YS1hMDVlLTY0NzU1OTI5ZWExNiIsImlzcyI6InVub2d3IiwiZXhwIjoxNzExNjg3OTA1LCJpYXQiOjE3MTE2MDE1MDUsImp0aSI6IlBTMHE5TDNUNW1YclRoNTJJc0lzQWJJNjZtQm1kUGg4M1lyYyJ9.Fi8p6-AfXQmaDWSy8biKKFYlniR0a7Um3yBXG6QyPjtzfMobczxDcfE9cyJrP2GsdHpumtGEApsSYQltvjzQRg")
                 .header("appkey",KisConfig.APPKEY)
                 .header("appsecret",KisConfig.APPSECRET)
                 .header("tr_id",tr_id)
@@ -142,7 +136,7 @@ public class KisController {
         return webClient.get()
                 .uri(url)
                 .header("content-type","application/json")
-                .header("authorization","Bearer " + "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0b2tlbiIsImF1ZCI6IjU4NWY5YjlmLTRjYTYtNDNlOS1iMjk2LTE3ZThkZjcyYzIyNyIsImlzcyI6InVub2d3IiwiZXhwIjoxNzExNDEzOTg1LCJpYXQiOjE3MTEzMjc1ODUsImp0aSI6IlBTMHE5TDNUNW1YclRoNTJJc0lzQWJJNjZtQm1kUGg4M1lyYyJ9.smC8PppQzeWWzB0es-q4m1390P6F_1IwI8Wgx7VBsOQ7c4PONqnUmqxs_UYa9_fmKnmCxN5HtYFXTrcxrPeStg")
+                .header("authorization","Bearer " + "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0b2tlbiIsImF1ZCI6IjI5NGI5NTU5LTkwOWUtNDc3YS1hMDVlLTY0NzU1OTI5ZWExNiIsImlzcyI6InVub2d3IiwiZXhwIjoxNzExNjg3OTA1LCJpYXQiOjE3MTE2MDE1MDUsImp0aSI6IlBTMHE5TDNUNW1YclRoNTJJc0lzQWJJNjZtQm1kUGg4M1lyYyJ9.Fi8p6-AfXQmaDWSy8biKKFYlniR0a7Um3yBXG6QyPjtzfMobczxDcfE9cyJrP2GsdHpumtGEApsSYQltvjzQRg")
                 .header("appkey",KisConfig.APPKEY)
                 .header("appsecret",KisConfig.APPSECRET)
                 .header("tr_id","FHKST01010100")
@@ -151,6 +145,8 @@ public class KisController {
                 .doOnSuccess(body -> {
                     model.addAttribute("equity", body.getOutput());
                     model.addAttribute("jobDate", getJobDateTime());
+                    model.addAttribute("id", id);
+
                 })
                 .doOnError(result -> System.out.println("*** error: " + result))
                 .thenReturn("domain/investment/equities");

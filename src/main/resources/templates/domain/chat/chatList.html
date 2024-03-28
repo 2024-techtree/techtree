@@ -15,7 +15,6 @@
           integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
 
     <title>예시</title>
-
 </head>
 <body>
 
@@ -33,11 +32,18 @@
         <a href="make" class="btn-create-room">채팅방 생성</a>
         <ul class="room-list">
             <li class="room-item" th:each="chatRoom : ${chatRooms}">
-                <a th:href="${chatRoom.id}">
-                    <span th:text="|${chatRoom.id}.|"></span>
+                <a th:href="${#strings.equals(chatRoom.goalStatus, 'COMPLETED') ? '' : chatRoom.id}" th:class="${#strings.equals(chatRoom.goalStatus, 'COMPLETED')
+                ? 'disabled-btn' : ''}">
+                    <span th:text="${chatRoom.id} + '. '"></span>
+                    <span th:text="${chatRoom.title + ' ' }"></span>
                     <span th:text="${chatRoom.name}"></span>
                 </a>
-                <button type="button" th:onclick="|location.href='@{/chat/room/delete(id=${chatRoom.id})}'|">채팅 종료</button>
+                <button type="button" th:onclick="| completeChatRoom(this, '${chatRoom.id}')|"
+                        th:if="${#strings.equals(chatRoom.goalStatus, 'IN_PROGRESS')}">
+                    채팅 종료
+                </button>
+                <span th:unless="${#strings.equals(chatRoom.goalStatus, 'COMPLETED')}"></span>
+                <button type="button" th:onclick="|location.href='@{/chat/room/delete(id=${chatRoom.id})}'|">채팅방 삭제</button>
             </li>
         </ul>
     </div>
@@ -52,5 +58,28 @@
         crossorigin="anonymous" defer></script>
 <!-- js -->
 <script src="/js/layout/header.js" defer></script>
+
+<script>
+    function completeChatRoom(button, roomId) {
+        if (confirm("채팅을 종료하시겠습니까?")) {
+            // AJAX 요청을 사용하여 서버에 채팅방 상태를 complete로 변경하는 요청을 보냅니다.
+            console.log('complete 버튼 활성화')
+            var xhr = new XMLHttpRequest();
+            xhr.open("PUT", "/chat/room/complete/" + roomId, true);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.send();
+
+            // 요청이 성공적으로 처리된 후 리다이렉션을 수행합니다.
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    window.location.href = "/chat/room/list";
+                } else {
+                    console.error('요청 실패:', xhr.statusText);
+                }
+            };
+        }
+    }
+</script>
+
 </body>
 </html>
