@@ -146,6 +146,7 @@ public class KisController {
                     model.addAttribute("equity", body.getOutput());
                     model.addAttribute("jobDate", getJobDateTime());
                     model.addAttribute("id", id);
+
                 })
                 .doOnError(result -> System.out.println("*** error: " + result))
                 .thenReturn("domain/investment/equities");

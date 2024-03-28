@@ -24,10 +24,13 @@
 <div class="">
 
     <!-- Search Form -->
-    <form action="/investment/equities/" class="search-form" onsubmit="this.action = this.action + this.stockCode.value; this.submit();" role="search">
+    <form action="/investment/equities/" class="search-form" onsubmit="return validateForm()" role="search">
         <div class="input-group">
-            <input class="form-control me-2" type="search" name="stockCode" placeholder="종목코드" aria-label="Search">
+            <input class="form-control me-2" type="search" id="stockCode" name="stockCode" placeholder="종목코드" aria-label="Search">
             <button class="btn btn-outline-success" type="submit">Search</button>
+        </div>
+        <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+            <span th:text="${errorMessage}"></span>
         </div>
     </form>
 
@@ -81,6 +84,19 @@
         crossorigin="anonymous" defer></script>
 <!-- Header JavaScript -->
 <script src="/js/layout/header.js" defer></script>
+
+<script>
+    function validateForm() {
+        var stockCode = document.getElementById("stockCode").value;
+        if (!stockCode) {
+            alert("해당 종목은 없는 코드입니다.");
+            return false;
+        }else {
+            window.location.href = "/investment/equities/" + stockCode;
+            return false; // 리다이렉트 후 폼 제출을 막습니다.
+        }
+    }
+</script>
 
 </body>
 </html>
