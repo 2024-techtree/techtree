@@ -126,7 +126,8 @@ public class KisController {
                         .build())
                 .header("content-type","application/json")
                 .header("authorization","Bearer " +
-                        "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0b2tlbiIsImF1ZCI6IjU4NWY5YjlmLTRjYTYtNDNlOS1iMjk2LTE3ZThkZjcyYzIyNyIsImlzcyI6InVub2d3IiwiZXhwIjoxNzExNDEzOTg1LCJpYXQiOjE3MTEzMjc1ODUsImp0aSI6IlBTMHE5TDNUNW1YclRoNTJJc0lzQWJJNjZtQm1kUGg4M1lyYyJ9.smC8PppQzeWWzB0es-q4m1390P6F_1IwI8Wgx7VBsOQ7c4PONqnUmqxs_UYa9_fmKnmCxN5HtYFXTrcxrPeStg")
+                    "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0b2tlbiIsImF1ZCI6ImM5NzM2ZmFlLTllZDgtNDUwNi05Zjc0LTQwOGMwZWZlNTJjZCIsImlzcyI6InVub2d3IiwiZXhwIjoxNzExNTAxNzAwLCJpYXQiOjE3MTE0MTUzMDAsImp0aSI6IlBTMHE5TDNUNW1YclRoNTJJc0lzQWJJNjZtQm1kUGg4M1lyYyJ9.kvFdqRHsAIyYOlbrou1nbqOumwXcOM66FF-uL-vqzIzhs0vvJXy8Op5hfDp6JTh2bAgBmXKYgWwwoCGlvLDc7Q")
+
                 .header("appkey",KisConfig.APPKEY)
                 .header("appsecret",KisConfig.APPSECRET)
                 .header("tr_id",tr_id)
@@ -142,7 +143,7 @@ public class KisController {
         return webClient.get()
                 .uri(url)
                 .header("content-type","application/json")
-                .header("authorization","Bearer " + "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0b2tlbiIsImF1ZCI6IjU4NWY5YjlmLTRjYTYtNDNlOS1iMjk2LTE3ZThkZjcyYzIyNyIsImlzcyI6InVub2d3IiwiZXhwIjoxNzExNDEzOTg1LCJpYXQiOjE3MTEzMjc1ODUsImp0aSI6IlBTMHE5TDNUNW1YclRoNTJJc0lzQWJJNjZtQm1kUGg4M1lyYyJ9.smC8PppQzeWWzB0es-q4m1390P6F_1IwI8Wgx7VBsOQ7c4PONqnUmqxs_UYa9_fmKnmCxN5HtYFXTrcxrPeStg")
+                .header("authorization","Bearer " + "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0b2tlbiIsImF1ZCI6ImM5NzM2ZmFlLTllZDgtNDUwNi05Zjc0LTQwOGMwZWZlNTJjZCIsImlzcyI6InVub2d3IiwiZXhwIjoxNzExNTAxNzAwLCJpYXQiOjE3MTE0MTUzMDAsImp0aSI6IlBTMHE5TDNUNW1YclRoNTJJc0lzQWJJNjZtQm1kUGg4M1lyYyJ9.kvFdqRHsAIyYOlbrou1nbqOumwXcOM66FF-uL-vqzIzhs0vvJXy8Op5hfDp6JTh2bAgBmXKYgWwwoCGlvLDc7Q")
                 .header("appkey",KisConfig.APPKEY)
                 .header("appsecret",KisConfig.APPSECRET)
                 .header("tr_id","FHKST01010100")
